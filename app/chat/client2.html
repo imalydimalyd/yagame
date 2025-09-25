@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+
+	<script src="../../yagame/extjs/peerjs.min.js"></script>
+
+	<script src="../../yagame/js/channels/channel.js"></script>
+	<script src="../../yagame/js/channels/channel_ws.js"></script>
+	<script src="../../yagame/js/channels/channel_peerjs.js"></script>
+	<script src="../../yagame/js/channels/channelfactory.js"></script>
+
+	<script src="../../yagame/js/storage/storage.js"></script>
+	<script src="../../yagame/js/storage/storage_ls.js"></script>
+	<script src="../../yagame/js/storage/storagefactory.js"></script>
+
+	<script src="../../yagame/js/widgets/theme.js"></script>
+	<script src="../../yagame/js/widgets/home.js"></script>
+	<script src="../../yagame/js/widgets/beian.js"></script>
+
+	<link rel="stylesheet" href="../../yagame/css/yagame.css">
+	<link rel="icon" href="../../yagame/img/yagame.svg">
+	<title>茉茉的家</title>
+</head>
+
+<body>
+	<div id="chat" class="nodisplay main">
+		<div id="userinfo" class="hidden"
+			style="display: flex; justify-content: center; align-items: center; width: 90vw; height: 5vh; padding: min(2vw, 2vh);">
+			<img id="useravatar" class="small round avatar">
+			<p id="username" class="bold" style="margin: min(1vw, 1vh);"></p>
+		</div>
+		<div id="messages"
+			style="display: flex; flex-direction: column; width: 90vw; height: 85vh; overflow-y: scroll;"></div>
+		<div style="display: flex; justify-content: center; width: 90vw; height: 5vh; padding: min(2vw, 2vh);">
+			<textarea id="chatbox" style="width: 80vw;"></textarea>
+			<div id="send" class="disabled button">发送</div>
+		</div>
+	</div>
+	<dialog id="login" open>
+		<h1>欢迎来到茉茉的家！</h1>
+		<p>若无法连接，先确保Key正确，然后刷新网页。</p>
+		<p>此外，还可以试试开启/关闭梯子。</p>
+		<p><label for="loginkey">请输入Key：</label><input id="loginkey" type="password"></p>
+		<div id="loginbutton" class="button">登录</div>
+	</dialog>
+</body>
+<script src="ui.js"></script>
+<script src="client2.js"></script>

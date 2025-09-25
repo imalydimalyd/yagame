@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+
+	<script src="../../yagame/js/storage/storage.js"></script>
+	<script src="../../yagame/js/storage/storage_ls.js"></script>
+	<script src="../../yagame/js/storage/storagefactory.js"></script>
+
+	<script src="../../yagame/js/widgets/theme.js"></script>
+	<script src="../../yagame/js/widgets/home.js"></script>
+	<script src="../../yagame/js/widgets/beian.js"></script>
+
+	<link rel="stylesheet" href="../../yagame/css/yagame.css">
+	<link rel="icon" href="../../yagame/img/yagame.svg">
+	<title>帮助文档</title>
+</head>
+
+<body>
+	<div class="main">
+		<div style="overflow-y: scroll; width: 90vw; height: 90vh;">
+			<h1>YaGame帮助文档</h1>
+			<p>版本：250925c</p>
+			<details>
+				<summary>什么是YaGame？</summary>
+				<p>YaGame是一个支持自建服务器、自制游戏规则的下一代游戏平台。</p>
+			</details>
+			<details>
+				<summary>第一次玩YaGame，推荐玩哪些游戏？</summary>
+				<ul>
+					<li>【游戏室客户端】：可以在线玩多人游戏</li>
+					<li>【聊天室】：可以和小葵、茉茉聊天</li>
+					<li>【Quint】：可以玩有趣的抽卡游戏</li>
+				</ul>
+			</details>
+			<details>
+				<summary>如何获取Key？</summary>
+				<p>YaGame的所有游戏都需要注册账号才能游玩。</p>
+				<p>注册方法见群聊【YaGame-大世界入口群】的【群公告】。</p>
+				<p>注册完毕后，您会获得一个账号，及其对应的Key。</p>
+				<p>将Key复制到密码框中，并点击登录按钮即可登录。</p>
+				<p>软件会自动记住您的Key，无需再次输入。</p>
+			</details>
+			<details>
+				<summary>如何自建服务器？</summary>
+				<ol>
+					<li>自建服务器需要一台能上网的【电脑】。</li>
+					<li>在群聊【YaGame-大世界入口群】的【群文件】中下载【最新版本】的软件zip包。</li>
+					<li>解压zip包，即可得到YaGame软件包。</li>
+					<li>将【secrets_templates.js】复制一份，重命名为【secrets.js】。这是存放您的服务器所有token的文件，可以根据您的具体需要修改。</li>
+					<li>双击软件包的【index.html】，即可启动YaGame软件版。</li>
+					<li>点击其中的【游戏室服务端】，再点击启动按钮，即可启动游戏室服务器。</li>
+					<li>点击上方的服务器ID即可复制ID。</li>
+				</ol>
+			</details>
+			<details>
+				<summary>如何自制游戏规则？</summary>
+				<ol>
+					<li>目前自制游戏规则只支持JavaScript编程。开始编程之前，建议掌握一些基本的HTML、CSS、JavaScript、DOM相关的知识。</li>
+					<li>可以使用AI工具辅助编程。但是请确保【您理解每一行代码，且游戏逻辑正确】。</li>
+					<li>首先，需要按照【如何自建服务器？】的说明，建立自己的服务器，用于调试游戏代码。</li>
+					<li>将目录【/app/game/games/】中的游戏文件【dvalue.js】复制一份，改为【&lt;您的游戏名&gt;.js】。</li>
+					<li>打开刚才创建的文件，并按照代码中的注释，把其中的【游戏规则】和【渲染器】代码改为您的游戏对应的游戏规则和渲染器。【添加到游戏列表】的代码也需要修改。</li>
+					<li>按照【server.html】和【client.html】中的注释，将新的游戏文件导入html中。</li>
+					<li>现在您可以打开【server.html】和【client.html】进行规则测试了。注意：若修改了游戏文件，那么所有窗口都需要按【F5】刷新。</li>
+					<li>确认规则无误后，可以将您的游戏文件发给Ya，Ya会把您的游戏加入最新版本的软件包。</li>
+				</ol>
+			</details>
+		</div>
+	</div>
+</body>

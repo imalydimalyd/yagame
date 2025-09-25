@@ -1,0 +1,83 @@
+.mzad2,
+.mzad2 * {
+    color: #F84;
+    border-color: #F84;
+}
+
+.mzad3,
+.mzad3 * {
+    color: #8F8;
+    border-color: #8F8;
+}
+
+.mzad4,
+.mzad4 * {
+    color: #8FF;
+    border-color: #8FF;
+}
+
+.mzad5,
+.mzad5 * {
+    color: #F88;
+    border-color: #F88;
+}
+
+.mzad6,
+.mzad6 * {
+    color: #FF8;
+    border-color: #FF8;
+}
+
+.mzad7,
+.mzad7 * {
+    color: #CCC;
+    border-color: #CCC;
+}
+
+.mzad8,
+.mzad8 * {
+    color: #00F;
+    border-color: #00F;
+}
+
+.lighttheme .mzad2,
+.lighttheme .mzad2 * {
+    color: #C80;
+    border-color: #C80;
+}
+
+.lighttheme .mzad3,
+.lighttheme .mzad3 * {
+    color: #4C4;
+    border-color: #4C4;
+}
+
+.lighttheme .mzad4,
+.lighttheme .mzad4 * {
+    color: #4CC;
+    border-color: #4CC;
+}
+
+.lighttheme .mzad5,
+.lighttheme .mzad5 * {
+    color: #C44;
+    border-color: #C44;
+}
+
+.lighttheme .mzad6,
+.lighttheme .mzad6 * {
+    color: #CC4;
+    border-color: #CC4;
+}
+
+.lighttheme .mzad7,
+.lighttheme .mzad7 * {
+    color: #888;
+    border-color: #888;
+}
+
+.lighttheme .mzad8,
+.lighttheme .mzad8 * {
+    color: #00F;
+    border-color: #00F;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+
+	<script src="../../yagame/extjs/peerjs.min.js"></script>
+
+	<script src="../../yagame/js/channels/channel.js"></script>
+	<script src="../../yagame/js/channels/channel_ws.js"></script>
+	<script src="../../yagame/js/channels/channel_peerjs.js"></script>
+	<script src="../../yagame/js/channels/channelfactory.js"></script>
+
+	<script src="../../yagame/js/storage/storage.js"></script>
+	<script src="../../yagame/js/storage/storage_ls.js"></script>
+	<script src="../../yagame/js/storage/storagefactory.js"></script>
+
+	<script src="../../yagame/js/widgets/theme.js"></script>
+	<script src="../../yagame/js/widgets/home.js"></script>
+	<script src="../../yagame/js/widgets/clipboard.js"></script>
+	<script src="../../yagame/js/widgets/close.js"></script>
+	<script src="../../yagame/js/widgets/beian.js"></script>
+
+	<script src="../../yagame/js/game/game.js"></script>
+	<script src="games/dvalue.js"></script><!-- 新游戏需要按照此格式加入 -->
+	<script src="games/chatroom.js"></script>
+	<script src="games/numbersgame.js"></script>
+	<script src="games/reversing.js"></script>
+	<script src="games/mzad.js"></script>
+
+	<script src="../../secrets.js"></script>
+
+	<link rel="stylesheet" href="../../yagame/css/yagame.css">
+	<link rel="stylesheet" href="css/mzad.css">
+	<link rel="icon" href="../../yagame/img/yagame.svg">
+	<title>游戏室服务器</title>
+</head>
+
+<body>
+	<div id="infopanel" class="hidden main">
+		<div id="serverinfo"
+			style="display: flex; justify-content: center; width: 90vw; height: 5vh; padding: min(2vw, 2vh);">
+			<p id="serverid"></p>
+		</div>
+		<div id="gameinfo"
+			style="display: flex; flex-direction: column; align-items: center; width: 90vw; height: 85vh; overflow-y: scroll;">
+		</div>
+		<div id="history" class="nodisplay"
+			style="display: flex; flex-direction: column; align-items: center; width: 90vw; height: 85vh; overflow-y: scroll;">
+		</div>
+		<div style="display: flex; justify-content: center; width: 90vw; height: 5vh; padding: min(2vw, 2vh);">
+			<div class="disabled button" id="startgame">开始游戏</div>
+			<div class="disabled button" id="abortgame">终止游戏</div>
+			<div class="button" id="toggleview">查看历史记录</div>
+		</div>
+	</div>
+	<dialog id="startserver" open>
+		<h1>启动YaGame游戏室</h1>
+		<p><label for="inputserverid">请输入服务器ID：</label><input id="inputserverid"></p>
+		<p><label for="inputispublic">是否为公开服务器：</label><input id="inputispublic" type="checkbox"></p>
+		<div id="startbutton" class="button">启动</div>
+	</dialog>
+</body>
+<script src="ui.js"></script>
+<script src="server.js"></script>

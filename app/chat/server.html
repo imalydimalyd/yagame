@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+
+	<script src="../../yagame/extjs/peerjs.min.js"></script>
+
+	<script src="../../yagame/js/channels/channel.js"></script>
+	<script src="../../yagame/js/channels/channel_ws.js"></script>
+	<script src="../../yagame/js/channels/channel_peerjs.js"></script>
+	<script src="../../yagame/js/channels/channelfactory.js"></script>
+
+	<script src="../../yagame/js/storage/storage.js"></script>
+	<script src="../../yagame/js/storage/storage_ls.js"></script>
+	<script src="../../yagame/js/storage/storagefactory.js"></script>
+
+	<script src="../../yagame/js/agents/agent.js"></script>
+	<script src="../../yagame/js/agents/agent_deepseek.js"></script>
+	<script src="../../yagame/js/agents/agentfactory.js"></script>
+
+	<script src="../../yagame/js/widgets/theme.js"></script>
+	<script src="../../yagame/js/widgets/home.js"></script>
+	<script src="../../yagame/js/widgets/close.js"></script>
+	<script src="../../yagame/js/widgets/beian.js"></script>
+
+	<script src="../../secrets.js"></script>
+
+	<link rel="stylesheet" href="../../yagame/css/yagame.css">
+	<link rel="icon" href="../../yagame/img/yagame.svg">
+	<title>聊天室服务器</title>
+</head>
+
+<body>
+	<div class="main">
+		<div id="serverinfo" class="hidden"
+			style="display: flex; justify-content: center; width: 90vw; height: 5vh; padding: min(2vw, 2vh);">
+			<p id="serverid"></p>
+		</div>
+		<div id="messages"
+			style="display: flex; flex-direction: column; width: 90vw; height: 90vh; overflow-y: scroll;"></div>
+	</div>
+</body>
+<script src="ui.js"></script>
+<script src="server.js"></script>
