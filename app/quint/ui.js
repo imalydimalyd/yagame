@@ -5,13 +5,13 @@ const images = [
 	'img/sunflower.png',
 	'img/catgirl.png',
 ];
-const imagesWin = [
+const imagesWin = config.useGifForQuint ? [
 	'img/momo.gif',
 	'img/moonshadow.gif',
 	'img/starry.gif',
 	'img/sunflower.gif',
 	'img/catgirl.gif',
-];
+] : images;
 const shadowColors = [
 	'#8F8',
 	'#FCF',
