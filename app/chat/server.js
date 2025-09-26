@@ -144,6 +144,10 @@ const config = {
 			qq: '939321072',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=939321072&s=140',
 		},
+		LongSea: {
+			qq: '619167989',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=619167989&s=140',
+		},
 	},
 	secretUsers: SECRETS.SECRET_USERS,
 	maxMessages: 1000000000,
