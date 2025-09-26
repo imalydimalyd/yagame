@@ -73,6 +73,9 @@ class MZADGameRule extends GameRule {
 				player.chosen = [];
 				// 这名玩家的技能是否起作用
 				player.effect = true;
+			} else {
+				// 清空上一回合的行动
+				player.lastPlay = undefined;
 			}
 		}
 		// 处理被选中的玩家
