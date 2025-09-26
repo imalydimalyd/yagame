@@ -19,3 +19,7 @@ client.error = function (err) {
 	alert(err);
 };
 client.connect('YaGameHall250925', 'VISITOR');
+
+document.getElementById('createserver').addEventListener('click', function () {
+	open('server.html');
+});
