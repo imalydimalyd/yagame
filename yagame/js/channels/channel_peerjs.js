@@ -21,7 +21,7 @@ class PeerJSServer extends Server {
 		});
 		self.peer.on('connection', function (dataConnection) {
 			const data = dataConnection.metadata;
-			const ok = (typeof data === 'object') && data.hasOwnProperty('keyID') && (self.config.keys.hasOwnProperty(data.keyID) || self.config.isPublic);
+			const ok = (typeof data === 'object') && data.hasOwnProperty('keyID') && (typeof data.keyID === 'string') && (self.config.isPublic ? (data.keyID && data.keyID.length <= 15) : self.config.keys.hasOwnProperty(data.keyID));
 			if (ok) {
 				const keyID = data.keyID;
 				const user = self.config.isPublic ? keyID : self.config.keys[keyID].user;

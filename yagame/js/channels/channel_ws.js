@@ -31,7 +31,11 @@ class WSServer extends Server {
 					break;
 				case 'verify':
 					if (self.config.isPublic) {
-						self.ws.send(JSON.stringify({ type: 'verify', keyID: data.keyID, ok: true, user: data.keyID }));
+						if (typeof data.keyID === 'string' && data.keyID && data.keyID.length <= 15) {
+							self.ws.send(JSON.stringify({ type: 'verify', keyID: data.keyID, ok: true, user: data.keyID }));
+						} else {
+							self.ws.send(JSON.stringify({ type: 'verify', keyID: data.keyID, ok: false }));
+						}
 					} else {
 						const ok = data.hasOwnProperty('keyID') && self.config.keys.hasOwnProperty(data.keyID);
 						const user = ok ? self.config.keys[data.keyID].user : undefined;
