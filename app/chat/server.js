@@ -148,6 +148,10 @@ const config = {
 			qq: '619167989',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=619167989&s=140',
 		},
+		Change: {
+			qq: '3357982517',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3357982517&s=140',
+		},
 	},
 	secretUsers: SECRETS.SECRET_USERS,
 	maxMessages: 1000000000,
