@@ -140,6 +140,10 @@ const config = {
 			qq: '2318587834',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=2318587834&s=140',
 		},
+		防御塔: {
+			qq: '939321072',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=939321072&s=140',
+		},
 	},
 	secretUsers: SECRETS.SECRET_USERS,
 	maxMessages: 1000000000,
