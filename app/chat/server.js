@@ -132,6 +132,14 @@ const config = {
 			qq: '3360161171',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3360161171&s=140',
 		},
+		好人: {
+			qq: '1309287397',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=1309287397&s=140',
+		},
+		客都: {
+			qq: '2318587834',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=2318587834&s=140',
+		},
 	},
 	secretUsers: SECRETS.SECRET_USERS,
 	maxMessages: 1000000000,
