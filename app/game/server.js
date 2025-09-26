@@ -45,8 +45,10 @@ function updateServerGameInfo() {
 	startGameEnabled = storageData.currentGame.created && !storageData.currentGame.started && !storageData.currentGame.ended;
 	if (startGameEnabled) {
 		document.getElementById('startgame').classList.remove('disabled');
+		document.getElementById('enterroom').classList.remove('disabled');
 	} else {
 		document.getElementById('startgame').classList.add('disabled');
+		document.getElementById('enterroom').classList.add('disabled');
 	}
 }
 
@@ -262,6 +264,18 @@ document.getElementById('abortgame').addEventListener('click', function () {
 			updateServerGameInfo();
 		}
 		endGame();
+	}
+});
+document.getElementById('enterroom').addEventListener('click', function () {
+	if (!startGameEnabled) {
+		return;
+	}
+	if (storageData.currentGame.isPublic) {
+		if (confirm('此房间是公开房间，确定要进入吗？')) {
+			open(`client.html?id=${storageData.currentGame.id}&public=1`);
+		}
+	} else {
+		open(`client.html?id=${storageData.currentGame.id}`);
 	}
 });
 document.getElementById('startgame').addEventListener('click', function () {
