@@ -76,6 +76,7 @@ if (paramID) {
 	if (paramPublic) {
 		document.getElementById('loginkey').setAttribute('type', 'text');
 		document.getElementById('loginkeylabel').innerText = '请输入用户名：';
+		document.getElementById('publichint').innerText = '注意：用户名不是Key！';
 	}
 } else {
 	if (storageData.serverID) {
