@@ -128,6 +128,10 @@ const config = {
 			qq: '1710445426',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=1710445426&s=140',
 		},
+		好姐妹燎火: {
+			qq: '3360161171',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3360161171&s=140',
+		},
 	},
 	secretUsers: SECRETS.SECRET_USERS,
 	maxMessages: 1000000000,
