@@ -1,10 +1,12 @@
 // @name        reversing.js
 // @description 翻转棋 Yagame实现
-// @version     1.3
+// @version     1.3.1
 // @author      InvFish
 
 /**
  * 更新日志
+ * - 1.3.1
+ *   - bug fix: Chatbox没有导出
  * - 1.3
  *   - improvement: 游戏内聊天框
  *     - 改进的UI
@@ -56,7 +58,7 @@
     `;
 
     // 工具函数
-    const { randstr, randint, $, Popup } = (function() {
+    const { randstr, randint, $, Popup, Chatbox } = (function() {
         /**
          * 随机字符串
          * @param {number} length - 随机字符串长度 
