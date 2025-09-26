@@ -346,13 +346,13 @@ class MZADGameRule extends GameRule {
 <h2>数字效果</h2>
 <p>除非另外说明，否则所有效果均只针对本回合。</p>
 <ul>
-<li class="mzad2">2：刺杀，猜测另一名玩家的数字，若猜中则对方淘汰，改为获得对方的分值。</li>
-<li class="mzad3">3：反制，选择刺杀你的玩家淘汰。</li>
-<li class="mzad4">4：圣盾，若被≥2人选择，则选择你的人技能失效且不得分。</li>
-<li class="mzad5">5：毁灭，所有点数最大的牌不能分。</li>
-<li class="mzad6">6：拼点，选择另一名玩家，你和他中数字较小者（包括并列）不得分。</li>
-<li class="mzad7">7：弃牌，若被≥2人选择，则不得分。</li>
-<li class="mzad8">8：巨型，下回合不能选6-8。</li>
+<li class="mzad2">${MZADActions[2]}，猜测另一名玩家的数字，若猜中则对方淘汰，改为获得对方的分值。</li>
+<li class="mzad3">${MZADActions[3]}，选择刺杀你的玩家淘汰，且你不会被刺杀。</li>
+<li class="mzad4">${MZADActions[4]}，若你被≥2人选择，则选择你的人技能失效且不得分。</li>
+<li class="mzad5">${MZADActions[5]}，所有点数最大的牌不得分。</li>
+<li class="mzad6">${MZADActions[6]}，选择另一名玩家，你和他中数字较小者（包括并列）不得分。</li>
+<li class="mzad7">${MZADActions[7]}，若你被≥2人选择，则不得分。</li>
+<li class="mzad8">${MZADActions[8]}，下回合不能选6-8。</li>
 </ul>`;
 	}
 }
