@@ -1,10 +1,17 @@
 // @name        reversing.js
 // @description 翻转棋 Yagame实现
-// @version     1.2
+// @version     1.3
 // @author      InvFish
 
 /**
  * 更新日志
+ * - 1.3
+ *   - improvement: 游戏内聊天框
+ *     - 改进的UI
+ *     - 支持发送图片消息
+ *     - 代码架构优化
+ * - 1.2.1
+ *   - maintainence: 规范了部分变量命名
  * - 1.2
  *   - feat: 游戏内聊天
  *   - framework: 实现了规则端向玩家端的反向api请求
@@ -14,8 +21,9 @@
  */
 
 (function() {
+    const GAME_NAME = '翻转棋';
     const GAME_RULE = `
-        <h1>${self.name}</h1>
+        <h1>${ GAME_NAME }</h1>
 
         <h2>游戏规则</h2>
         <ul>
@@ -690,6 +698,1162 @@
         }
 
         /**
+         * 页面内聊天消息插件  
+         * 用于在任意页面内展示聊天框
+         * 
+         * @AI 注意：
+         * 1. 生成要求
+         *   - 生成代码时，要遵循代码中的注释和JSDoc类型注释以下代码中
+         *   - 带有 `@AI` 的注释为和代码外Prompt同等效力的指示，请格外注意并遵循 `@AI` 标识的注释
+         *   - 生成代码时，要同时生成注释和JSDoc类型注释，尤其注意对外导出的接口的注释，保证调用者有迹可循
+         *   - 生成代码时，务必保留包括已有 `@AI` 的Prompt注释在内的全部现有注释，方便第三者查阅代码时理解代码的设计思想与生成逻辑
+         *   - 生成注释时，不要新增带有 `@AI` 标识的注释Prompt，写Prompt是我的工作而不是你的
+         *   - 对于不够具体或准确的已有注释，视情况补充完整
+         * 2. 代码风格要求
+         *   - 避免生成大量重复代码，可封装时应封装调用，此规则同时适用于js代码、JSDoc注释、CSS样式等一切代码
+         *   - 编写封装代码时，避免添加代码中原本没有的公开接口；可以将封装代码添加为私有属性/方法，或者添加在已有方法作用域内
+         *   - 避免大量使用内联样式，应尽量封装为元素class类名和<style>样式表
+         *   - 为元素定义类名时，尽量使用独特的、不易与网页其余部分代码重复的名称，尽量做到在调用时不使用shadowroot时，也不会与网页其余部分冲突
+         *   - 命名风格应当遵循：
+         *     - 对于变量（除js类和构造函数以外），使用snake_case
+         *     - 对于常量，使用全大写的SNAKE_CASE
+         *     - 对于js类和构造函数，使用PascalCase
+         *     - 对于函数/方法，使用camelCase
+         *     - 对于css类名，使用kebab-case
+         *     - 对于函数作为变量的情况，考虑在当前语境下是更多将其作为变量还是函数使用，然后使用对应命名风格
+         *   - 如有较多常量需要定义，尽量集中定义，方便查阅和修改；避免使用魔术字面量
+         * 3. 针对此代码需求的补充说明
+         *   - UI与用户交互设计
+         *     - 聊天框应为一个不大的弹窗式窗口，紧贴屏幕下边缘展示，覆盖于页面其余内容之上，其大小不应喧宾夺主、过度遮挡页面（宽高都不应超过屏幕的一半）
+         *     - 聊天框内为标题栏和主体上下两部分，标题栏分为标题和按钮区域左右两部分，主体分为消息列表和输入区域上下两部分
+         *     - 主体消息列表内展示消息参考流行实时聊天软件（如QQ、微信等）的设计，将自己的消息和别人的消息分别在左右两侧显示，每条消息一行
+         *     - 消息列表元素内部可滚动，保证聊天框的大小固定，不因内部消息数量改变
+         *     - 输入区域应包括一个输入框、一个发送按钮和一个类型切换按钮，输入框回车可发送消息，Shift+Enter允许输入多行消息；发送时仅广播事件，并不直接将消息添加到UI中
+         *     - 输入区域的类型切换按钮用于切换当前输入的消息的类型，点击后在按钮旁弹出菜单，其中列出已注册的消息类型，以供用户选择
+         *     - 采用Material Design风格
+         *   - 调用接口设计
+         *     - 需要实现的方法和属性接口都已在代码中列出，你只需要完成实现
+         *     - Chatbox类继承了EventTarget，通过触发事件主动向外传递数据，其中应实现以下事件：
+         *       - send: 用户发送新消息，事件定义 {@link ChatboxSendEvent}
+         *       - inputstart: 用户开始输入新消息，事件定义 {@link ChatboxInputStartEvent}
+         *       - inputend: 用户结束输入新消息，事件定义 {@link ChatboxInputEndEvent}
+         *     - 事件具体定义参照代码中的注释，事件对象应为{@link Event}的实例（不用自行实现新的事件类），注释中定义的属性应赋值在事件对象上传递给外部事件处理器
+         *   - 注意事项
+         *     - 注意shadowroot功能和样式相关功能（如添加CSS样式表、根据body类判断浅色/深色模式等）的潜在冲突，开启shadowroot时影子DOM和主DOM之间的CSS是隔离的；必要时可以分别在影子DOM内和主DOM添加两份CSS
+         *     - 使用shadowroot时，包括总容器元素在内全部元素都应添加到shadowroot内，然后将shadowroot挂载在body的一个直接子元素（挂载点元素）下，此挂载点元素应仅作为挂载点使用，具体UI应由影子DOM内部元素创建。具体来说，DOM结构应如下所示：
+         *       - 不使用shadowroot时
+         *         - head
+         *           - style
+         *         - body
+         *           - container
+         *             - 内部结构
+         *       - 不使用shadowroot时
+         *         - body
+         *           - mount_element
+         *             - mount_element.shadowroot
+         *               - style
+         *               - container
+         *                 - 内部结构
+         */
+        class Chatbox extends EventTarget {
+            // @AI
+            // 以下代码用 `// 私有属性`, `// 公开方法` 等注释划分了区域，生成代码时请生成到对应区域；
+            // 对于尚未创建的区域，如有需要可以新建（记得带划分区域的注释）
+
+            // 事件类型定义
+            /**
+             * 用户发送新消息  
+             * @AI 用户发送新消息时应自动生成随机的、全局唯一的消息ID赋值于message.id中
+             * @typedef {Object} ChatboxSendEvent
+             * @property {'send'} name 事件名称
+             * @property {ChatboxMessage} message 消息
+             */
+            /**
+             * 用户开始输入新消息  
+             * 用户聚焦到输入框，并触发了一次input或compositionstart事件时触发此事件
+             * @AI 此时编辑新消息而未发出，不用生成消息ID
+             * @typedef {Object} ChatboxInputStartEvent
+             * @property {'inputstart'} name 事件名称
+             * @property {ChatboxMessage} message 消息当前内容
+             */
+            /**
+             * 用户结束输入新消息  
+             * 用户焦点离开输入框时触发此事件
+             * @AI 此时编辑新消息而未发出，不用生成消息ID
+             * @typedef {Object} ChatboxInputEndEvent
+             * @property {'inputend'} name 事件名称
+             * @property {ChatboxMessage} message 消息当前内容
+             */
+
+            // 常量定义
+            /** @type {Object} CSS类名常量 */
+            static CLASS_NAMES = {
+                CONTAINER: 'chatbox-container',
+                TITLE_BAR: 'chatbox-title-bar',
+                TITLE: 'chatbox-title',
+                BUTTON_AREA: 'chatbox-button-area',
+                MAIN: 'chatbox-main',
+                MESSAGE_LIST: 'chatbox-message-list',
+                MESSAGE_USERNAME: 'chatbox-message-username',
+                INPUT_AREA: 'chatbox-input-area',
+                INPUT: 'chatbox-input',
+                SEND_BUTTON: 'chatbox-send-button',
+                TYPE_BUTTON: 'chatbox-type-button',
+                TYPE_MENU: 'chatbox-type-menu',
+                TYPE_ITEM: 'chatbox-type-item',
+                MESSAGE: 'chatbox-message',
+                MESSAGE_LEFT: 'chatbox-message-left',
+                MESSAGE_RIGHT: 'chatbox-message-right',
+                MESSAGE_TYPE_PREFIX: 'chatbox-message-',
+                COLLAPSE_BUTTON: 'chatbox-collapse-button',
+                DARK_MODE: 'chatbox-dark-mode',
+                COLLAPSED: 'chatbox-collapsed',
+                POSITION_LEFT: 'chatbox-position-left',
+                POSITION_RIGHT: 'chatbox-position-right'
+            };
+
+            // 私有属性
+            /** @typedef {string | number} ChatboxMessageID */
+            /**
+             * 聊天消息
+             * @typedef {Object} ChatboxMessage
+             * @property {string} type 消息类型
+             * @property {string} content 消息内容
+             * @property {string} username 消息发送者昵称
+             * @property {boolean} is_self 该消息是否为自己发送
+             * @property {ChatboxMessageID} [id] (可选) 全局唯一消息id，如提供则后续可以对该消息更方便地进行修改等操作
+             */
+            /** @type {ChatboxMessage[]} */
+            #messages = [];
+
+            /** @type {boolean} 是否启用了shadowroot模式 */
+            #shadowroot = true;
+
+            /**
+             * @typedef {'left' | 'right'} ChatboxPosition 聊天框位置
+             */
+            /** @type {ChatboxPosition} */
+            #position = 'left';
+
+            /**
+             * 是否处于折叠状态  
+             * 折叠状态下，应隐藏聊天框窗口主体内容，仅保留标题栏吸附在屏幕底部边缘（根据position参数决定吸附在偏左侧还是偏右侧）  
+             * 折叠状态下，标题栏右侧按钮区域显示一个展开按钮；非折叠状态下，该位置显示折叠按钮
+             * @type {boolean}
+             */
+            #collapsed = true;
+
+            /**
+             * 深色/浅色模式参数
+             * @typedef {boolean | string} ChatboxDark
+             */
+            /** @type {ChatboxDark} */
+            #dark = false;
+
+            /** @type {string} 聊天框标题 */
+            #title = '聊天框';
+
+            /** @type {MutationObserver | null} 用于监听body类变化的观察器 */
+            #class_observer = null;
+
+            /**
+             * 聊天消息处理器，负责将某一种特定类型的聊天消息内容转换为html
+             * @typedef {Object} MessageProcessor
+             * @property {string} type 处理器处理的消息类型，全局唯一
+             * @property {string} [name] 消息类型的名称，用于在UI中显示，没有时显示type
+             * @property {(message: ChatboxMessage) => string} process 将聊天消息转换为html的方法
+             * @property {string} [init] (可选) 处理器初始化方法，在初始化处理器时一次性执行
+             * @property {string} [styles] (可选) 该消息类型专用的CSS样式
+             */
+            /**
+             * 聊天消息处理器  
+             * 键为处理器的类型，值为处理器对象
+             * @type {Record<string, MessageProcessor>}
+             */
+            #processors = {
+                // 预置类型：纯文本
+                text: {
+                    type: 'text',
+                    name: '文本',
+                    process(message) {
+                        return message.content;
+                    },
+                },
+                // 预置类型：图片
+                image: {
+                    type: 'image',
+                    name: '图片',
+                    process(message) {
+                        return `<div class="chatbox-image-message">
+                            <img src="${message.content}" alt="图片消息" loading="lazy">
+                        </div>`;
+                    },
+                    styles: `
+                        .chatbox-image-message {
+                            max-width: 100%;
+                            display: flex;
+                            justify-content: flex-start;
+                        }
+                        
+                        .chatbox-image-message img {
+                            max-width: 200px;
+                            max-height: 200px;
+                            border-radius: 8px;
+                            object-fit: contain;
+                        }
+                        
+                        .chatbox-message-right .chatbox-image-message {
+                            justify-content: flex-end;
+                        }
+                        
+                        .chatbox-message-right .chatbox-image-message img {
+                            max-width: 200px;
+                            max-height: 200px;
+                        }
+                    `
+                }
+            };
+
+            /** @type {HTMLElement} 聊天框容器元素 */
+            #container = null;
+            /** @type {HTMLElement} 标题元素 */
+            #title_element = null;
+            /** @type {HTMLElement} 消息列表容器 */
+            #message_list = null;
+            /** @type {HTMLInputElement} 消息输入框 */
+            #input = null;
+            /** @type {HTMLElement} 类型菜单 */
+            #type_menu = null;
+            /** @type {HTMLElement} 类型切换按钮 */
+            #type_button = null;
+            /** @type {string} 当前选中的消息类型 */
+            #current_type = 'text';
+            /** @type {ShadowRoot | null} shadow root实例 */
+            #shadow_root = null;
+            /** @type {HTMLElement} 挂载点元素 */
+            #mount_element = null;
+
+            // 公开属性
+            /**
+             * 全部消息列表
+             * @type {ChatboxMessage[]}
+             */
+            get messages() {
+                return [...this.#messages];
+            }
+            set messages(val) {
+                if (Array.isArray(val)) {
+                    this.#messages = val;
+                    this.#renderMessages();
+                }
+            }
+
+            /**
+             * 是否启用了shadowroot模式
+             * @readonly
+             * @type {boolean}
+             */
+            get shadowroot() {
+                return this.#shadowroot;
+            }
+
+            /**
+             * 聊天框显示位置
+             * @type {ChatboxPosition}
+             */
+            get position() {
+                return this.#position;
+            }
+            set position(val) {
+                if (val === 'left' || val === 'right') {
+                    this.#position = val;
+                    this.#updatePosition();
+                }
+            }
+
+            /**
+             * 聊天框折叠状态
+             * @type {boolean}
+             */
+            get collapsed() {
+                return this.#collapsed;
+            }
+            set collapsed(val) {
+                this.#collapsed = Boolean(val);
+                this.#updateCollapseState();
+            }
+
+            
+            /**
+             * 浅色/深色模式参数
+             * @type {ChatboxDark}
+             */
+            get dark() {
+                return this.#dark;
+            }
+            set dark(val) {
+                // 停止之前的监听
+                this.#stopClassObserver();
+                
+                this.#dark = val;
+                this.#updateDarkMode();
+                
+                // 如果新的dark参数是字符串，重新开始监听
+                this.#startClassObserver();
+            }
+
+            /**
+             * 聊天框标题
+             * @type {string}
+             */
+            get title() {
+                return this.#title;
+            }
+            set title(val) {
+                if (typeof val === 'string') {
+                    this.#title = val;
+                    this.#updateTitle();
+                }
+            }
+
+            // 构造函数
+            /**
+             * {@link Chatbox}初始化参数
+             * @typedef {Object} ChatboxInit
+             * @property {boolean} [shadowroot=true] 若为true，将所有元素和样式封装到shadowroot内，否则直接添加到document.body；默认为true
+             * @property {ChatboxDark} [dark=false] 深色/浅色模式：boolean直接控制使用深色/浅色；string则作为body class进行检测，当document.body具备此类名时为深色，否则为浅色
+             * @property {ChatboxMessage[]} [messages=[]] 初始消息列表，默认为空数组
+             * @property {ChatboxPosition} [position='left'] 聊天框显示位置，默认为'left'
+             * @property {boolean} [collapsed=true] 初始折叠状态，默认为true
+             * @property {string} [title='聊天框'] 聊天框标题，默认为'聊天框'
+             */
+            /**
+             * @param {ChatboxInit} init 初始化参数
+             */
+            constructor(init = {}) {
+                super();
+                
+                // 初始化参数
+                this.#shadowroot = init.shadowroot !== false;
+                this.#dark = init.dark || false;
+                this.#messages = init.messages || [];
+                this.#position = init.position || 'left';
+                this.#collapsed = init.collapsed !== false;
+                this.#title = init.title || '聊天框'; // 设置标题
+
+                // 创建DOM结构
+                this.#createDOM();
+                
+                // 初始化预置的聊天消息处理器
+                this.#initProcessors();
+                
+                // 根据init参数调整实例状态、修改DOM元素
+                this.#updatePosition();
+                this.#updateCollapseState();
+                this.#updateDarkMode();
+                this.#renderMessages();
+    
+                // 如果dark参数是字符串，开始监听body类变化
+                this.#startClassObserver();
+            }
+
+            // 私有方法
+            /**
+             * 创建DOM结构
+             */
+            #createDOM() {
+                // 创建样式
+                const styles = this.#createStyles();
+                
+                if (this.#shadowroot) {
+                    // 使用shadowroot模式
+                    this.#mount_element = document.createElement('div');
+                    this.#shadow_root = this.#mount_element.attachShadow({ mode: 'open' });
+                    
+                    // 添加样式和容器
+                    this.#shadow_root.appendChild(styles);
+                    this.#container = this.#createChatboxStructure();
+                    this.#shadow_root.appendChild(this.#container);
+                    
+                    document.body.appendChild(this.#mount_element);
+                } else {
+                    // 不使用shadowroot模式
+                    const style_element = document.createElement('style');
+                    style_element.textContent = styles.textContent;
+                    document.head.appendChild(style_element);
+                    
+                    this.#container = this.#createChatboxStructure();
+                    document.body.appendChild(this.#container);
+                }
+            }
+
+            /**
+             * 创建聊天框DOM结构
+             * @returns {HTMLElement} 容器元素
+             */
+            #createChatboxStructure() {
+                const container = document.createElement('div');
+                container.className = Chatbox.CLASS_NAMES.CONTAINER;
+                
+                // 标题栏
+                const title_bar = document.createElement('div');
+                title_bar.className = Chatbox.CLASS_NAMES.TITLE_BAR;
+                
+                const title = document.createElement('div');
+                title.className = Chatbox.CLASS_NAMES.TITLE;
+                title.textContent = this.#title;
+                this.#title_element = title;
+                
+                const button_area = document.createElement('div');
+                button_area.className = Chatbox.CLASS_NAMES.BUTTON_AREA;
+                
+                const collapse_button = document.createElement('button');
+                collapse_button.className = Chatbox.CLASS_NAMES.COLLAPSE_BUTTON;
+                collapse_button.innerHTML = '−';
+                collapse_button.addEventListener('click', () => {
+                    this.collapsed = !this.collapsed;
+                });
+                
+                button_area.appendChild(collapse_button);
+                title_bar.appendChild(title);
+                title_bar.appendChild(button_area);
+                
+                // 主体区域
+                const main = document.createElement('div');
+                main.className = Chatbox.CLASS_NAMES.MAIN;
+                
+                // 消息列表
+                this.#message_list = document.createElement('div');
+                this.#message_list.className = Chatbox.CLASS_NAMES.MESSAGE_LIST;
+                
+                // 输入区域
+                const input_area = document.createElement('div');
+                input_area.className = Chatbox.CLASS_NAMES.INPUT_AREA;
+                
+                const type_button = document.createElement('button');
+                type_button.className = Chatbox.CLASS_NAMES.TYPE_BUTTON;
+                this.#type_button = type_button;
+                this.#updateTypeButton();
+                type_button.addEventListener('click', () => {
+                    this.#toggleTypeMenu();
+                });
+                
+                this.#input = document.createElement('textarea');
+                this.#input.className = Chatbox.CLASS_NAMES.INPUT;
+                this.#input.placeholder = '输入消息...';
+                
+                // 输入事件处理
+                this.#input.addEventListener('focus', () => {
+                    this.#handleInputStart();
+                });
+                
+                this.#input.addEventListener('blur', () => {
+                    this.#handleInputEnd();
+                });
+                
+                this.#input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.#sendMessage();
+                    }
+                });
+                
+                this.#input.addEventListener('input', () => {
+                    this.#handleInputStart();
+                });
+                
+                this.#input.addEventListener('compositionstart', () => {
+                    this.#handleInputStart();
+                });
+                
+                const send_button = document.createElement('button');
+                send_button.className = Chatbox.CLASS_NAMES.SEND_BUTTON;
+                send_button.textContent = '发送';
+                send_button.addEventListener('click', () => {
+                    this.#sendMessage();
+                });
+                
+                // 类型菜单
+                this.#type_menu = document.createElement('div');
+                this.#type_menu.className = Chatbox.CLASS_NAMES.TYPE_MENU;
+                this.#type_menu.style.display = 'none';
+                
+                input_area.appendChild(type_button);
+                input_area.appendChild(this.#input);
+                input_area.appendChild(send_button);
+                
+                main.appendChild(this.#message_list);
+                main.appendChild(input_area);
+                main.appendChild(this.#type_menu);
+                
+                container.appendChild(title_bar);
+                container.appendChild(main);
+                
+                return container;
+            }
+
+            /**
+             * 创建样式表
+             * @returns {HTMLStyleElement} 样式元素
+             */
+            #createStyles() {
+                const style = document.createElement('style');
+                style.textContent = `
+                    .${Chatbox.CLASS_NAMES.CONTAINER} {
+                        position: fixed;
+                        bottom: 0;
+                        width: 300px;
+                        max-width: 50vw;
+                        max-height: 50vh;
+                        background: white;
+                        border: 1px solid #ddd;
+                        border-radius: 8px 8px 0 0;
+                        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                        font-family: 'Roboto', sans-serif;
+                        z-index: 10000;
+                        transition: all 0.3s ease;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.CONTAINER}.${Chatbox.CLASS_NAMES.POSITION_LEFT} {
+                        left: 20px;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.CONTAINER}.${Chatbox.CLASS_NAMES.POSITION_RIGHT} {
+                        right: 20px;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.CONTAINER}.${Chatbox.CLASS_NAMES.COLLAPSED} {
+                        height: 40px !important;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.CONTAINER}.${Chatbox.CLASS_NAMES.COLLAPSED} .${Chatbox.CLASS_NAMES.MAIN} {
+                        display: none;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.CONTAINER}.${Chatbox.CLASS_NAMES.DARK_MODE} {
+                        background: #424242;
+                        color: white;
+                        border-color: #616161;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.TITLE_BAR} {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 8px 12px;
+                        background: #f5f5f5;
+                        border-bottom: 1px solid #ddd;
+                        cursor: pointer;
+                        border-radius: 8px 8px 0 0;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.DARK_MODE} .${Chatbox.CLASS_NAMES.TITLE_BAR} {
+                        background: #616161;
+                        border-bottom-color: #757575;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.TITLE} {
+                        font-weight: 500;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.BUTTON_AREA} {
+                        display: flex;
+                        gap: 8px;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.MAIN} {
+                        display: flex;
+                        flex-direction: column;
+                        height: 300px;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.MESSAGE_LIST} {
+                        flex: 1;
+                        overflow-y: auto;
+                        padding: 8px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.MESSAGE} {
+                        max-width: 80%;
+                        padding: 8px 12px;
+                        border-radius: 12px;
+                        word-wrap: break-word;
+                        position: relative;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.MESSAGE_LEFT} {
+                        align-self: flex-start;
+                        background: #e0e0e0;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.DARK_MODE} .${Chatbox.CLASS_NAMES.MESSAGE_LEFT} {
+                        background: #757575;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.MESSAGE_RIGHT} {
+                        align-self: flex-end;
+                        background: #1976d2;
+                        color: white;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.MESSAGE_USERNAME} {
+                        font-size: 0.8em;
+                        font-weight: 500;
+                        margin-bottom: 4px;
+                        opacity: 0.8;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.MESSAGE_RIGHT} .${Chatbox.CLASS_NAMES.MESSAGE_USERNAME} {
+                        text-align: right;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.INPUT_AREA} {
+                        display: flex;
+                        padding: 8px;
+                        gap: 8px;
+                        border-top: 1px solid #ddd;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.DARK_MODE} .${Chatbox.CLASS_NAMES.INPUT_AREA} {
+                        border-top-color: #757575;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.INPUT} {
+                        flex: 1;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        padding: 8px;
+                        resize: none;
+                        font-family: inherit;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.DARK_MODE} .${Chatbox.CLASS_NAMES.INPUT} {
+                        background: #616161;
+                        border-color: #757575;
+                        color: white;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.SEND_BUTTON}, .${Chatbox.CLASS_NAMES.TYPE_BUTTON}, .${Chatbox.CLASS_NAMES.COLLAPSE_BUTTON} {
+                        background: #1976d2;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        padding: 8px 12px;
+                        cursor: pointer;
+                        font-family: inherit;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.SEND_BUTTON}:hover, .${Chatbox.CLASS_NAMES.TYPE_BUTTON}:hover, .${Chatbox.CLASS_NAMES.COLLAPSE_BUTTON}:hover {
+                        background: #1565c0;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.TYPE_MENU} {
+                        position: absolute;
+                        bottom: 50px;
+                        left: 8px;
+                        background: white;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        z-index: 10001;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.DARK_MODE} .${Chatbox.CLASS_NAMES.TYPE_MENU} {
+                        background: #424242;
+                        border-color: #616161;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.TYPE_ITEM} {
+                        padding: 8px 12px;
+                        cursor: pointer;
+                        border-bottom: 1px solid #eee;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.DARK_MODE} .${Chatbox.CLASS_NAMES.TYPE_ITEM} {
+                        border-bottom-color: #616161;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.TYPE_ITEM}:last-child {
+                        border-bottom: none;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.TYPE_ITEM}:hover {
+                        background: #f5f5f5;
+                    }
+                    
+                    .${Chatbox.CLASS_NAMES.DARK_MODE} .${Chatbox.CLASS_NAMES.TYPE_ITEM}:hover {
+                        background: #757575;
+                    }
+                `;
+                return style;
+            }
+
+            /**
+             * 初始化所有消息处理器
+             */
+            #initProcessors() {
+                Object.values(this.#processors).forEach(processor => {
+                    this.#initMessageProcessor(processor);
+                });
+            }
+
+            /**
+             * 根据传入message的类型和内容，调用，返回该message的html
+             * @param {ChatboxMessage} message 
+             */
+            #processTypedMessage(message) {
+                const processor = this.#processors[message.type];
+                if (processor) {
+                    return processor.process(message);
+                }
+                return message.content;
+            }
+
+            /**
+             * 初始化聊天消息处理器  
+             * 所有处理器应且仅应初始化一次
+             * @param {MessageProcessor} processor 
+             */
+            #initMessageProcessor(processor) {
+                if (processor.init) {
+                    processor.init();
+                }
+                
+                // 如果处理器有专用样式，添加到样式表中
+                if (processor.styles) {
+                    this.#injectProcessorStyles(processor.type, processor.styles);
+                }
+            }
+
+            /**
+             * 注入处理器专用样式
+             * @param {string} type 消息类型
+             * @param {string} styles CSS样式
+             */
+            #injectProcessorStyles(type, styles) {
+                if (!this.#container) return;
+                
+                const style_id = `chatbox-processor-styles-${type}`;
+                let style_element;
+                
+                if (this.#shadowroot) {
+                    // shadowroot模式下，在shadow DOM中查找或创建样式元素
+                    style_element = this.#shadow_root.querySelector(`#${style_id}`);
+                    if (!style_element) {
+                        style_element = document.createElement('style');
+                        style_element.id = style_id;
+                        this.#shadow_root.appendChild(style_element);
+                    }
+                } else {
+                    // 非shadowroot模式下，在document中查找或创建样式元素
+                    style_element = document.getElementById(style_id);
+                    if (!style_element) {
+                        style_element = document.createElement('style');
+                        style_element.id = style_id;
+                        document.head.appendChild(style_element);
+                    }
+                }
+                
+                style_element.textContent = styles;
+            }
+
+            /**
+             * 渲染消息列表
+             */
+            #renderMessages() {
+                if (!this.#message_list) return;
+                
+                this.#message_list.innerHTML = '';
+                
+                this.#messages.forEach(message => {
+                    const message_element = document.createElement('div');
+                    const is_self = message.is_self;
+                    
+                    message_element.className = `${Chatbox.CLASS_NAMES.MESSAGE} ${
+                        is_self ? Chatbox.CLASS_NAMES.MESSAGE_RIGHT : Chatbox.CLASS_NAMES.MESSAGE_LEFT
+                    } ${Chatbox.CLASS_NAMES.MESSAGE_TYPE_PREFIX}${message.type}`;
+                    
+                    // 创建用户名显示元素
+                    const username_element = document.createElement('div');
+                    username_element.className = Chatbox.CLASS_NAMES.MESSAGE_USERNAME;
+                    username_element.textContent = message.username;
+                    
+                    // 创建消息内容元素
+                    const content_element = document.createElement('div');
+                    const content = this.#processTypedMessage(message);
+                    content_element.innerHTML = content;
+                    
+                    message_element.appendChild(username_element);
+                    message_element.appendChild(content_element);
+                    
+                    this.#message_list.appendChild(message_element);
+                });
+                
+                // 滚动到底部
+                this.#message_list.scrollTop = this.#message_list.scrollHeight;
+            }
+
+            /**
+             * 更新位置样式
+             */
+            #updatePosition() {
+                if (!this.#container) return;
+                
+                this.#container.classList.remove(
+                    Chatbox.CLASS_NAMES.POSITION_LEFT,
+                    Chatbox.CLASS_NAMES.POSITION_RIGHT
+                );
+                this.#container.classList.add(
+                    this.#position === 'left' ? Chatbox.CLASS_NAMES.POSITION_LEFT : Chatbox.CLASS_NAMES.POSITION_RIGHT
+                );
+            }
+
+            /**
+             * 更新折叠状态
+             */
+            #updateCollapseState() {
+                if (!this.#container) return;
+                
+                if (this.#collapsed) {
+                    this.#container.classList.add(Chatbox.CLASS_NAMES.COLLAPSED);
+                } else {
+                    this.#container.classList.remove(Chatbox.CLASS_NAMES.COLLAPSED);
+                }
+            }
+
+            /**
+             * 更新深色模式
+             */
+            #updateDarkMode() {
+                if (!this.#container) return;
+                
+                let is_dark = false;
+                if (typeof this.#dark === 'boolean') {
+                    is_dark = this.#dark;
+                } else if (typeof this.#dark === 'string') {
+                    is_dark = document.body.classList.contains(this.#dark);
+                }
+                
+                if (is_dark) {
+                    this.#container.classList.add(Chatbox.CLASS_NAMES.DARK_MODE);
+                } else {
+                    this.#container.classList.remove(Chatbox.CLASS_NAMES.DARK_MODE);
+                }
+            }
+
+            /**
+             * 开始监听body类变化
+             */
+            #startClassObserver() {
+                if (typeof this.#dark !== 'string') {
+                    return; // 只有dark参数是字符串时才需要监听
+                }
+                
+                this.#class_observer = new MutationObserver((mutations) => {
+                    let should_update = false;
+                    
+                    for (const mutation of mutations) {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                            should_update = true;
+                            break;
+                        }
+                    }
+                    
+                    if (should_update) {
+                        this.#updateDarkMode();
+                    }
+                });
+                
+                // 开始观察body元素的class属性变化
+                this.#class_observer.observe(document.body, {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+            }
+
+            /**
+             * 停止监听body类变化
+             */
+            #stopClassObserver() {
+                if (this.#class_observer) {
+                    this.#class_observer.disconnect();
+                    this.#class_observer = null;
+                }
+            }
+
+            /**
+             * 更新标题显示
+             */
+            #updateTitle() {
+                if (this.#title_element) {
+                    this.#title_element.textContent = this.#title;
+                }
+            }
+
+            /**
+             * 清理处理器专用样式
+             */
+            #cleanupProcessorStyles() {
+                Object.keys(this.#processors).forEach(type => {
+                    const style_id = `chatbox-processor-styles-${type}`;
+                    let style_element;
+                    
+                    if (this.#shadowroot && this.#shadow_root) {
+                        style_element = this.#shadow_root.querySelector(`#${style_id}`);
+                    } else {
+                        style_element = document.getElementById(style_id);
+                    }
+                    
+                    if (style_element) {
+                        style_element.remove();
+                    }
+                });
+            }
+
+            /**
+             * 切换类型菜单显示状态
+             */
+            #toggleTypeMenu() {
+                if (!this.#type_menu) return;
+                
+                if (this.#type_menu.style.display === 'none') {
+                    this.#type_menu.style.display = 'block';
+                    this.#renderTypeMenu();
+                } else {
+                    this.#type_menu.style.display = 'none';
+                }
+            }
+
+            /**
+             * 渲染类型菜单
+             */
+            #renderTypeMenu() {
+                if (!this.#type_menu) return;
+                
+                this.#type_menu.innerHTML = '';
+                
+                Object.values(this.#processors).forEach(processor => {
+                    const item = document.createElement('div');
+                    item.className = Chatbox.CLASS_NAMES.TYPE_ITEM;
+                    item.textContent = processor.name || processor.type;
+                    item.addEventListener('click', () => {
+                        this.#current_type = processor.type;
+                        this.#type_menu.style.display = 'none';
+
+                        // 更新类型按钮显示
+                        this.#updateTypeButton();
+                    });
+                    this.#type_menu.appendChild(item);
+                });
+            }
+
+            /**
+             * 更新类型按钮显示
+             */
+            #updateTypeButton() {
+                if (!this.#type_button) return;
+                
+                const processor = this.#processors[this.#current_type];
+                if (processor) {
+                    // 显示类型名称的首字母或缩写
+                    const displayName = processor.name || processor.type;
+                    this.#type_button.textContent = displayName.charAt(0).toUpperCase();
+                    this.#type_button.title = displayName;
+                }
+            }
+
+            /**
+             * 发送消息
+             */
+            #sendMessage() {
+                const content = this.#input.value.trim();
+                if (!content) return;
+                
+                /** @type {ChatboxMessage} */
+                const message = {
+                    type: this.#current_type,
+                    content: content,
+                    username: 'user',
+                    is_self: true,
+                    id: this.#generateMessageId()
+                };
+                
+                // 触发发送事件
+                this.dispatchEvent(new CustomEvent('send', {
+                    detail: { message }
+                }));
+                
+                this.#input.value = '';
+                this.#type_menu.style.display = 'none';
+            }
+
+            /**
+             * 处理输入开始事件
+             */
+            #handleInputStart() {
+                const message = {
+                    type: this.#current_type,
+                    content: this.#input.value,
+                    username: 'user'
+                };
+                
+                this.dispatchEvent(new CustomEvent('inputstart', {
+                    detail: { message }
+                }));
+            }
+
+            /**
+             * 处理输入结束事件
+             */
+            #handleInputEnd() {
+                const message = {
+                    type: this.#current_type,
+                    content: this.#input.value,
+                    username: 'user'
+                };
+                
+                this.dispatchEvent(new CustomEvent('inputend', {
+                    detail: { message }
+                }));
+            }
+
+            /**
+             * 生成消息ID
+             * @returns {string} 消息ID
+             */
+            #generateMessageId() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            }
+
+            // 公开方法
+            /**
+             * 添加一条或多条消息
+             * @param {ChatboxMessage[]} messages 消息列表
+             */
+            addMessage(...messages) {
+                this.#messages.push(...messages);
+                this.#renderMessages();
+            }
+            
+            /**
+             * 移除一条或多条消息
+             * @param {ChatboxMessageID} ids 消息ID
+             */
+            removeMessage(...ids) {
+                this.#messages = this.#messages.filter(msg => !ids.includes(msg.id));
+                this.#renderMessages();
+            }
+            
+            /**
+             * 修改一条或多条已有消息
+             * @param {ChatboxMessage[]} messages 要修改的消息列表；注意：这里的消息必须带ID表明要修改的消息的ID，并且此ID对应的消息必须已经存在，否则忽略这一条消息
+             */
+            modifyMessage(...messages) {
+                messages.forEach(new_msg => {
+                    if (!new_msg.id) return;
+                    
+                    const index = this.#messages.findIndex(msg => msg.id === new_msg.id);
+                    if (index !== -1) {
+                        this.#messages[index] = { ...this.#messages[index], ...new_msg };
+                    }
+                });
+                this.#renderMessages();
+            }
+
+            /**
+             * 注册一个新的消息类型
+             * @param {MessageProcessor} processor 
+             */
+            registerType(processor) {
+                if (this.#processors[processor.type]) {
+                    console.warn(`消息类型 ${processor.type} 已存在，将被覆盖`);
+                }
+                
+                this.#processors[processor.type] = processor;
+                this.#initMessageProcessor(processor);
+            }
+
+            /**
+             * 销毁聊天框实例，清理事件监听和DOM元素
+             */
+            destroy() {
+                this.#stopClassObserver();
+                
+                // 清理处理器样式
+                this.#cleanupProcessorStyles();
+                
+                if (this.#shadowroot && this.#mount_element) {
+                    this.#mount_element.remove();
+                } else if (this.#container) {
+                    this.#container.remove();
+                }
+                
+                // 清理相关引用
+                this.#container = null;
+                this.#message_list = null;
+                this.#input = null;
+                this.#type_menu = null;
+                this.#type_button = null;
+                this.#title_element = null;
+                this.#shadow_root = null;
+                this.#mount_element = null;
+                this.#class_observer = null;
+            }
+
+            /**
+             * 设置折叠状态  
+             * 效果同直接设置collapsed属性
+             * @param {boolean} val 
+             */
+            setCollapse(val) {
+                this.collapsed = val;
+            }
+
+            /**
+             * 设置深色/浅色模式  
+             * 效果同直接设置dark属性
+             * @param {ChatboxDark} val 
+             */
+            setDark(val) {
+                this.dark = val;
+            }
+
+            /**
+             * 设置聊天框标题
+             * 效果同直接设置title属性
+             * @param {string} title 新标题
+             */
+            setTitle(title) {
+                this.title = title;
+            }
+
+            /** 类型导出，其值无具体含义，用于调用方获取类型定义 */
+            static _types = {
+                /** @type {ChatboxSendEvent} */
+                ChatboxSendEvent: {},
+                /** @type {ChatboxInputStartEvent} */
+                ChatboxInputStartEvent: {},
+                /** @type {ChatboxInputEndEvent} */
+                ChatboxInputEndEvent: {},
+                /** @type {ChatboxMessage} */
+                ChatboxMessage: {},
+                /** @type {ChatboxMessageID} */
+                ChatboxMessageID: {},
+                /** @type {ChatboxPosition} */
+                ChatboxPosition: {},
+                /** @type {ChatboxDark} */
+                ChatboxDark: {},
+                /** @type {ChatboxInit} */
+                ChatboxInit: {},
+                /** @type {MessageProcessor} */
+                MessageProcessor: {}
+            }
+        }
+
+        /**
          * @overload
          * @param {string} selector
          * @returns {HTMLElement}
@@ -709,7 +1873,7 @@
             }
         }
 
-        return { randstr, randint, $, Popup };
+        return { randstr, randint, $, Popup, Chatbox };
     }) ();
 
     // 游戏逻辑和界面
@@ -1521,6 +2685,7 @@
          * 游戏内发言消息
          * @typedef {Object} GameMessage
          * @property {number} player 玩家id
+         * @property {string} type 发言消息类型
          * @property {string} content 发言内容
          */
         /**
@@ -1612,6 +2777,7 @@
          * @typedef {Object} MessageSendRequest
          * @property {'message'} action 请求操作
          * @property {Object} body 请求数据
+         * @property {string} body.type 消息类型
          * @property {string} body.content 消息内容
          * @property {string} id 请求id
          */
@@ -1631,8 +2797,9 @@
          * @typedef {Object} MessageShowRequest
          * @property {'message'} action 请求操作
          * @property {Object} body 请求数据
+         * @property {string} body.type 消息类型
          * @property {string} body.content 消息内容
-         * @property {string} body.player 发言玩家id
+         * @property {number} body.player 发言玩家id
          * @property {string} id 请求id
          */
         /**
@@ -1664,10 +2831,9 @@
          */
 
         // 规则端
-        const ChatRoomName = '翻转棋';
-        class ChatRoomRule extends GameRule {
+        class CustomGameRule extends GameRule {
             // 游戏名
-            name = ChatRoomName;
+            name = GAME_NAME;
 
             // 最多玩家人数
             maxN = 4;
@@ -1797,6 +2963,7 @@
                     message(data) {
                         // 添加发言到列表
                         self.messages.push({
+                            type: data.body.type,
                             content: data.body.content,
                             player: id,
                         });
@@ -1807,6 +2974,7 @@
                             const req = {
                                 action: 'message',
                                 body: {
+                                    type: data.body.type,
                                     content: data.body.content,
                                     player: id,
                                 },
@@ -1961,18 +3129,21 @@
         }
 
         // 玩家端
-        class ChatRoomRenderer extends GameRenderer {
+        class CustomGameRenderer extends GameRenderer {
             /** @type {ClientState}  */
             state;
 
             /** @type {InstanceType<typeof BoardGUI>} 棋盘GUI实例 */
             board = new BoardGUI();
 
-            /** @type {GameMessage[]} 游戏内发言消息列表 */
-            messages = [];
-
             /** @type {Record<string, ((data: APIResponse) => any)[]>} 存储API回调 */
             api_callbacks = {};
+
+            chat = new Chatbox({
+                position: 'left',
+                dark: 'darktheme',
+                title: `${ GAME_NAME } 游戏聊天`,
+            });
 
             /**
              * 初始化渲染器
@@ -1985,6 +3156,7 @@
                 if (data.type !== 'state') throw new Error('First message is not in type "state"');
                 /** @type {ClientState} */
                 const state = self.state = data.body;
+                const chat = self.chat;
 
                 self.element.innerHTML = `
                     <div class="game-container">
@@ -2009,17 +3181,6 @@
                         <div class="game-actions game-center">
                             <div class="game-button game-center game-pass">Pass</div>
                             <div class="game-button game-center game-help">帮助</div>
-                        </div>
-                    </div>
-                    <div class="game-messages game-folded">
-                        <div class="game-msgcaption">
-                            <span class="game-msgtitle">聊天</span>
-                            <span class="game-fold">+</span>
-                        </div>
-                        <div class="game-msglist"></div>
-                        <div class="game-chatbox">
-                            <textarea class="game-chat-editor"></textarea>
-                            <div class="game-button game-center game-sendmsg">发送</div>
                         </div>
                     </div>
                 `;
@@ -2076,33 +3237,34 @@
                     popup.content = GAME_RULE;
                     popup.show();
                 });
-                // 聊天框的发送按钮
-                $('.game-sendmsg').addEventListener('click', e => {
-                    /** @type {HTMLTextAreaElement} */
-                    const editor = $('.game-chat-editor');
-                    const content = editor.value;
+
+                // 聊天框
+                chat.addEventListener('send', 
+                    /** @param {{ detail: typeof Chatbox._types.ChatboxSendEvent }} e */
+                    e => {
+                        e.message
                     /** @type {MessageSendRequest} */
                     const req = {
                         action: 'message',
-                        body: { content },
+                            body: {
+                                type: e.detail.message.type,
+                                content: e.detail.message.content,
+                            },
                     };
                     self.apiRequest(req);
                     self.registerAPICallback(req.id,
                         /** @param {MessageSendResponse} data */
                         data => {
-                            self.messages = data.body.messages;
-                            self.renderMessages();
-                            editor.value = '';
-                        }
-                    );
-                });
-                // 聊天框的折叠/展开按钮
-                let folded = true;
-                $('.game-fold').addEventListener('click', e => {
-                    folded = !folded;
-                    $('.game-messages').classList[folded ? 'add' : 'remove']('game-folded');
-                    $('.game-fold').innerText = folded ? '+' : '-';
-                });
+                                chat.messages = data.body.messages.map(msg => ({
+                                    username: self.state.players[msg.player].user,
+                                    type: msg.type,
+                                    content: msg.content,
+                                    is_self: msg.player === self.state.id,
+                                }));
+                            }
+                        );
+                    }
+                );
 
                 // 游戏信息初始渲染
                 $('.game-player').innerText = `您好，${ state.players[state.id].user }`;
@@ -2120,8 +3282,12 @@
                 self.registerAPICallback(listmsg_req.id,
                     /** @param {ListMessagesResponse} data */
                     data => {
-                        self.messages = data.body.messages;
-                        self.renderMessages();
+                        chat.messages = data.body.messages.map(msg => ({
+                            username: self.state.players[msg.player].user,
+                            type: msg.type,
+                            content: msg.content,
+                            is_self: msg.player === self.state.id,
+                        }));
                     }
                 );
 
@@ -2281,32 +3447,6 @@
             }
 
             /**
-             * 渲染游戏内消息列表
-             */
-            renderMessages() {
-                const self = this;
-                const container = $('.game-msglist');
-
-                [...container.childNodes].forEach(node => node.remove());
-                self.messages.forEach(message => {
-                    // 消息父元素
-                    const element = document.createElement('div');
-                    element.classList.add('game-message');
-
-                    // 玩家名称
-                    const span_name = document.createElement('span');
-                    span_name.innerText = self.state.players[message.player].user;
-                    
-                    // 消息内容
-                    const span_content = document.createElement('span');
-                    span_content.innerText = message.content;
-
-                    element.append(span_name, new Text(': '), span_content);
-                    container.append(element);
-                });
-            }
-
-            /**
              * 处理规则端api请求  
              * API方向：规则端 -> 玩家端
              * @param {APIRequest} data 
@@ -2328,9 +3468,12 @@
                      * @returns {MessageShowResponse}
                      */
                     message(data) {
-                        const { player, content } = data.body;
-                        self.messages.push({ player, content });
-                        self.renderMessages();
+                        const { player, content, type } = data.body;
+                        self.chat.addMessage({
+                            type, content,
+                            username: state.players[player].user,
+                            is_self: player === state.id,
+                        });
                         return {};
                     }
                 };
@@ -2577,9 +3720,9 @@
 
         // 添加游戏到游戏列表
         games.push({
-            name: ChatRoomName,
-            rule: ChatRoomRule,
-            renderer: ChatRoomRenderer,
+            name: GAME_NAME,
+            rule: CustomGameRule,
+            renderer: CustomGameRenderer,
         });
     }) ();
 }) ();
