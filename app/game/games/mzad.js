@@ -415,9 +415,9 @@ class MZADGameRenderer extends GameRenderer {
 		idElement.className = 'hidden horizontal centered';
 		const idElements = [];
 		self.idElements = idElements;
-		function refreshIDElement(id) {
+		function refreshIDElement(state) {
 			for (let i = 0; i < state.n; ++i) {
-				if (state.players[i].inGame && i !== id) {
+				if (state.players[i].inGame && i !== state.id) {
 					idElements[i].classList.remove('nodisplay');
 				} else {
 					idElements[i].classList.add('nodisplay');
@@ -432,7 +432,6 @@ class MZADGameRenderer extends GameRenderer {
 			idButtonElement.innerText = state.players[id].user;
 			idButtonElement.addEventListener('click', function () {
 				self.value.id = id;
-				refreshIDElement(state.id);
 				for (let i = 0; i < state.n; ++i) {
 					if (i === id) {
 						idElements[i].classList.add('active');
@@ -444,7 +443,7 @@ class MZADGameRenderer extends GameRenderer {
 			idElements.push(idButtonElement);
 			idElement.appendChild(idButtonElement);
 		}
-		refreshIDElement(state.id);
+		refreshIDElement(state);
 
 		// 预测控件
 		const ixElement = document.createElement('div');
@@ -630,7 +629,7 @@ class MZADGameRenderer extends GameRenderer {
 				self.shouldDisableBig = (state.players[state.id].lastPlay && state.players[state.id].lastPlay.x === 8);
 			}
 			// 更新选人控件
-			self.refreshIDElement(state.id);
+			self.refreshIDElement(state);
 		}
 		if (self.shouldDisableBig) {
 			for (let i = 6; i <= 8; ++i) {
