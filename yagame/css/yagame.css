@@ -21,6 +21,10 @@ a {
 	justify-content: center;
 }
 
+.horizontal.right {
+	justify-content: flex-end;
+}
+
 b,
 .bold {
 	font-weight: 900;
@@ -82,10 +86,6 @@ textarea,
 dialog,
 ::-webkit-scrollbar-thumb {
 	border-radius: min(0.5vw, 0.5vh);
-}
-
-.padded {
-	padding: min(3vw, 3vh);
 }
 
 .box {
@@ -193,6 +193,10 @@ input,
 
 .round {
 	border-radius: 100%;
+}
+
+.padded {
+	padding: min(1vw, 1vh) min(3vw, 3vh);
 }
 
 textarea {
