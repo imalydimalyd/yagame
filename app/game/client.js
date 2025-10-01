@@ -35,24 +35,24 @@ client.receive = function (data) {
 			renderer.render(data.data);
 			if (remainInGame && data.data.players[data.data.id].inGame === false) {
 				remainInGame = false;
-				alert('很遗憾，您被淘汰了，您可以自由选择继续观战或者离开');
+				yaGameAlert('很遗憾，您被淘汰了，您可以自由选择继续观战或者离开');
 			}
 			if (data.data.end) {
 				ended = true;
-				alert('游戏结束，刷新页面以退出游戏');
+				yaGameAlert('游戏结束，刷新页面以退出游戏');
 			}
 			break;
 		case 'abort':
 			ended = true;
-			alert('游戏被服主终止，刷新页面以退出游戏');
+			yaGameAlert('游戏被服主终止，刷新页面以退出游戏');
 			break;
 	}
 };
 client.close = function () {
-	alert('连接已关闭');
+	yaGameAlert('连接已关闭');
 };
 client.error = function (err) {
-	alert(err);
+	yaGameAlert(err);
 };
 
 storage = createStorage('ls', 'YaGamePreference', {});

@@ -190,10 +190,10 @@ server.receive = function (data, user) {
 server.close = function () {
 	document.getElementById('serverid').classList.add('red')
 	document.getElementById('serverid').innerText = '服务器已关闭';
-	alert('服务器已关闭');
+	yaGameAlert('服务器已关闭');
 };
 server.error = function (err) {
-	alert(err);
+	yaGameAlert(err);
 };
 onClosePage(function () {
 	server.disconnect();
