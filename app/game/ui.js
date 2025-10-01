@@ -26,7 +26,7 @@ function printGameInfo(currentGame, isServer = false) {
 	const statusClass = currentGame.ended ? 'red' : (currentGame.started ? 'blue' : 'green');
 
 	const gameRuleElement = document.createElement('div');
-	gameRuleElement.className = 'secondary box';
+	gameRuleElement.className = 'tertiary padded box';
 	gameRuleElement.innerHTML = currentGame.rule;
 
 	const gameBreakLineElement = document.createElement('br');

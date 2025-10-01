@@ -88,6 +88,10 @@ dialog,
 	padding: min(1vw, 1vh);
 }
 
+.padded.box {
+	padding: min(3vw, 3vh);
+}
+
 .primary.box {
 	background-color: #FFF4;
 	font-weight: 400;
@@ -97,12 +101,20 @@ dialog,
 	background-color: #FFF8;
 }
 
+.tertiary.box {
+	border: 1px solid #FFF;
+}
+
 .lighttheme .primary.box {
 	background-color: #FFF;
 }
 
 .lighttheme .secondary.box {
 	background-color: #FFF8;
+}
+
+.lighttheme .tertiary.box {
+	border: 1px solid #FFF;
 }
 
 dialog {
