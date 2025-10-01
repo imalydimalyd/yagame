@@ -17,6 +17,7 @@ dialogElement.appendChild(messageElement);
 dialogElement.appendChild(buttonsElement);
 
 async function yaGameAlert(message) {
+	cancelButtonElement.classList.add('nodisplay');
 	return new Promise(function (resolve, reject) {
 		function closeDialog() {
 			confirmButtonElement.removeEventListener('click', clickConfirm);
@@ -33,6 +34,7 @@ async function yaGameAlert(message) {
 }
 
 async function yaGameConfirm(message) {
+	cancelButtonElement.classList.remove('nodisplay');
 	return new Promise(function (resolve, reject) {
 		function closeDialog() {
 			cancelButtonElement.removeEventListener('click', clickCancel);
