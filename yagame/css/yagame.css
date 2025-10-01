@@ -114,10 +114,18 @@ dialog {
 	padding: min(5vw, 5vh);
 }
 
+dialog::backdrop {
+	background-color: #FFF8;
+}
+
 .lighttheme dialog {
 	background-color: #FFF;
 	color: #000;
 	border-color: #000;
+}
+
+.lighttheme dialog::backdrop {
+	background-color: #0008;
 }
 
 input,
