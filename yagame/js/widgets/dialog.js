@@ -9,6 +9,7 @@ confirmButtonElement.className = 'padded button';
 confirmButtonElement.innerText = '确认';
 
 const buttonsElement = document.createElement('div');
+buttonsElement.className = 'horizontal';
 buttonsElement.appendChild(cancelButtonElement);
 buttonsElement.appendChild(confirmButtonElement);
 
