@@ -90,10 +90,12 @@ function showRooms(rooms, isServer = false) {
 			roomDeleteElement.className = 'red-bordered red button';
 			roomDeleteElement.innerText = '移除房间';
 			roomDeleteElement.addEventListener('click', function () {
-				if (confirm('确定要从大厅中移除房间吗？')) {
-					deleteRoom(room.id);
-					updateRooms();
-				}
+				yaGameConfirm('确定要从大厅中移除房间吗？').then(function (yes) {
+					if (yes) {
+						deleteRoom(room.id);
+						updateRooms();
+					}
+				});
 			});
 			roomElement.appendChild(roomDeleteElement);
 		} else {
@@ -102,9 +104,7 @@ function showRooms(rooms, isServer = false) {
 			roomJoinElement.innerText = '进入房间';
 			roomJoinElement.addEventListener('click', function () {
 				if (room.isPublic) {
-					if (confirm('此房间是公开房间，确定要进入吗？')) {
-						open(`client.html?id=${room.id}&public=1`);
-					}
+					open(`client.html?id=${room.id}&public=1`);
 				} else {
 					open(`client.html?id=${room.id}`);
 				}

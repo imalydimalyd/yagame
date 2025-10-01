@@ -88,9 +88,6 @@ document.getElementById('loginbutton').addEventListener('click', function () {
 	const key = document.getElementById('loginkey').value;
 	storageData.serverID = serverID;
 	if (paramPublic) {
-		if (key.length === 16 && !confirm('警告：您的用户名似乎是一个Key，用Key作为用户名会导致Key泄露，账号被别人盗取使用。确定要登录吗？')) {
-			return;
-		}
 		storageData.user = key;
 	} else {
 		storageData.chatKey = key;
