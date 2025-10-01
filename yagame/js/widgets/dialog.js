@@ -1,5 +1,7 @@
 const messageElement = document.createElement('div');
 
+const breakLineElement = document.createElement('br');
+
 const cancelButtonElement = document.createElement('div');
 cancelButtonElement.className = 'padded button';
 cancelButtonElement.innerText = '取消';
@@ -9,12 +11,13 @@ confirmButtonElement.className = 'padded button';
 confirmButtonElement.innerText = '确认';
 
 const buttonsElement = document.createElement('div');
-buttonsElement.className = 'horizontal';
+buttonsElement.className = 'horizontal right';
 buttonsElement.appendChild(cancelButtonElement);
 buttonsElement.appendChild(confirmButtonElement);
 
 const dialogElement = document.createElement('dialog');
 dialogElement.appendChild(messageElement);
+dialogElement.appendChild(breakLineElement);
 dialogElement.appendChild(buttonsElement);
 
 async function yaGameAlert(message) {
