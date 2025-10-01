@@ -152,6 +152,10 @@ const config = {
 			qq: '3357982517',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3357982517&s=140',
 		},
+		豆豆龙: {
+			qq: '1605713334',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=1605713334&s=140',
+		},
 	},
 	secretUsers: SECRETS.SECRET_USERS,
 	maxMessages: 1000000000,
@@ -175,7 +179,7 @@ const config = {
 
 			trigger: ['茉茉'],
 			type: 'deepseek',
-			reasoner: false,
+			reasoner: true,
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.MOMO_PERSONA,
