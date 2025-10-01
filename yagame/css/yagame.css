@@ -84,12 +84,12 @@ dialog,
 	border-radius: min(0.5vw, 0.5vh);
 }
 
-.box {
-	padding: min(1vw, 1vh);
+.padded {
+	padding: min(3vw, 3vh);
 }
 
-.padded.box {
-	padding: min(3vw, 3vh);
+.box {
+	padding: min(1vw, 1vh);
 }
 
 .primary.box {

@@ -188,9 +188,6 @@ onClosePage(function () {
 document.getElementById('startbutton').addEventListener('click', function () {
 	const serverID = document.getElementById('inputserverid').value;
 	isPublic = document.getElementById('inputispublic').checked;
-	if (isPublic && !confirm('确定要建立公开服务器吗？')) {
-		return;
-	}
 	if (!serverID) {
 		yaGameAlert('错误：服务器ID不能为空');
 		return;
@@ -257,23 +254,26 @@ function endGame() {
 	loadHistory();
 }
 document.getElementById('abortgame').addEventListener('click', function () {
-	if (abortGameEnabled && confirm('确定要终止游戏吗？')) {
-		if (storageData.currentGame.started && !storageData.currentGame.ended) {
-			gameRule.state.end = true;
-			server.send({ type: 'abort' });
-			updateServerGameInfo();
-		}
-		endGame();
+	if (!abortGameEnabled) {
+		return;
 	}
+	yaGameConfirm('确定要终止游戏吗？').then(function (yes) {
+		if (yes) {
+			if (storageData.currentGame.started && !storageData.currentGame.ended) {
+				gameRule.state.end = true;
+				server.send({ type: 'abort' });
+				updateServerGameInfo();
+			}
+			endGame();
+		}
+	});
 });
 document.getElementById('enterroom').addEventListener('click', function () {
 	if (!startGameEnabled) {
 		return;
 	}
 	if (storageData.currentGame.isPublic) {
-		if (confirm('此房间是公开房间，确定要进入吗？')) {
-			open(`client.html?id=${storageData.currentGame.id}&public=1`);
-		}
+		open(`client.html?id=${storageData.currentGame.id}&public=1`);
 	} else {
 		open(`client.html?id=${storageData.currentGame.id}`);
 	}
@@ -290,35 +290,36 @@ document.getElementById('startgame').addEventListener('click', function () {
 		yaGameAlert(`当前游戏规则不允许${storageData.currentGame.players.length}名玩家`);
 		return;
 	}
-	if (!confirm('确定要开始游戏吗？')) {
-		return;
-	}
-	storageData.currentGame.started = true;
-	gameRule.send = function (data, id, err = false) {
-		if (!storageData.currentGame.created || storageData.currentGame.ended) {
-			return;
+	yaGameConfirm('确定要开始游戏吗？').then(function (yes) {
+		if (yes) {
+			storageData.currentGame.started = true;
+			gameRule.send = function (data, id, err = false) {
+				if (!storageData.currentGame.created || storageData.currentGame.ended) {
+					return;
+				}
+				server.send(err ? data : {
+					type: 'data',
+					name: storageData.currentGame.name,
+					data: data,
+				}, storageData.currentGame.players[id].user, err);
+			};
+			gameRule.updateState = function () {
+				if (!storageData.currentGame.created || storageData.currentGame.ended) {
+					return;
+				}
+				storageData.currentGameState = gameRule.state;
+				storageData.currentGameHistory = gameRule.history;
+				if (gameRule.state.end) {
+					endGame();
+				}
+				updateServerGameInfo();
+			};
+			gameRule.init(storageData.currentGame.players);
+			server.send({
+				type: 'info',
+				info: storageData.currentGame,
+			});
 		}
-		server.send(err ? data : {
-			type: 'data',
-			name: storageData.currentGame.name,
-			data: data,
-		}, storageData.currentGame.players[id].user, err);
-	};
-	gameRule.updateState = function () {
-		if (!storageData.currentGame.created || storageData.currentGame.ended) {
-			return;
-		}
-		storageData.currentGameState = gameRule.state;
-		storageData.currentGameHistory = gameRule.history;
-		if (gameRule.state.end) {
-			endGame();
-		}
-		updateServerGameInfo();
-	};
-	gameRule.init(storageData.currentGame.players);
-	server.send({
-		type: 'info',
-		info: storageData.currentGame,
 	});
 });
 
