@@ -176,10 +176,10 @@ server.receive = function (data, user) {
 server.close = function () {
 	document.getElementById('serverid').classList.add('red')
 	document.getElementById('serverid').innerText = '服务器已关闭';
-	alert('服务器已关闭');
+	yaGameAlert('服务器已关闭');
 };
 server.error = function (err) {
-	alert(err);
+	yaGameAlert(err);
 };
 onClosePage(function () {
 	server.disconnect();
@@ -192,7 +192,7 @@ document.getElementById('startbutton').addEventListener('click', function () {
 		return;
 	}
 	if (!serverID) {
-		alert('错误：服务器ID不能为空');
+		yaGameAlert('错误：服务器ID不能为空');
 		return;
 	}
 	storageData.currentGame.isPublic = isPublic;
@@ -283,11 +283,11 @@ document.getElementById('startgame').addEventListener('click', function () {
 		return;
 	}
 	if (storageData.currentGame.players.length > gameRule.maxN) {
-		alert(`当前游戏规则最多允许${gameRule.maxN}名玩家`);
+		yaGameAlert(`当前游戏规则最多允许${gameRule.maxN}名玩家`);
 		return;
 	}
 	if (!gameRule.allowedN(storageData.currentGame.players.length)) {
-		alert(`当前游戏规则不允许${storageData.currentGame.players.length}名玩家`);
+		yaGameAlert(`当前游戏规则不允许${storageData.currentGame.players.length}名玩家`);
 		return;
 	}
 	if (!confirm('确定要开始游戏吗？')) {

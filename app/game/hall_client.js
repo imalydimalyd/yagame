@@ -13,10 +13,10 @@ client.receive = function (data) {
 	}
 };
 client.close = function () {
-	alert('连接已关闭');
+	yaGameAlert('连接已关闭');
 };
 client.error = function (err) {
-	alert(err);
+	yaGameAlert(err);
 };
 client.connect('YaGameHall250925', 'VISITOR');
 
