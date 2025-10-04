@@ -1,17 +1,28 @@
 const images = [
 	'img/momo.png',
 	'img/moonshadow.png',
-	'img/starry1.png',
+	'img/starry.png',
 	'img/sunflower.png',
 	'img/catgirl.png',
 ];
-const imagesWin = config.useGifForQuint ? [
+const localGif = [
 	'img/momo.gif',
 	'img/moonshadow.gif',
 	'img/starry.gif',
 	'img/sunflower.gif',
 	'img/catgirl.gif',
-] : images;
+]
+const hostGif = [
+	'https://i.imgs.ovh/2025/10/04/7szzQp.gif',
+	'https://i.imgs.ovh/2025/10/04/7szTYm.gif',
+	'https://i.imgs.ovh/2025/10/04/7szU39.gif',
+	'https://i.imgs.ovh/2025/10/04/7szbUc.gif',
+	'https://i.imgs.ovh/2025/10/04/7szLgF.gif',
+]
+function getImageWin(idx) {
+	if (!config.useGifForQuint) return images[idx];
+	return config.useLocalGifForQuint ? localGif[idx] : hostGif[idx];
+}
 const shadowColors = [
 	'#8F8',
 	'#FCF',
@@ -148,7 +159,7 @@ function rollSlots(x) {
 			setTimeout(function () {
 				for (let i = 0; i < 5; ++i) {
 					if (x[i] === y) {
-						slots[i].imageElement.src = imagesWin[y];
+						slots[i].imageElement.src = getImageWin(y);
 						slots[i].slotElement.style.boxShadow = '0 0 min(3vw, 3vh) ' + shadowColors[y];
 					}
 				}
@@ -193,7 +204,7 @@ function createRecordElement(record, rank) {
 
 		const value = x[i];
 		if (value === most) {
-			imageElement.src = imagesWin[value];
+			imageElement.src = getImageWin(value);
 			imageElement.style.boxShadow = '0 0 min(3vw, 3vh) ' + shadowColors[value];
 		} else {
 			imageElement.src = images[value];
