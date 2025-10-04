@@ -71,9 +71,15 @@ storageData = storage.load();
 if (storageData.chatKey) {
 	document.getElementById('loginkey').value = storageData.chatKey;
 }
+if (storageData.enableGif) {
+	document.getElementById('enableGif').checked = true;
+	config.useGifForQuint = true;
+}
 document.getElementById('loginbutton').addEventListener('click', function () {
 	const key = document.getElementById('loginkey').value;
 	storageData.chatKey = key;
+	storageData.enableGif = document.getElementById('enableGif').checked;
+	config.useGifForQuint = storageData.enableGif;
 	storage.save();
 	client.connect('YaGameQuint250913', key);
 	document.getElementById('login').close();
