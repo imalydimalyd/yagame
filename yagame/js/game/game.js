@@ -1,7 +1,7 @@
 class GameRule {
 	name;
 	maxN;
-	allowedN() { return false; }
+	allowedN(n) { return false; }
 	state = {};
 	history = [];
 	constructor() { }
