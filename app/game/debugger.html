@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+
+	<script src="../../yagame/extjs/peerjs.min.js"></script>
+
+	<script src="../../yagame/js/channels/channel.js"></script>
+	<script src="../../yagame/js/channels/channel_ws.js"></script>
+	<script src="../../yagame/js/channels/channel_peerjs.js"></script>
+	<script src="../../yagame/js/channels/channelfactory.js"></script>
+
+	<script src="../../yagame/js/storage/storage.js"></script>
+	<script src="../../yagame/js/storage/storage_ls.js"></script>
+	<script src="../../yagame/js/storage/storagefactory.js"></script>
+
+	<script src="../../yagame/js/widgets/dialog.js"></script>
+	<script src="../../yagame/js/widgets/theme.js"></script>
+	<script src="../../yagame/js/widgets/home.js"></script>
+	<script src="../../yagame/js/widgets/clipboard.js"></script>
+	<script src="../../yagame/js/widgets/close.js"></script>
+	<script src="../../yagame/js/widgets/countdown.js"></script>
+	<script src="../../yagame/js/widgets/beian.js"></script>
+
+	<script src="../../yagame/js/game/game.js"></script>
+	<script src="games/dvalue.js"></script><!-- 新游戏需要按照此格式加入 -->
+	<script src="games/chatroom.js"></script>
+	<script src="games/numbersgame.js"></script>
+	<script src="games/reversing.js"></script>
+	<script src="games/mzad.js"></script>
+
+	<script src="../../secrets.js"></script>
+
+	<link rel="stylesheet" href="../../yagame/css/yagame.css">
+	<link rel="stylesheet" href="css/mzad.css">
+	<link rel="icon" href="../../yagame/img/yagame.svg">
+	<title>游戏前端调试器</title>
+</head>
+
+<body>
+	<div id="debugpanel" class="hidden main">
+		<div style="display: flex; justify-content: center; width: 90vw; height: 5vh; padding: min(2vw, 2vh);">
+			<p id="debuggerinfo"></p>
+		</div>
+		<div id="gameinfo"
+			style="display: flex; flex-direction: column; align-items: center; width: 90vw; height: 45vh; overflow-y: scroll;">
+		</div>
+		<div style="display: flex; justify-content: center; width: 90vw; height: 45vh; padding: min(2vw, 2vh);">
+			<textarea id="gamestate" style="width: 75vw;"></textarea>
+			<div style="display: flex; flex-direction: column; justify-content: center; width: 15vw;">
+				<div id="updatestate" class="disabled button">更新</div>
+				<div id="resetstate" class="disabled red red-bordered button">重置</div>
+				<p><label for="viewnumber">视角：</label><input id="viewnumber" type="number" value="-1" min="-1" max="26"
+						style="width: 6.5vw;"></p>
+				<p><label for="isreplay">回放：</label><input id="isreplay" type="checkbox"></p>
+			</div>
+		</div>
+	</div>
+	<dialog id="startdebugger" open>
+		<h1>调试器设置</h1>
+		<p id="games" style="display: flex;"></p>
+		<p><label for="usernumber">人数：</label><input id="usernumber" type="number" value="4" min="2" max="26"></p>
+		<div id="startbutton" class="button">启动</div>
+	</dialog>
+</body>
+<script src="ui.js"></script>
+<script src="debugger.js"></script>
