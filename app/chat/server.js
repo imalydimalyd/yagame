@@ -175,7 +175,7 @@ const config = {
 		茉茉: {
 			name: '茉茉',
 			qq: '3795740926',
-			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3795740926&s=140',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3795740926&s=640',
 
 			trigger: ['茉茉'],
 			type: 'deepseek',
@@ -216,6 +216,11 @@ for (const agent of Object.keys(config.agents)) {
 			addMessage2(message);
 		} else {
 			addMessage(message);
+		}
+	};
+	createdAgent.log = function (message, isSecret) {
+		if (isSecret) {
+			addMessage2(message);
 		}
 	};
 	agents[agent] = createdAgent;

@@ -7,4 +7,5 @@ class Agent {
 	trigger(outputConfig) { }
 
 	output(message, outputConfig) { }
+	log(message, outputConfig) { }
 }
