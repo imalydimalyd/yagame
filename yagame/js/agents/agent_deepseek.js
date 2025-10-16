@@ -38,6 +38,14 @@ class DeepseekAgent extends Agent {
 			if (this.readyState === 4 && this.status === 200) {
 				const response = JSON.parse(xhr.responseText);
 				const message = response.choices[0].message;
+				if (message.reasoning_content) {
+					self.log({
+						type: 'usermessage',
+						user: `（${self.config.name}的心理活动）`,
+						avatar: self.config.avatar,
+						content: message.reasoning_content,
+					}, outputConfig);
+				}
 				self.output({
 					type: 'usermessage',
 					user: self.config.name,
