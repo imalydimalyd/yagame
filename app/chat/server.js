@@ -156,6 +156,10 @@ const config = {
 			qq: '1605713334',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=1605713334&s=140',
 		},
+		jiaohu: {
+			qq: '368305848',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=368305848&s=140',
+		},
 	},
 	secretUsers: SECRETS.SECRET_USERS,
 	maxMessages: 1000000000,
