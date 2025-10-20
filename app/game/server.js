@@ -212,7 +212,7 @@ document.getElementById('startbutton').addEventListener('click', function () {
 });
 document.getElementById('inputserverid').value = generateServerID();
 document.getElementById('inputispublic').checked = true;
-if (!SECRETS) {
+if (!window.SECRETS) {
 	document.getElementById('inputispublic').disabled = true;
 }
 
