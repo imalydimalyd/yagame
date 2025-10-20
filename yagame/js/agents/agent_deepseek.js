@@ -21,7 +21,7 @@ class DeepseekAgent extends Agent {
 			content: prefix + message,
 		});
 	}
-	trigger(outputConfig) {
+	trigger(outputConfig, isAgentMessage = false) {
 		const self = this;
 		const messages = [
 			{
@@ -32,22 +32,25 @@ class DeepseekAgent extends Agent {
 		for (const message of self.state.messages) {
 			messages.push(message);
 		}
+		if (isAgentMessage) {
+			messages[messages.length - 1].content += '若想结束对话，请在输出末尾加上🛑表情。';
+		}
 
 		let xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function () {
 			if (this.readyState === 4 && this.status === 200) {
 				const response = JSON.parse(xhr.responseText);
 				const message = response.choices[0].message;
-				if (message.reasoning_content) {
+				if (message.reasoning_content && self.config.showCOT) {
 					self.log({
-						type: 'usermessage',
+						type: 'usermsg',
 						user: `（${self.config.name}的心理活动）`,
 						avatar: self.config.avatar,
 						content: message.reasoning_content,
 					}, outputConfig);
 				}
 				self.output({
-					type: 'usermessage',
+					type: 'usermsg',
 					user: self.config.name,
 					avatar: self.config.avatar,
 					content: message.content,
