@@ -211,6 +211,10 @@ document.getElementById('startbutton').addEventListener('click', function () {
 	document.getElementById('startserver').close();
 });
 document.getElementById('inputserverid').value = generateServerID();
+document.getElementById('inputispublic').checked = true;
+if (!SECRETS) {
+	document.getElementById('inputispublic').disabled = true;
+}
 
 let gameRule;
 function createGame(game) {
