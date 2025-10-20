@@ -172,6 +172,7 @@ const config = {
 			trigger: ['小葵'],
 			type: 'deepseek',
 			reasoner: false,
+			showCOT: false,
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.SUNFLOWER_PERSONA,
@@ -181,9 +182,10 @@ const config = {
 			qq: '3795740926',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3795740926&s=640',
 
-			trigger: ['茉茉'],
+			trigger: ['茉茉', '嘎'],
 			type: 'deepseek',
 			reasoner: true,
+			showCOT: false,
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.MOMO_PERSONA,
@@ -196,6 +198,7 @@ const config = {
 			trigger: ['星铃'],
 			type: 'deepseek',
 			reasoner: false,
+			showCOT: false,
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.STARRY_PERSONA,
@@ -215,12 +218,7 @@ for (const agent of Object.keys(config.agents)) {
 	}
 	const createdAgent = createAgent(config.agents[agent], storageData.agents[agent]);
 	createdAgent.output = function (message, isSecret) {
-		inputToAgents(message.content, config.agents[agent].name);
-		if (isSecret) {
-			addMessage2(message);
-		} else {
-			addMessage(message);
-		}
+		createMessage(message, isSecret, true);
 	};
 	createdAgent.log = function (message, isSecret) {
 		if (isSecret) {
@@ -282,7 +280,7 @@ function checkTime2() {
 		});
 	}
 }
-function createMessage(msg, isSecret = false) {
+function createMessage(msg, isSecret = false, isAgentMessage = false) {
 	if (isSecret) {
 		checkTime2();
 		addMessage2(msg);
@@ -290,13 +288,16 @@ function createMessage(msg, isSecret = false) {
 		checkTime();
 		addMessage(msg);
 	}
-	if (msg.type === 'usermsg') {
+	if (msg.type === 'usermsg' && !msg.content.includes('🛑')) {
 		// Input this message to agents
 		const user = msg.user;
 		inputToAgents(msg.content, user);
 
 		// Check if any agent should be triggered
 		for (const agent of Object.keys(config.agents)) {
+			if (agent === user) {
+				continue;
+			}
 			let ok = true;
 			if (config.agentBlacklist[user]) {
 				for (const item of config.agentBlacklist[user]) {
@@ -316,14 +317,14 @@ function createMessage(msg, isSecret = false) {
 				}
 				if (trigger) {
 					// Trigger this agent
-					agents[agent].trigger(isSecret);
+					agents[agent].trigger(isSecret, isAgentMessage);
 				}
 			}
 		}
-
-		// Save state
-		storage.save();
 	}
+
+	// Save state
+	storage.save();
 }
 server.open = function (id) {
 	document.getElementById('serverid').classList.remove('red')
