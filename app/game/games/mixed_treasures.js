@@ -35,7 +35,7 @@ class MixedTreasureGameRule extends GameRule {
         return 60; // 正宝藏分数
     }
     get negativeTreasureValue() {
-        return 60; // 反宝藏分数
+        return 60; // 负宝藏分数
     }
 
     // 生成地图和宝藏
@@ -56,7 +56,7 @@ class MixedTreasureGameRule extends GameRule {
             }
         }
 
-        // 随机放置反宝藏
+        // 随机放置负宝藏
         placed = 0;
         const negativePositions = [];
         while (placed < negativeCount) {
@@ -79,7 +79,7 @@ class MixedTreasureGameRule extends GameRule {
                         if (dx === 0 && dy === 0) continue; // 跳过自身
                         const nx = x + dx, ny = y + dy;
                         if (nx >= 0 && nx < size && ny >= 0 && ny < size) {
-                            count += map[nx][ny]; // 正宝藏+1，反宝藏-1
+                            count += map[nx][ny]; // 正宝藏+1，负宝藏-1
                         }
                     }
                 }
@@ -419,10 +419,10 @@ class MixedTreasureGameRule extends GameRule {
 <li>游戏的目标是通过探测挖掘宝藏，尽可能获得更的分数。</li>
 <li>根据游戏人数随机生成埋藏着宝藏的地图：</li>
 <ul style="margin-left: 10px;">
-<li>2-4人：6×6地图，6个正宝藏(★)，3个反宝藏(☆)</li>
-<li>5-6人：9×9地图，12个正宝藏，9个反宝藏</li>
-<li>7-9人：12×12地图，22个正宝藏，18个反宝藏</li>
-<li>10-12人：15×15地图，36个正宝藏，24个反宝藏</li>
+<li>2-4人：6×6地图，6个正宝藏(★)，3个负宝藏(☆)</li>
+<li>5-6人：9×9地图，12个正宝藏，9个负宝藏</li>
+<li>7-9人：12×12地图，22个正宝藏，18个负宝藏</li>
+<li>10-12人：15×15地图，36个正宝藏，24个负宝藏</li>
 </ul>
 </ul>
 <h2>游戏流程</h2>
@@ -433,7 +433,7 @@ class MixedTreasureGameRule extends GameRule {
 <li>如果多个玩家挖到同一宝藏，则平分该宝藏的分数</li>
 <li>如果没有挖到宝藏，则显示该格子周围8格的探测数字</li>
 </ul>
-<li><b>探测数字 = 周围正宝藏数量 - 反宝藏数量</b></li>
+<li><b>探测数字 = 周围正宝藏数量 - 负宝藏数量</b></li>
 <li>不能挖掘已经挖掘过的格子</li>
 <li>所有宝藏挖完后游戏结束，得分最高的玩家获胜</li>
 <li>每回合有${self.timeLimit}秒时间思考，超时则视为放弃本轮行动</li>
@@ -534,7 +534,7 @@ class MixedTreasureGameRenderer extends GameRenderer {
             const nameElement = document.createElement('span');
             nameElement.className = 'player-name';
             nameElement.innerText = player.user;
-            nameElement.style.flex = '1';
+            nameElement.style.flex = '3';
             nameElement.style.textAlign = 'left';
             nameElement.style.fontSize = '16px';
             playerElement.appendChild(nameElement);
@@ -559,7 +559,7 @@ class MixedTreasureGameRenderer extends GameRenderer {
             // 分数变化 - 绿色显示
             const changeElement = document.createElement('span');
             changeElement.className = 'player-change';
-            changeElement.style.flex = '1';
+            changeElement.style.flex = '0.8';
             changeElement.style.textAlign = 'center';
             changeElement.style.color = 'green';
             changeElement.style.fontSize = '16px';
