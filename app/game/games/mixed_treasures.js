@@ -534,7 +534,7 @@ class MixedTreasureGameRenderer extends GameRenderer {
             const nameElement = document.createElement('span');
             nameElement.className = 'player-name';
             nameElement.innerText = player.user;
-            nameElement.style.flex = '3';
+            nameElement.style.flex = '2';
             nameElement.style.textAlign = 'left';
             nameElement.style.fontSize = '16px';
             playerElement.appendChild(nameElement);
@@ -551,7 +551,7 @@ class MixedTreasureGameRenderer extends GameRenderer {
             // 上回合选择
             const lastSelectionElement = document.createElement('span');
             lastSelectionElement.className = 'player-last-selection';
-            lastSelectionElement.style.flex = '1';
+            lastSelectionElement.style.flex = '1.2';
             lastSelectionElement.style.textAlign = 'center';
             lastSelectionElement.style.fontSize = '16px';
             playerElement.appendChild(lastSelectionElement);
