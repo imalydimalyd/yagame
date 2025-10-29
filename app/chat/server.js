@@ -80,10 +80,6 @@ const config = {
 			qq: '3293762834',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3293762834&s=140',
 		},
-		生如夏花: {
-			qq: '3840700357',
-			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3840700357&s=140',
-		},
 		CC1C: {
 			qq: '2947058828',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=2947058828&s=140',
@@ -209,7 +205,7 @@ const config = {
 	},
 };
 
-storage = createStorage('ls', 'YaGameChatroom', { msgs: [], msgs2: [], agents: {} });
+storage = createStorage('ls', 'YaGameChatroom', { timestamp: 0, timestamp2: 0, msgs: [], msgs2: [], agents: {} });
 storageData = storage.load();
 agents = {};
 for (const agent of Object.keys(config.agents)) {
@@ -235,6 +231,7 @@ function inputToAgents(message, user = undefined) {
 
 server = createServer('ws');
 function addMessage(msg) {
+	msg.timestamp = (++storageData.timestamp);
 	storageData.msgs.push(msg);
 	if (storageData.msgs.length > config.maxMessages) {
 		storageData.msgs = storageData.msgs.slice(-config.maxMessages);
@@ -244,6 +241,7 @@ function addMessage(msg) {
 	printMessage(msg);
 }
 function addMessage2(msg) {
+	msg.timestamp2 = (++storageData.timestamp2);
 	storageData.msgs2.push(msg);
 	if (storageData.msgs2.length > config.maxMessages) {
 		storageData.msgs2 = storageData.msgs2.slice(-config.maxMessages);
@@ -350,7 +348,8 @@ server.receive = function (data, user) {
 				type: 'state',
 				user: user,
 				avatar: config.users[user].avatar,
-				history: storageData.msgs,
+				history: storageData.msgs.filter(function (x) { return x.timestamp > data.timestamp; }),
+				timestamp: storageData.timestamp,
 			}, user);
 			break;
 		case 'msg':
@@ -370,7 +369,8 @@ server.receive = function (data, user) {
 				type: 'state2',
 				user: user,
 				avatar: config.users[user].avatar,
-				history: storageData.msgs2,
+				history: storageData.msgs2.filter(function (x) { return x.timestamp > data.timestamp; }),
+				timestamp: storageData.timestamp2,
 			}, user);
 			break;
 		case 'msg2':
