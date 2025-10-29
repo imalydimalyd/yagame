@@ -1,14 +1,31 @@
+chatStorage = createStorage('ls', 'YaGameChatroomClient', { timestamp: -1, timestamp2: -1, msgs: [], msgs2: [] });
+chatStorageData = chatStorage.load();
+
+currentDisplayMessages = 0;
 user = '';
 client = createClient('ws');
 client.open = function () {
-	client.send({ type: 'state' });
+	client.send({ type: 'state', timestamp: chatStorageData.timestamp });
 	document.getElementById('send').classList.remove('disabled');
 };
+const historyMessageList = JSON.parse(JSON.stringify(chatStorageData.msgs));
+function prependMoreMessages(messages = 10) {
+	if (currentDisplayMessages < historyMessageList.length) {
+		const nextDisplayMessages = Math.min(currentDisplayMessages + messages, historyMessageList.length);
+		for (let i = currentDisplayMessages + 1; i <= nextDisplayMessages; ++i) {
+			const msg = historyMessageList[historyMessageList.length - i];
+			prependMessage(msg, msg.user === user);
+		}
+		currentDisplayMessages = nextDisplayMessages;
+	}
+}
 client.receive = function (data) {
-	console.log(data);
 	switch (data.type) {
 		case 'msg':
 			printMessage(data.msg, data.msg.user === user);
+			chatStorageData.msgs.push(data.msg);
+			chatStorageData.timestamp = data.msg.timestamp;
+			chatStorage.save();
 			break;
 		case 'state':
 			user = data.user;
@@ -16,10 +33,24 @@ client.receive = function (data) {
 			document.getElementById('username').innerText = user;
 			document.getElementById('userinfo').classList.remove('hidden');
 			clearMessages();
+			prependMoreMessages();
+			messagesElement.addEventListener('scroll', function (e) {
+				if (messagesElement.scrollTop <= 0) {
+					const firstMessageElement = messagesElement.firstChild;
+					prependMoreMessages();
+					if (firstMessageElement) {
+						firstMessageElement.scrollIntoView();
+					}
+				}
+			});
 			for (const msg of data.history) {
+				chatStorageData.msgs.push(msg);
 				printMessage(msg, msg.user === user);
 			}
-			printMessage({ type: 'system', content: `已连接服务器，读取了最近的${data.history.length}条历史记录` });
+			const prompt = data.history.length ? `，共有${data.history.length}条未读消息` : ''
+			printMessage({ type: 'system', content: `已连接服务器${prompt}` });
+			chatStorageData.timestamp = data.timestamp;
+			chatStorage.save();
 			break;
 		case 'msg2':
 		case 'state2':

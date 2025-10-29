@@ -62,6 +62,10 @@ const messagesElement = document.getElementById('messages');
 function clearMessages() {
 	messagesElement.innerHTML = '';
 }
+function prependMessage(msg, isself = false) {
+	const messageElement = createMessageElement(msg, isself);
+	messagesElement.prepend(messageElement);
+}
 function printMessage(msg, isself = false) {
 	const messageElement = createMessageElement(msg, isself);
 	messagesElement.appendChild(messageElement);
