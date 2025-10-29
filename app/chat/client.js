@@ -33,7 +33,7 @@ client.receive = function (data) {
 			document.getElementById('username').innerText = user;
 			document.getElementById('userinfo').classList.remove('hidden');
 			clearMessages();
-			prependMoreMessages();
+			prependMoreMessages(30);
 			messagesElement.addEventListener('scroll', function (e) {
 				if (messagesElement.scrollTop <= 0) {
 					const firstMessageElement = messagesElement.firstChild;
