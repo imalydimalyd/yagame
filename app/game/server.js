@@ -424,6 +424,10 @@ function loadGame(game) {
 	historyElement.appendChild(controlElement);
 }
 function loadHistory() {
+	if (!storageData.historyGame.length) {
+		historyElement.innerHTML = '此服务器还没有游戏记录';
+		return;
+	}
 	historyElement.innerHTML = '';
 	for (const game of storageData.historyGame) {
 		const gameElement = document.createElement('div');
