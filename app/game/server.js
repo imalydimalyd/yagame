@@ -28,6 +28,13 @@ startGameEnabled = false;
 
 client = createClient('ws');
 client.connect('YaGameHall250925', 'VISITOR');
+client.receive = function (data) {
+	switch (data.type) {
+		case 'send':
+			client.send({ type: 'room', room: storageData.currentGame });
+			break;
+	}
+}
 
 function updateServerGameInfo() {
 	try {

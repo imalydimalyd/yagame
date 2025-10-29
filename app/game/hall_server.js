@@ -25,13 +25,19 @@ function updateRooms() {
 	});
 	showRooms(storageData.rooms, true);
 }
+function refreshRooms() {
+	storageData.rooms = [];
+	updateRooms();
+	server.send({ type: 'send' });
+}
 
 server = createServer('ws');
 server.open = function (id) {
 	document.getElementById('serverid').classList.remove('red')
 	document.getElementById('serverid').innerText = `服务器ID：${id}`;
 	document.getElementById('serverinfo').classList.remove('hidden');
-	updateRooms();
+	refreshRooms();
+	setInterval(refreshRooms, 3600000);
 };
 server.receive = function (data, user) {
 	if (typeof data !== 'object' || typeof data.type !== 'string') {
@@ -47,7 +53,6 @@ server.receive = function (data, user) {
 			break;
 		case 'room':
 			const room = data.room;
-			console.log(room);
 			deleteRoom(room.id);
 			if (room.created && !(room.started || room.ended)) {
 				storageData.rooms.push(room);
