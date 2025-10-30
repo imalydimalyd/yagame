@@ -241,7 +241,7 @@ function addMessage(msg) {
 	printMessage(msg);
 }
 function addMessage2(msg) {
-	msg.timestamp2 = (++storageData.timestamp2);
+	msg.timestamp = (++storageData.timestamp2);
 	storageData.msgs2.push(msg);
 	if (storageData.msgs2.length > config.maxMessages) {
 		storageData.msgs2 = storageData.msgs2.slice(-config.maxMessages);
