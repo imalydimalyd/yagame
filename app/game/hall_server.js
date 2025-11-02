@@ -59,6 +59,20 @@ server.receive = function (data, user) {
 			}
 			updateRooms();
 			break;
+		case 'games':
+			server.send({
+				type: 'games',
+				games: games.map(function (game) {
+					const GameRule = game.rule;
+					const rule = new GameRule();
+					return {
+						name: rule.name,
+						maxN: rule.maxN,
+						rule: rule.rule(),
+					}
+				}),
+			}, user);
+			break;
 		default:
 			server.send(`Unknown data type ${data.type}`, user, true);
 			break;
