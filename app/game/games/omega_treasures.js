@@ -1,6 +1,6 @@
-// 混合夺宝游戏
+// omega夺宝游戏
 // 本文件绝大部分内容由 deepseek-R1 生成
-const MixedTreasureGameName = '混合夺宝';
+const MixedTreasureGameName = 'omega夺宝';
 
 class MixedTreasureGameRule extends GameRule {
 
@@ -132,6 +132,7 @@ class MixedTreasureGameRule extends GameRule {
             if (!player.played || player.selectedPos === null) {
                 // 超时玩家默认pass，不选择任何位置
                 player.lastDug = { pass: true };
+                player.hookStatus = true;
                 continue;
             }
 
@@ -276,6 +277,7 @@ class MixedTreasureGameRule extends GameRule {
             player.selectedPos = null;
             player.lastSelection = null; // 上回合选择
             player.lastDug = null;
+            player.hookStatus = false; // 挂机状态
         }
 
         // 开始第一回合
@@ -318,11 +320,12 @@ class MixedTreasureGameRule extends GameRule {
         // 记录玩家选择
         self.state.players[id].played = true;
         self.state.players[id].selectedPos = { x, y };
+        self.state.players[id].hookStatus = false;  // 解除挂机状态
 
         // 检查是否所有玩家都已行动
         let allPlayed = true;
         for (let i = 0; i < self.state.n; ++i) {
-            if (!self.state.players[i].played) {
+            if (!self.state.players[i].played && !self.state.players[i].hookStatus) {
                 allPlayed = false;
                 break;
             }
@@ -410,15 +413,14 @@ class MixedTreasureGameRule extends GameRule {
         return `<h1>${self.name}</h1>
 <ul>
 <li><b>游戏人数：</b>2-12人</li>
-<li><b>原作：</b>saiwei</li>
-<li><b>改编：</b>铁蛋</li>
+<li><b>原作：</b>saiwei、duncanacnud (omegasweeper)</li>
 </ul>
 <h2>游戏规则</h2>
 <ul>
 <li><b>除非玩家一致同意，否则本游戏不允许私聊。</b></li>
 <li>游戏的目标是通过探测挖掘宝藏，尽可能获得更的分数。</li>
 <li>根据游戏人数随机生成埋藏着宝藏的地图：</li>
-<ul style="margin-left: 10px;">
+<ul style="margin-left: 20px;">
 <li>2-4人：6×6地图，6个正宝藏(★)，3个负宝藏(☆)</li>
 <li>5-6人：9×9地图，12个正宝藏，9个负宝藏</li>
 <li>7-9人：12×12地图，22个正宝藏，18个负宝藏</li>
@@ -428,8 +430,8 @@ class MixedTreasureGameRule extends GameRule {
 <h2>游戏流程</h2>
 <ul>
 <li>每回合，每名玩家挖掘一个格子：</li>
-<ul style="margin-left: 10px;">
-<li>如果挖到宝藏，获得宝藏分数（正宝藏和反向宝藏各${self.positiveTreasureValue}分）</li>
+<ul style="margin-left: 20px;">
+<li><b>如果挖到任意宝藏，获得宝藏分数（正宝藏和负宝藏各${self.positiveTreasureValue}分）</b></li>
 <li>如果多个玩家挖到同一宝藏，则平分该宝藏的分数</li>
 <li>如果没有挖到宝藏，则显示该格子周围8格的探测数字</li>
 </ul>
@@ -441,7 +443,7 @@ class MixedTreasureGameRule extends GameRule {
     }
 }
 
-// 混合夺宝游戏渲染器
+// omega夺宝游戏渲染器
 class MixedTreasureGameRenderer extends GameRenderer {
     constructor(element) {
         super(element);
@@ -828,7 +830,7 @@ class MixedTreasureGameRenderer extends GameRenderer {
                         if (!player.lastDug.pass) {
                             playerEl.lastSelection.innerText = `(${player.lastSelection.x + 1}, ${player.lastSelection.y + 1})`;
                         } else {
-                            playerEl.lastSelection.innerText = '未选择';
+                            playerEl.lastSelection.innerText = '挂机中';
                         }
                     } else {
                         playerEl.lastSelection.innerText = '';
@@ -1060,7 +1062,7 @@ style.textContent = `
 
 document.head.appendChild(style);
 
-// 将混合夺宝游戏添加到游戏列表中
+// 将omega夺宝游戏添加到游戏列表中
 games.push({
     name: MixedTreasureGameName,
     rule: MixedTreasureGameRule,
