@@ -51,7 +51,7 @@ class MixedTreasureGameRule extends GameRule {
             const y = Math.floor(Math.random() * size);
             if (map[x][y] === 0) {
                 map[x][y] = 1; // 1: 正宝藏
-                positivePositions.push({x, y});
+                positivePositions.push({ x, y });
                 placed++;
             }
         }
@@ -64,7 +64,7 @@ class MixedTreasureGameRule extends GameRule {
             const y = Math.floor(Math.random() * size);
             if (map[x][y] === 0) {
                 map[x][y] = -1; // -1: 反向宝藏
-                negativePositions.push({x, y});
+                negativePositions.push({ x, y });
                 placed++;
             }
         }
@@ -127,6 +127,7 @@ class MixedTreasureGameRule extends GameRule {
         const dugThisRound = new Map(); // 记录本回合每个位置被哪些玩家挖掘
 
         // 处理玩家行动
+        let allHook = true;
         for (let id = 0; id < self.state.n; ++id) {
             const player = self.state.players[id];
             if (!player.played || player.selectedPos === null) {
@@ -134,6 +135,8 @@ class MixedTreasureGameRule extends GameRule {
                 player.lastDug = { pass: true };
                 player.hookStatus = true;
                 continue;
+            } else {
+                allHook = false;
             }
 
             // 记录玩家的挖掘位置
@@ -209,8 +212,8 @@ class MixedTreasureGameRule extends GameRule {
             }
         }
 
-        // 检查游戏是否结束（所有宝藏都被挖出）
-        if (self.state.remainingPositive <= 0 && self.state.remainingNegative <= 0) {
+        // 检查游戏是否结束（所有宝藏都被挖出 或 所有人都挂机）
+        if ((self.state.remainingPositive <= 0 && self.state.remainingNegative <= 0) || allHook) {
             self.state.end = true;
 
             // 计算胜利者
@@ -249,7 +252,7 @@ class MixedTreasureGameRule extends GameRule {
         self.state.mapConfig = mapConfig;
 
         // 生成地图
-        const { map, detectedNumbers} =
+        const { map, detectedNumbers } =
             self.generateMap(mapConfig.size, mapConfig.positive, mapConfig.negative);
 
         // 初始化游戏状态
@@ -646,7 +649,7 @@ class MixedTreasureGameRenderer extends GameRenderer {
         // 事件监听器
         if (isPlaying) {
             // 格子点击事件
-            mapContainer.addEventListener('click', function(e) {
+            mapContainer.addEventListener('click', function (e) {
                 if (!e.target.classList.contains('map-cell')) return;
 
                 const x = parseInt(e.target.dataset.x);
@@ -668,13 +671,13 @@ class MixedTreasureGameRenderer extends GameRenderer {
             });
 
             // 确定按钮点击事件
-            confirmButton.addEventListener('click', function() {
+            confirmButton.addEventListener('click', function () {
                 if (!self.selectedCell) {
                     self.showError('请先选择一个格子');
                     return;
                 }
 
-                const {x, y} = self.selectedCell;
+                const { x, y } = self.selectedCell;
                 if (self.isCellDug(x, y)) {
                     self.showError('该位置已被挖掘，请重新选择');
                     return;
@@ -682,7 +685,7 @@ class MixedTreasureGameRenderer extends GameRenderer {
 
                 // 发送选择
                 if (self.send) {
-                    self.send({x, y});
+                    self.send({ x, y });
                 }
                 confirmButton.style.visibility = 'hidden';
                 confirmButton.style.opacity = '0';
@@ -705,7 +708,7 @@ class MixedTreasureGameRenderer extends GameRenderer {
         }
 
         // 设置新选择
-        self.selectedCell = {x, y};
+        self.selectedCell = { x, y };
         const cell = self.cellElements[x][y];
         cell.style.backgroundColor = '#cce5ff'; // 深蓝色
         cell.style.borderColor = '#007bff'; // 蓝色边框
