@@ -156,6 +156,10 @@ const config = {
 			qq: '368305848',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=368305848&s=140',
 		},
+		神奇紫晶: {
+			qq: '792821385',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=792821385&s=140',
+		},
 	},
 	secretUsers: SECRETS.SECRET_USERS,
 	maxMessages: 1000000000,
