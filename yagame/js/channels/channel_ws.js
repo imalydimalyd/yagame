@@ -1,6 +1,6 @@
 const WSConfig = {
 	// wsUri: 'wss://36413b5w11.goho.co:443/',
-	wsUri: 'ws://124.221.178.76:3000/',
+	wsUri: 'wss://ws.tiedan.site/',
 	// wsUri: 'ws://tiedan.site:3000/',
 };
 class WSServer extends Server {
