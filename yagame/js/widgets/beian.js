@@ -20,16 +20,17 @@ document.addEventListener('DOMContentLoaded', function () {
             text-align: center;
             background: transparent;
             padding: min(1vw, 1vh) 0;
+            font-size: min(1.5vw, 1.5vh);
         }
         #site-footer a {
             color: inherit;
             text-decoration: none;
         }
         #site-footer img {
-            width: min(2.5vw, 2.5vh);
-            height: min(2.5vw, 2.5vh);
+            width: min(2vw, 2vh);
+            height: min(2vw, 2vh);
             margin-right: min(.5vw, .5vh);
-            transform: translateY(min(.55vw, .55vh));
+            transform: translateY(min(.5vw, .5vh));
         }
     `;
     document.head.appendChild(style);
