@@ -17,20 +17,19 @@ document.addEventListener('DOMContentLoaded', function () {
     style.textContent = `
         #site-footer {
             margin-top: auto;
-            font-size: 13px;
             text-align: center;
-            background: inherit;
-            padding: 10px 0 8px;
+            background: transparent;
+            padding: min(1vw, 1vh) 0;
         }
         #site-footer a {
             color: inherit;
             text-decoration: none;
         }
         #site-footer img {
-            width: 15px;
-            height: 15px;
-            margin-right: 3px;
-            transform: translateY(3px);
+            width: min(2.5vw, 2.5vh);
+            height: min(2.5vw, 2.5vh);
+            margin-right: min(.5vw, .5vh);
+            transform: translateY(min(.55vw, .55vh));
         }
     `;
     document.head.appendChild(style);
