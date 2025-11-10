@@ -195,6 +195,15 @@ input,
 	border-radius: 100%;
 }
 
+.functional.button {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: min(19vw, 19vh);
+	height: min(19vw, 19vh);
+	padding: min(2vw, 2vh);
+}
+
 .padded {
 	padding: min(1vw, 1vh) min(3vw, 3vh);
 }
