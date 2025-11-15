@@ -5,7 +5,9 @@ class Agent {
 	}
 	input(message, user) { }
 	trigger(outputConfig) { }
+	setSleepTime() { }
 
 	output(message, outputConfig) { }
 	log(message, outputConfig) { }
+	finishSleep() { }
 }

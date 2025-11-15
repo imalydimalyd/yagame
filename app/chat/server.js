@@ -176,19 +176,25 @@ const config = {
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.SUNFLOWER_PERSONA,
+
+			sleepTime: 59000000,
+			dreamProb: 0.5,
 		},
 		茉茉: {
 			name: '茉茉',
 			qq: '3795740926',
 			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=3795740926&s=640',
 
-			trigger: ['茉茉', '嘎'],
+			trigger: ['茉茉', '嘎', '豆豆龙'],
 			type: 'deepseek',
 			reasoner: true,
 			showCOT: false,
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.MOMO_PERSONA,
+
+			sleepTime: 57600000,
+			dreamProb: 0.5,
 		},
 		星铃: {
 			name: '星铃',
@@ -202,6 +208,9 @@ const config = {
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.STARRY_PERSONA,
+
+			sleepTime: 58000000,
+			dreamProb: 0.5,
 		},
 	},
 	agentBlacklist: {
@@ -224,6 +233,9 @@ for (const agent of Object.keys(config.agents)) {
 		if (isSecret) {
 			addMessage2(message);
 		}
+	};
+	createdAgent.finishSleep = function () {
+		storage.save();
 	};
 	agents[agent] = createdAgent;
 }
@@ -332,10 +344,7 @@ server.open = function (id) {
 	document.getElementById('serverid').classList.remove('red')
 	document.getElementById('serverid').innerText = `服务器ID：${id}`;
 	document.getElementById('serverinfo').classList.remove('hidden');
-	for (const msg of storageData.msgs) {
-		printMessage(msg);
-	}
-	// createMessage({ type: 'system', content: `服务器已启动，ID：${id}` });
+	printMessage({ type: 'system', content: `服务器已启动，ID：${id}` });
 };
 server.receive = function (data, user) {
 	if (typeof data !== 'object' || typeof data.type !== 'string') {
