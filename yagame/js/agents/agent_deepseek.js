@@ -134,7 +134,9 @@ class DeepseekAgent extends Agent {
 			}
 			setTimeout(function () {
 				self.sleep();
-				setInterval(self.sleep, TIME_PER_DAY);
+				setInterval(function () {
+					self.sleep();
+				}, TIME_PER_DAY);
 			}, timeTillSleep);
 			printMessage({
 				type: 'system',
