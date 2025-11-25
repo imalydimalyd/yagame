@@ -1,0 +1,51 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  auto-deploy:
+    if: ${{ github.event.repository.fork == false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    env:
+      PROJECT_NAME: yagame
+      SERVER: ${{ secrets.SERVER }}
+      TOKEN: ${{ secrets.TOKEN }}
+
+    steps:
+      - name: Deploy
+        run: |
+          echo -e "\033[1;34m[INFO] Sending POST request for project '$PROJECT_NAME'...\033[0m"
+          
+          RESPONSE=$(curl -s -w "\n%{http_code}" --max-time 180 -X POST \
+            -H "token: $TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"name\":\"$PROJECT_NAME\"}" \
+            "$SERVER/pull")
+          
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          STATUS=$(echo "$RESPONSE" | tail -n1)
+          
+          if [[ $STATUS =~ ^2 ]]; then
+            MESSAGE=$(echo "$BODY" | jq -r '.message // empty')
+            if [[ -n "$MESSAGE" ]]; then
+              echo -e "\033[1;32m[SUCCESS] deploy to server successfully.\033[0m"
+              echo "$MESSAGE"
+            else
+              echo -e "\033[1;31m[ERROR] Server did not return a message.\033[0m"
+              echo -e "\033[1;31m[ERROR] Full response:\033[0m"
+              echo "$BODY"
+              exit 1
+            fi
+          else
+            echo -e "\033[1;31m[ERROR] Deployment failed with status $STATUS\033[0m"
+            echo -e "\033[1;31m[ERROR] Full response:\033[0m"
+            ERROR_MSG=$(echo "$BODY" | jq -r '"Error: \(.error // "")\nExit Code: \(.exit_code // "")\nMessage:\n\(.message // "")"')
+            while IFS= read -r line; do
+              echo -e "\033[1;31m[ERROR] $line\033[0m"
+            done <<< "$ERROR_MSG"
+          exit 1
+          fi
