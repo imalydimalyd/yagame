@@ -1,0 +1,14 @@
+{
+  "name": "YaGame",
+  "short_name": "YaGame",
+  "description": "YaGame 是一个支持自建服务器、自制游戏规则的下一代游戏平台",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    { "src": "yagame/img/yagame.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "yagame/img/yagame-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
