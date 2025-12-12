@@ -56,6 +56,7 @@ function createMessageElement(msg, isself = false) {
 	if (isself) {
 		messageElement.style.float = 'right';
 	}
+	messageElement.style.maxWidth = '70%';
 	return wrapperElement;
 }
 const messagesElement = document.getElementById('messages');
