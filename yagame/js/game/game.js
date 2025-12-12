@@ -29,7 +29,7 @@ class GameRule {
 
 	syncState() {
 		const self = this;
-		for (let id = 0; id < self.state.n; ++id) {
+		for (let id = -1; id < self.state.n; ++id) {
 			self.send(self.projection(id), id);
 		}
 		self.updateState();

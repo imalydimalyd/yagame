@@ -30,10 +30,10 @@ client.receive = function (data) {
 				renderer.send = function (data) {
 					client.send({ type: 'move', move: data });
 				};
-				renderer.init(data.data);
+				renderer.init(data.data, data.data.id !== -1);
 			}
-			renderer.render(data.data);
-			if (remainInGame && data.data.players[data.data.id].inGame === false) {
+			renderer.render(data.data, data.data.id !== -1);
+			if (remainInGame && data.data.id !== -1 && data.data.players[data.data.id].inGame === false) {
 				remainInGame = false;
 				yaGameAlert('很遗憾，您被淘汰了，您可以自由选择继续观战或者离开');
 			}

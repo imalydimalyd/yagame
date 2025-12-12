@@ -1,3 +1,5 @@
+const spectatorUser = '旁观';
+
 globalServerID = '';
 isPublic = false;
 
@@ -71,13 +73,20 @@ server.open = function (id) {
 		const Rule = games.find(function (x) { return x.name === storageData.currentGame.name; }).rule;
 		gameRule = new Rule();
 		gameRule.send = function (data, id, err = false) {
+			if (!storageData.currentGame.created || storageData.currentGame.ended) {
+				return;
+			}
+			const username = (id == -1) ? spectatorUser : storageData.currentGame.players[id].user;
 			server.send(err ? data : {
 				type: 'data',
 				name: storageData.currentGame.name,
 				data: data,
-			}, storageData.currentGame.players[id].user, err);
+			}, username, err);
 		};
 		gameRule.updateState = function () {
+			if (!storageData.currentGame.created || storageData.currentGame.ended) {
+				return;
+			}
 			storageData.currentGameState = gameRule.state;
 			storageData.currentGameHistory = gameRule.history;
 			if (gameRule.state.end) {
@@ -118,6 +127,10 @@ server.receive = function (data, user) {
 			}
 			break;
 		case 'join':
+			if (user === spectatorUser) {
+				server.send('旁观者不能加入游戏', user, true);
+				break;
+			}
 			if (!storageData.currentGame.created) {
 				server.send('还没有游戏，请耐心等待', user, true);
 				break;
@@ -308,11 +321,12 @@ document.getElementById('startgame').addEventListener('click', function () {
 				if (!storageData.currentGame.created || storageData.currentGame.ended) {
 					return;
 				}
+				const username = (id === -1) ? spectatorUser : storageData.currentGame.players[id].user;
 				server.send(err ? data : {
 					type: 'data',
 					name: storageData.currentGame.name,
 					data: data,
-				}, storageData.currentGame.players[id].user, err);
+				}, username, err);
 			};
 			gameRule.updateState = function () {
 				if (!storageData.currentGame.created || storageData.currentGame.ended) {
