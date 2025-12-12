@@ -1,3 +1,140 @@
+function textToLex(text) {
+	const n = text.length, lex = [];
+	let state = 'default', unpushedText = '';
+	function push(type, content) {
+		if (type == 'text') {
+			unpushedText += content;
+		} else {
+			if (unpushedText) {
+				lex.push({ type: 'text', content: unpushedText });
+				unpushedText = '';
+			}
+			lex.push({ type: type, content: content });
+		}
+	}
+	for (let i = 0; i <= n; ++i) {
+		const char = (i < n) ? text[i] : undefined;
+		switch (state) {
+			case '*':
+				if (char === '*') {
+					push('**', '**');
+				} else {
+					push('text', '*');
+					--i;
+				};
+				state = 'default';
+				break;
+
+			case 'default':
+				switch (char) {
+					case undefined:
+						if (unpushedText) {
+							lex.push({ type: 'text', content: unpushedText });
+						}
+						break;
+
+					case '*':
+						state = '*';
+						break;
+
+					case '\n':
+						push('breakline', char);
+						break;
+
+					case '（':
+						push('leftparenthesis', char);
+						break;
+
+					case '）':
+						push('rightparenthesis', char);
+						break;
+
+					default:
+						push('text', char);
+						break;
+				}
+				break;
+		}
+	}
+	return lex;
+}
+function lexToHTML(lex) {
+	const stack = [];
+	let html = '';
+	function push(type, content = undefined) {
+		switch (type) {
+			case 'leftparenthesis':
+				html += '<span style="opacity:0.3">（';
+				break;
+			case '**':
+				html += '<b>';
+				break;
+		}
+		stack.push({ type: type, content: content });
+	}
+	function pop() {
+		if (!stack.length) {
+			return undefined;
+		}
+		const top = stack.pop();
+		const type = top.type;
+		switch (type) {
+			case 'leftparenthesis':
+				html += '）</span>';
+				break;
+			case '**':
+				html += '</b>';
+				break;
+		}
+		return top;
+	}
+	function popUntil(type = undefined) {
+		let top;
+		do {
+			top = pop();
+		} while (top !== undefined && top.type !== type);
+	}
+	function top() {
+		if (!stack.length) {
+			return undefined;
+		}
+		return stack[stack.length - 1];
+	}
+	for (const word of lex) {
+		const type = word.type, content = word.content;
+		switch (type) {
+			case 'text':
+				html += content;
+				break;
+			case 'leftparenthesis':
+				push('leftparenthesis');
+				break;
+			case 'rightparenthesis':
+				popUntil('leftparenthesis');
+				break;
+			case '**':
+				{
+					const t = top();
+					if (t === undefined || t.type !== '**') {
+						push('**');
+					} else {
+						pop();
+					}
+				}
+				break;
+			case 'breakline':
+				popUntil();
+				html += '<br>';
+				break;
+		}
+	}
+	return html;
+}
+function messageTextToHTML(text) {
+	const temp = document.createElement('div');
+	(temp.textContent !== undefined) ? (temp.textContent = text) : (temp.innerText = text);
+	return lexToHTML(textToLex(temp.innerHTML));
+}
 function createMessageElement(msg, isself = false) {
 	if (msg.type === 'err') {
 		const messageElement = document.createElement('div');
@@ -32,7 +169,7 @@ function createMessageElement(msg, isself = false) {
 
 	const contentElement = document.createElement('p');
 	contentElement.className = 'primary select box';
-	contentElement.innerText = msg.content;
+	contentElement.innerHTML = messageTextToHTML(msg.content);
 
 	const rightElement = document.createElement('div');
 	rightElement.style.marginLeft = 'min(2vw,2vh)';
