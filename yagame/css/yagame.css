@@ -106,15 +106,15 @@ dialog,
 }
 
 .lighttheme .primary.box {
-	background-color: #FFF;
+	background-color: #0002;
 }
 
 .lighttheme .secondary.box {
-	background-color: #FFF8;
+	background-color: #0001;
 }
 
 .lighttheme .tertiary.box {
-	border: 1px solid #FFF;
+	border: 1px solid #000;
 }
 
 dialog {
