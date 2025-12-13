@@ -2,6 +2,7 @@ chatStorage = createStorage('ls', 'YaGameChatroomClient', { timestamp: -1, times
 chatStorageData = chatStorage.load();
 
 currentDisplayMessages = 0;
+stateLoaded = false;
 user = '';
 client = createClient('ws');
 client.open = function () {
@@ -28,6 +29,9 @@ client.receive = function (data) {
 			chatStorage.save();
 			break;
 		case 'state':
+			if (stateLoaded) {
+				break;
+			}
 			user = data.user;
 			document.getElementById('useravatar').src = data.avatar;
 			document.getElementById('username').innerText = user;
@@ -51,6 +55,7 @@ client.receive = function (data) {
 			printMessage({ type: 'system', content: `已连接服务器${prompt}` });
 			chatStorageData.timestamp = data.timestamp;
 			chatStorage.save();
+			stateLoaded = true;
 			break;
 		case 'msg2':
 		case 'state2':
