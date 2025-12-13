@@ -64,7 +64,7 @@ function lexToHTML(lex) {
 	function push(type, content = undefined) {
 		switch (type) {
 			case 'leftparenthesis':
-				html += '<span style="opacity:0.3">（';
+				html += '<span style="font-style:italic;opacity:0.3">（';
 				break;
 			case '**':
 				html += '<b>';
