@@ -19,7 +19,7 @@ function textToLex(text) {
 				if (char === '*') {
 					push('**', '**');
 				} else {
-					push('text', '*');
+					push('*', '*');
 					--i;
 				};
 				state = 'default';
@@ -49,6 +49,14 @@ function textToLex(text) {
 						push('rightparenthesis', char);
 						break;
 
+					case '“':
+						push('leftquote', char);
+						break;
+
+					case '”':
+						push('rightquote', char);
+						break;
+
 					default:
 						push('text', char);
 						break;
@@ -64,15 +72,21 @@ function lexToHTML(lex) {
 	function push(type, content = undefined) {
 		switch (type) {
 			case 'leftparenthesis':
-				html += '<span style="font-style:italic;opacity:0.3">（';
+				html += '<span style="opacity:0.3">' + (content || '（');
+				break;
+			case 'leftquote':
+				html += '<b>' + (content || '“');
 				break;
 			case '**':
 				html += '<b>';
 				break;
+			case '*':
+				html += '<i>';
+				break;
 		}
 		stack.push({ type: type, content: content });
 	}
-	function pop() {
+	function pop(content = undefined) {
 		if (!stack.length) {
 			return undefined;
 		}
@@ -80,18 +94,24 @@ function lexToHTML(lex) {
 		const type = top.type;
 		switch (type) {
 			case 'leftparenthesis':
-				html += '）</span>';
+				html += (content || '）') + '</span>';
+				break;
+			case 'leftquote':
+				html += (content || '”') + '</b>';
 				break;
 			case '**':
 				html += '</b>';
 				break;
+			case '*':
+				html += '</i>';
+				break;
 		}
 		return top;
 	}
-	function popUntil(type = undefined) {
+	function popUntil(type = undefined, content = undefined) {
 		let top;
 		do {
-			top = pop();
+			top = pop(content);
 		} while (top !== undefined && top.type !== type);
 	}
 	function top() {
@@ -107,27 +127,43 @@ function lexToHTML(lex) {
 				html += content;
 				break;
 			case 'leftparenthesis':
-				push('leftparenthesis');
+				push('leftparenthesis', content);
 				break;
 			case 'rightparenthesis':
-				popUntil('leftparenthesis');
+				popUntil('leftparenthesis', content);
+				break;
+			case 'leftquote':
+				push('leftquote', content);
+				break;
+			case 'rightquote':
+				popUntil('leftquote', content);
 				break;
 			case '**':
 				{
 					const t = top();
 					if (t === undefined || t.type !== '**') {
-						push('**');
+						push('**', content);
 					} else {
-						pop();
+						pop(content);
+					}
+				}
+				break;
+			case '*':
+				{
+					const t = top();
+					if (t === undefined || t.type !== '*') {
+						push('*', content);
+					} else {
+						pop(content);
 					}
 				}
 				break;
 			case 'breakline':
-				popUntil();
 				html += '<br>';
 				break;
 		}
 	}
+	popUntil();
 	return html;
 }
 function messageTextToHTML(text) {
