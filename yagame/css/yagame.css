@@ -212,6 +212,7 @@ textarea {
 	color: #FFF;
 	background-color: #000;
 	border: 1px solid #FFF;
+	resize: none;
 }
 
 .lighttheme textarea {
