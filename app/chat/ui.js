@@ -57,6 +57,14 @@ function textToLex(text) {
 						push('rightquote', char);
 						break;
 
+					case '「':
+						push('leftchinesequote', char);
+						break;
+
+					case '」':
+						push('rightchinesequote', char);
+						break;
+
 					default:
 						push('text', char);
 						break;
@@ -76,6 +84,9 @@ function lexToHTML(lex) {
 				break;
 			case 'leftquote':
 				html += '<b>' + (content || '“');
+				break;
+			case 'leftchinesequote':
+				html += '<b>' + (content || '「');
 				break;
 			case '**':
 				html += '<b>';
@@ -98,6 +109,9 @@ function lexToHTML(lex) {
 				break;
 			case 'leftquote':
 				html += (content || '”') + '</b>';
+				break;
+			case 'leftchinesequote':
+				html += (content || '」') + '</b>';
 				break;
 			case '**':
 				html += '</b>';
@@ -137,6 +151,12 @@ function lexToHTML(lex) {
 				break;
 			case 'rightquote':
 				popUntil('leftquote', content);
+				break;
+			case 'leftchinesequote':
+				push('leftchinesequote', content);
+				break;
+			case 'rightchinesequote':
+				popUntil('leftchinesequote', content);
 				break;
 			case '**':
 				{
