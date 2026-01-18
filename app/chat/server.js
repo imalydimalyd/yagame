@@ -254,7 +254,7 @@ function addMessage(msg) {
 	}
 	storage.save();
 	server.send({ type: 'msg', msg: msg });
-	printMessage(msg);
+	// printMessage(msg);
 }
 function addMessage2(msg) {
 	msg.timestamp = (++storageData.timestamp2);
@@ -266,7 +266,7 @@ function addMessage2(msg) {
 	for (const user of config.secretUsers) {
 		server.send({ type: 'msg2', msg: msg }, user);
 	}
-	printMessage(msg);
+	// printMessage(msg);
 }
 time = undefined;
 function checkTime() {
