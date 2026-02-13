@@ -37,6 +37,7 @@ client.receive = function (data) {
 				chatStorageData.msgs2.push(msg);
 				// printMessage(msg, msg.user === user);
 			}
+			currentDisplayMessages = 0;
 			prependMoreMessages(30);
 			messagesElement.addEventListener('scroll', function (e) {
 				if (messagesElement.scrollTop <= 0) {
