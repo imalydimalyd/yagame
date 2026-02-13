@@ -141,7 +141,7 @@ class DeepseekAgent extends Agent {
 		const messages = [
 			{
 				role: 'system',
-				content: `你是${self.config.name}的小助手。接下来将列举今天的全部对话。`,
+				content: `你是${self.config.name}的小助手。接下来将列举今天${self.config.name}的全部对话。`,
 			}
 		];
 		for (const message of self.state.messages) {
@@ -152,15 +152,13 @@ class DeepseekAgent extends Agent {
 		}
 		messages.push({
 			role: 'user',
-			content: `现在，请为${self.config.name}总结一天的记忆。注意：
-1、忽略和${self.config.name}无关的对话，只保留和${self.config.name}有关的对话（包括${self.config.name}自己说的话，和别人对${self.config.name}说的话）；
+			content: `现在，请为${self.config.name}总结今天的所有记忆。注意：
+1、忽略和${self.config.name}无关的对话，只保留和${self.config.name}有关的对话（主要包括${self.config.name}自己说的话，和别人对${self.config.name}说的话）；
 2、输出若干行，每行代表一段记忆；
-3、每一行尽量简洁，控制在20个汉字左右；
-4、每一行之前加一个表情符号，代表这段记忆对${self.config.name}带来的感受；
-5、不要输出任何额外信息，只输出记忆信息。`,
+3、每一行尽量简洁，控制在50个汉字左右；
+4、每一行的开头加一个表情符号和一个空格，代表这段记忆对${self.config.name}带来的感受；
+5、不要输出任何额外信息，只输出记忆内容。`,
 		});
-		console.log(messages);
-		return; // debug
 
 		let xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function () {
@@ -173,7 +171,7 @@ class DeepseekAgent extends Agent {
 						content: `${self.config.name}困困啦！`,
 					}, outputConfig);
 				} else {
-					self.addMemory(message.content);
+					self.addMemory((new Date().toLocaleDateString()) + '\n' + message.content);
 					self.sleep();
 				}
 			}
@@ -219,7 +217,7 @@ class DeepseekAgent extends Agent {
 		if (self.state.memories) {
 			let memoriesText = '让我帮你恢复一下你的记忆。你的记忆如下：'
 			for (const memory of self.state.memories) {
-				memoriesText += memory;
+				memoriesText += '\n\n' + memory;
 			}
 			messages.push({
 				role: 'user',
@@ -232,7 +230,6 @@ class DeepseekAgent extends Agent {
 		if (isAgentMessage) {
 			messages[messages.length - 1].content += '若想结束对话，请在输出末尾加上🛑表情。';
 		}
-		console.log(messages); // debug
 
 		let xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function () {
