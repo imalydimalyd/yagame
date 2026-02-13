@@ -193,7 +193,7 @@ const config = {
 			maxMessages: 1000000000,
 			persona: SECRETS.MOMO_PERSONA,
 
-			sleepTime: 57600000,
+			sleepTime: 57000000,
 			dreamProb: 0.5,
 		},
 		星铃: {
