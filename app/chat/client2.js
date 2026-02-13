@@ -8,12 +8,11 @@ client.open = function () {
 	client.send({ type: 'state2', timestamp: chatStorageData.timestamp2 });
 	document.getElementById('send').classList.remove('disabled');
 };
-const historyMessageList = JSON.parse(JSON.stringify(chatStorageData.msgs2));
 function prependMoreMessages(messages = 10) {
-	if (currentDisplayMessages < historyMessageList.length) {
-		const nextDisplayMessages = Math.min(currentDisplayMessages + messages, historyMessageList.length);
-		for (let i = currentDisplayMessages + 1; i <= nextDisplayMessages; ++i) {
-			const msg = historyMessageList[historyMessageList.length - i];
+	if (currentDisplayMessages > 0) {
+		const nextDisplayMessages = Math.max(currentDisplayMessages - messages, 0);
+		for (let i = currentDisplayMessages - 1; i >= nextDisplayMessages; --i) {
+			const msg = chatStorageData.msgs2[i];
 			prependMessage(msg, msg.user === user);
 		}
 		currentDisplayMessages = nextDisplayMessages;
@@ -35,10 +34,9 @@ client.receive = function (data) {
 			clearMessages();
 			for (const msg of data.history) {
 				chatStorageData.msgs2.push(msg);
-				// printMessage(msg, msg.user === user);
 			}
-			currentDisplayMessages = 0;
-			prependMoreMessages(30);
+			currentDisplayMessages = chatStorageData.msgs2.length;
+			prependMoreMessages(40);
 			messagesElement.addEventListener('scroll', function (e) {
 				if (messagesElement.scrollTop <= 0) {
 					const firstMessageElement = messagesElement.firstChild;
