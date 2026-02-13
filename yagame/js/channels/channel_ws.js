@@ -112,8 +112,14 @@ class WSClient extends Client {
 			}
 		});
 		self.ws.addEventListener('close', function () {
-			self.connected = false;
-			self.close();
+			if (self.connected) {
+				console.warn('WebSocket disconnected, attempting reconnect...');
+				self.connected = false;
+				self.connect(self.serverID, self.keyID);
+			} else {
+				console.log(`Server disconnected`);
+				self.close();
+			}
 		});
 		self.ws.addEventListener('error', function (err) {
 			self.error('Error');
