@@ -2,7 +2,6 @@ chatStorage = createStorage('ls', 'YaGameChatroomClient', { timestamp: -1, times
 chatStorageData = chatStorage.load();
 
 currentDisplayMessages = 0;
-stateLoaded = false;
 user = '';
 client = createClient('ws');
 client.open = function () {
@@ -29,14 +28,15 @@ client.receive = function (data) {
 			chatStorage.save();
 			break;
 		case 'state2':
-			if (stateLoaded) {
-				break;
-			}
 			user = data.user;
 			document.getElementById('useravatar').src = data.avatar;
 			document.getElementById('username').innerText = user;
 			document.getElementById('userinfo').classList.remove('hidden');
 			clearMessages();
+			for (const msg of data.history) {
+				chatStorageData.msgs2.push(msg);
+				// printMessage(msg, msg.user === user);
+			}
 			prependMoreMessages(30);
 			messagesElement.addEventListener('scroll', function (e) {
 				if (messagesElement.scrollTop <= 0) {
@@ -47,15 +47,10 @@ client.receive = function (data) {
 					}
 				}
 			});
-			for (const msg of data.history) {
-				chatStorageData.msgs2.push(msg);
-				printMessage(msg, msg.user === user);
-			}
 			const prompt = data.history.length ? `共有${data.history.length}条未读消息` : ''
 			printMessage({ type: 'system', content: `欢迎来到茉茉的家！${prompt}` });
 			chatStorageData.timestamp2 = data.timestamp;
 			chatStorage.save();
-			stateLoaded = true;
 			break;
 		case 'msg':
 		case 'state':
