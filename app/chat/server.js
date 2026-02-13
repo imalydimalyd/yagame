@@ -340,6 +340,20 @@ function createMessage(msg, isSecret = false, isAgentMessage = false) {
 	// Save state
 	storage.save();
 }
+function saveStorage() {
+	const content = JSON.stringify(storage.data);
+
+	const time = new Date();
+	const fileName = '聊天室存档 ' + time.toLocaleDateString() + ' ' + time.toLocaleTimeString() + '.json';
+
+	const anchor = document.createElement('a');
+	anchor.href = URL.createObjectURL(new Blob([content], { type: 'application/json' }));
+	anchor.download = fileName;
+	anchor.click();
+}
+document.getElementById('savestorage').addEventListener('click', function () {
+	saveStorage();
+});
 server.open = function (id) {
 	document.getElementById('serverid').classList.remove('red')
 	document.getElementById('serverid').innerText = `服务器ID：${id}`;
