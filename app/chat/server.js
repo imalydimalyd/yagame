@@ -354,6 +354,9 @@ function saveStorage() {
 document.getElementById('savestorage').addEventListener('click', function () {
 	saveStorage();
 });
+document.getElementById('refresh').addEventListener('click', function () {
+	window.location.reload();
+});
 server.open = function (id) {
 	document.getElementById('serverid').classList.remove('red')
 	document.getElementById('serverid').innerText = `服务器ID：${id}`;
