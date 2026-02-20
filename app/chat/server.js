@@ -212,6 +212,24 @@ const config = {
 			sleepTime: 58000000,
 			dreamProb: 0.5,
 		},
+		核桃树: {
+			name: '核桃树',
+			qq: '615154007',
+			avatar: 'https://q1.qlogo.cn/g?b=qq&nk=615154007&s=140',
+
+			trigger: ['核桃树'],
+			type: 'deepseek',
+			reasoner: false,
+			showCOT: false,
+			apikey: SECRETS.DEEPSEEK_API_KEY,
+			maxMessages: 1000000000,
+			persona: SECRETS.HTS_PERSONA,
+			kth: 2,
+			temperature: 2.0,
+
+			sleepTime: 60000000,
+			dreamProb: 1.0,
+		},
 	},
 	agentBlacklist: {
 		齐齐: ['茉茉'],
