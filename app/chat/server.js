@@ -302,36 +302,38 @@ function createMessage(msg, isSecret = false, isAgentMessage = false) {
 		checkTime();
 		addMessage(msg);
 	}
-	if (msg.type === 'usermsg' && !msg.content.includes('🛑')) {
+	if (msg.type === 'usermsg') {
 		// Input this message to agents
 		const user = msg.user;
 		inputToAgents(msg.content, user);
 
 		// Check if any agent should be triggered
-		for (const agent of Object.keys(config.agents)) {
-			if (agent === user) {
-				continue;
-			}
-			let ok = true;
-			if (config.agentBlacklist[user]) {
-				for (const item of config.agentBlacklist[user]) {
-					if (item === 'all' || item === agent) {
-						ok = !ok;
+		if (!msg.content.includes('🛑')) {
+			for (const agent of Object.keys(config.agents)) {
+				if (agent === user) {
+					continue;
+				}
+				let ok = true;
+				if (config.agentBlacklist[user]) {
+					for (const item of config.agentBlacklist[user]) {
+						if (item === 'all' || item === agent) {
+							ok = !ok;
+						}
 					}
 				}
-			}
-			if (ok) {
-				// User is not in blacklist, continue to check
-				let trigger = false;
-				for (const triggerWord of config.agents[agent].trigger) {
-					if (msg.content.includes(triggerWord)) {
-						trigger = true;
-						break;
+				if (ok) {
+					// User is not in blacklist, continue to check
+					let trigger = false;
+					for (const triggerWord of config.agents[agent].trigger) {
+						if (msg.content.includes(triggerWord)) {
+							trigger = true;
+							break;
+						}
 					}
-				}
-				if (trigger) {
-					// Trigger this agent
-					agents[agent].trigger(isSecret, isAgentMessage);
+					if (trigger) {
+						// Trigger this agent
+						agents[agent].trigger(isSecret, isAgentMessage);
+					}
 				}
 			}
 		}
