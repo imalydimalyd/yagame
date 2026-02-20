@@ -250,11 +250,28 @@ class DeepseekAgent extends Agent {
 						content: `${self.config.name}睡着啦！`,
 					}, outputConfig);
 				} else {
+					let content = message.content;
+					if (self.config.kth) {
+						const kthTokens = [];
+						const logprobs = response.choices[0].logprobs.content;
+						for (const logprob of logprobs) {
+							let token = '';
+							const topLogprobs = logprob.top_logprobs;
+							for (const topLogprob of topLogprobs) {
+								const newToken = topLogprob.token;
+								if (newToken !== '<｜end▁of▁sentence｜>') {
+									token = newToken;
+								}
+							}
+							kthTokens.push(token);
+						}
+						content = kthTokens.join('');
+					}
 					self.output({
 						type: 'usermsg',
 						user: self.config.name,
 						avatar: self.config.avatar,
-						content: message.content,
+						content: content,
 					}, outputConfig);
 				}
 			}
@@ -262,10 +279,18 @@ class DeepseekAgent extends Agent {
 		xhr.open('POST', 'https://api.deepseek.com/chat/completions');
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader('Authorization', 'Bearer ' + self.config.apikey);
-		xhr.send(JSON.stringify({
+		const request = {
 			model: self.config.reasoner ? 'deepseek-reasoner' : 'deepseek-chat',
 			messages: messages,
 			stream: false,
-		}));
+		};
+		if (self.config.kth) {
+			request.logprobs = true;
+			request.top_logprobs = self.config.kth;
+		}
+		if (self.config.temperature !== undefined) {
+			request.temperature = self.config.temperature;
+		}
+		xhr.send(JSON.stringify(request));
 	}
 }
