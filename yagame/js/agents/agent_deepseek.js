@@ -259,7 +259,7 @@ class DeepseekAgent extends Agent {
 							const topLogprobs = logprob.top_logprobs;
 							for (const topLogprob of topLogprobs) {
 								const newToken = topLogprob.token;
-								if (newToken !== '<｜end▁of▁sentence｜>' && newToken !== '！' && newToken !== '！！') {
+								if (newToken.length > 0 && (newToken[0] !== '<' && newToken[0] !== '！' && newToken[0] !== ')' && newToken[0] !== '\\')) {
 									token = newToken;
 								}
 							}
