@@ -224,7 +224,7 @@ const config = {
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.HTS_PERSONA,
-			kth: 2,
+			// kth: 2,
 			temperature: 2.0,
 
 			sleepTime: 60000000,
