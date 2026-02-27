@@ -195,7 +195,8 @@ let avatarIsShowing = false;
 const avatarShowElement = document.createElement('img');
 avatarShowElement.classList.add('nodisplay');
 avatarShowElement.style.zIndex = 1;
-avatarShowElement.style.height = '100%';
+avatarShowElement.style.height = '100vh';
+avatarShowElement.style.position = 'absolute';
 avatarShowElement.addEventListener('click', function () {
 	if (avatarIsShowing) {
 		avatarShowElement.classList.add('nodisplay');
@@ -203,7 +204,7 @@ avatarShowElement.addEventListener('click', function () {
 		avatarIsShowing = false;
 	}
 });
-document.body.appendChild(avatarShowElement);
+document.getElementById('chat').appendChild(avatarShowElement);
 function createMessageElement(msg, isself = false) {
 	if (msg.type === 'err') {
 		const messageElement = document.createElement('div');
