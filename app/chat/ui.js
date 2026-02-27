@@ -191,6 +191,14 @@ function messageTextToHTML(text) {
 	(temp.textContent !== undefined) ? (temp.textContent = text) : (temp.innerText = text);
 	return lexToHTML(textToLex(temp.innerHTML));
 }
+const avatarShowElement = document.createElement('img');
+avatarShowElement.classList.add('nodisplay');
+avatarShowElement.style.zIndex = 1;
+avatarShowElement.style.height = '100%';
+avatarShowElement.addEventListener('click', function () {
+	avatarShowElement.classList.add('nodisplay');
+});
+document.body.appendChild(avatarShowElement);
 function createMessageElement(msg, isself = false) {
 	if (msg.type === 'err') {
 		const messageElement = document.createElement('div');
@@ -215,6 +223,10 @@ function createMessageElement(msg, isself = false) {
 	const avatarElement = document.createElement('img');
 	avatarElement.className = 'small round avatar';
 	avatarElement.src = msg.avatar;
+	avatarElement.addEventListener('click', function () {
+		avatarShowElement.src = msg.avatar;
+		avatarShowElement.classList.remove('nodisplay');
+	})
 
 	const userElement = document.createElement('p');
 	userElement.className = 'bold';
