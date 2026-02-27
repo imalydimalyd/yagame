@@ -435,6 +435,16 @@ server.receive = function (data, user) {
 				content: data.msg,
 			}, true);
 			break;
+		case 'bak':
+			if (!config.secretUsers.includes(user)) {
+				server.send('您没有备份权限', user, true);
+				return;
+			}
+			server.send({
+				type: 'bak',
+				content: JSON.stringify(storage.data),
+			}, user);
+			break;
 		default:
 			server.send(`Unknown data type ${data.type}`, user, true);
 			break;
