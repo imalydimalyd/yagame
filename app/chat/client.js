@@ -53,6 +53,7 @@ client.receive = function (data) {
 			break;
 		case 'msg2':
 		case 'state2':
+		case 'bak':
 			break;
 		default:
 			printError(`未知消息类型：${data.type}`);

@@ -54,6 +54,17 @@ client.receive = function (data) {
 		case 'msg':
 		case 'state':
 			break;
+		case 'bak':
+			const content = data.content;
+
+			const time = new Date();
+			const fileName = '聊天室备份 ' + time.toLocaleDateString() + ' ' + time.toLocaleTimeString() + '.json';
+
+			const anchor = document.createElement('a');
+			anchor.href = URL.createObjectURL(new Blob([content], { type: 'application/json' }));
+			anchor.download = fileName;
+			anchor.click();
+			break;
 		default:
 			printError(`未知消息类型：${data.type}`);
 			break;
@@ -100,4 +111,7 @@ document.getElementById('loginbutton').addEventListener('click', function () {
 	document.getElementById('login').close();
 	document.getElementById('chat').classList.remove('nodisplay');
 	document.getElementById('chat').classList.add('fadeIn');
+});
+document.getElementById('backupbutton').addEventListener('click', function () {
+	client.send({ type: 'bak' });
 });
