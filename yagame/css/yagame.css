@@ -234,6 +234,11 @@ path {
 	fill: #000;
 }
 
+.disabled path,
+.lighttheme .disabled path {
+	fill: #888;
+}
+
 td {
 	padding: min(1vw, 1vh);
 }
