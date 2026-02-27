@@ -238,6 +238,7 @@ const config = {
 
 storage = createStorage('ls', 'YaGameChatroom', { timestamp: 0, timestamp2: 0, msgs: [], msgs2: [], agents: {} });
 storageData = storage.load();
+storageData.config = config;
 agents = {};
 for (const agent of Object.keys(config.agents)) {
 	if (!storageData.agents.hasOwnProperty(agent)) {
