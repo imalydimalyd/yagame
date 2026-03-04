@@ -55,9 +55,11 @@ function updateServerGameInfo() {
 	if (startGameEnabled) {
 		document.getElementById('startgame').classList.remove('disabled');
 		document.getElementById('enterroom').classList.remove('disabled');
+		document.getElementById('copylink').classList.remove('disabled');
 	} else {
 		document.getElementById('startgame').classList.add('disabled');
 		document.getElementById('enterroom').classList.add('disabled');
+		document.getElementById('copylink').classList.add('disabled');
 	}
 }
 
@@ -301,6 +303,16 @@ document.getElementById('enterroom').addEventListener('click', function () {
 	} else {
 		open(`client.html?id=${storageData.currentGame.id}`);
 	}
+});
+document.getElementById('copylink').addEventListener('click', function () {
+	if (!startGameEnabled) {
+		return;
+	}
+	let url = `${window.location.protocol}//${window.location.host}/app/game/client.html?id=${storageData.currentGame.id}`;
+	if (storageData.currentGame.isPublic) {
+		url += '&public=1';
+	}
+	copyText(url);
 });
 document.getElementById('startgame').addEventListener('click', function () {
 	if (!startGameEnabled) {
