@@ -12,19 +12,29 @@
 
 	<link rel="stylesheet" href="../../yagame/css/yagame.css">
 	<link rel="icon" href="../../yagame/img/yagame.svg">
-	<meta name="description" content="YaGame 账号注册 Key 生成工具"/>
+	<meta name="description" content="YaGame 账号注册 Key 生成工具" />
 	<meta property="og:image" content="https://yagame.tiedan.site/yagame/img/yagame.png">
 	<title>Key生成工具</title>
 </head>
 
 <body>
 	<div class="main">
-		<div id="messages"
-			style="display: flex; flex-direction: column; width: 90vw; height: 80vh; overflow-y: scroll;"></div>
 		<div style="display: flex; justify-content: center; width: 90vw; height: 5vh; padding: min(2vw, 2vh);">
-			<div id="send" class="button">生成</div>
+			<h1>Key生成工具</h1>
+		</div>
+		<div id="keydisplay"
+			style="display: flex; justify-content: space-evenly; align-items: center; width: 100vw; height: 65vh; overflow-y: hidden; font-size: min(10vw, 10vh);">
+			&nbsp;
+		</div>
+		<div style="display: flex; justify-content: center; width: 90vw; height: 15vh; padding: min(2vw, 2vh);">
+			<div id="keygenerate" class="round button"
+				style="width: min(15vw, 15vh); height: min(15vw, 15vh); font-size: min(4vw, 4vh); align-items: center">
+				生成</div>
+			&nbsp;
+			<div id="keycopy" class="round button"
+				style="width: min(15vw, 15vh); height: min(15vw, 15vh); font-size: min(4vw, 4vh); align-items: center">
+				复制</div>
 		</div>
 	</div>
 </body>
-<script src="ui.js"></script>
 <script src="keygen.js"></script>
