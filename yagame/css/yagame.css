@@ -163,7 +163,7 @@ input,
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	/* align-items: center; */
 }
 
 .button:hover {
@@ -202,6 +202,21 @@ input,
 	width: min(19vw, 19vh);
 	height: min(19vw, 19vh);
 	padding: min(2vw, 2vh);
+}
+
+.functional.box {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 43vw;
+	height: 38vh;
+}
+
+.icon {
+	width: 1em;
+	height: 1em;
+	transform: translateY(0.16em);
 }
 
 .padded {

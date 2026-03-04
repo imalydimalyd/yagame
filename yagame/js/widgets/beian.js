@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     footer.style.zIndex = '1';
     footer.innerHTML = `
         <a href="https://beian.miit.gov.cn" target="_blank" rel="noreferrer noopener">苏ICP备2025218151号-1</a><br>
-        <img src="${GONGAN_IMAGE}" alt=""/><a href="https://beian.mps.gov.cn/#/query/webSearch?code=32021102003220" rel="noreferrer" target="_blank">苏公网安备32021102003220号</a>
+        <img src="${GONGAN_IMAGE}" alt="" class="icon"/><a href="https://beian.mps.gov.cn/#/query/webSearch?code=32021102003220" rel="noreferrer" target="_blank">苏公网安备32021102003220号</a>
     `;
 
     document.body.appendChild(footer);
