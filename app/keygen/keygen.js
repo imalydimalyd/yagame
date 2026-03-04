@@ -21,10 +21,6 @@ document.getElementById('keygenerate').addEventListener('click', function () {
 	generateAndLoad();
 });
 document.getElementById('keycopy').addEventListener('click', function () {
-	navigator.clipboard.writeText(key).then(function () {
-		alert('复制成功！');
-	}, function (reason) {
-		alert('复制失败！原因：' + reason.toString());
-	});
+	copyText(key);
 });
 generateAndLoad();
