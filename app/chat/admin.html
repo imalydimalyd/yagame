@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="UTF-8">
+
+	<script src="../../yagame/extjs/peerjs.min.js"></script>
+
+	<script src="../../yagame/js/channels/channel.js"></script>
+	<script src="../../yagame/js/channels/channel_ws.js"></script>
+	<script src="../../yagame/js/channels/channel_peerjs.js"></script>
+	<script src="../../yagame/js/channels/channelfactory.js"></script>
+
+	<script src="../../yagame/js/storage/storage.js"></script>
+	<script src="../../yagame/js/storage/storage_ls.js"></script>
+	<script src="../../yagame/js/storage/storagefactory.js"></script>
+
+	<script src="../../yagame/js/widgets/dialog.js"></script>
+	<script src="../../yagame/js/widgets/theme.js"></script>
+	<script src="../../yagame/js/widgets/home.js"></script>
+
+	<link rel="stylesheet" href="../../yagame/css/yagame.css">
+	<link rel="icon" href="../../yagame/img/momohome.svg">
+	<meta name="description" content="用于管理聊天室的页面" />
+	<meta property="og:image" content="https://yagame.tiedan.site/yagame/img/yagame.png">
+	<title>聊天室管理</title>
+</head>
+
+<body>
+	<div id="admin" class="nodisplay main">
+		<div
+			style="display: flex; justify-content: center; align-items: center; width: 90vw; height: 5vh; padding: min(2vw, 2vh);">
+			<h1>聊天室管理</h1>
+		</div>
+		<div
+			style="display: flex; justify-content: center; align-items: center; width: 90vw; height: 5vh; padding: min(2vw, 2vh);">
+			<div id="tabbackup" class="button">备份管理</div>
+			&nbsp;
+			<div id="tabdashboard" class="button">控制面板</div>
+			&nbsp;
+			<div id="tabmemory" class="button">查看记忆</div>
+			&nbsp;
+			<div id="refreshbutton" class="button">刷新</div>
+		</div>
+		<div id="loading"
+			style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 90vw; height: 85vh; overflow-y: scroll;">
+			同步数据中...
+		</div>
+		<div class="nodisplay" id="dashboard"
+			style="display: flex; flex-direction: column; align-items: center; width: 90vw; height: 85vh; overflow-y: scroll;">
+			<table>
+				<thead>
+					<tr>
+						<th>属性</th>
+						<th>值</th>
+					</tr>
+				</thead>
+				<tbody id="dashboardbody"></tbody>
+			</table>
+		</div>
+		<div class="nodisplay" id="memory"
+			style="display: flex; flex-direction: column; align-items: center; width: 90vw; height: 85vh; overflow-y: scroll;">
+		</div>
+		<div class="nodisplay" id="backup"
+			style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 90vw; height: 85vh; overflow-y: scroll;">
+			<div id="backupbutton" class="round button"
+				style="width: min(15vw, 15vh); height: min(15vw, 15vh); font-size: min(4vw, 4vh); align-items: center">
+				备份
+			</div>
+		</div>
+	</div>
+	<dialog id="login" open>
+		<h1>聊天室管理</h1>
+		<p>若无法连接，先确保Key正确，然后刷新网页。</p>
+		<p>此外，还可以试试开启/关闭梯子。</p>
+		<p><label for="loginkey">请输入Key：</label><input id="loginkey" type="password"></p>
+		<div id="loginbutton" class="button">登录</div>
+	</dialog>
+</body>
+<script src="admin.js"></script>
