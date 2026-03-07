@@ -100,9 +100,9 @@ function updateUI() {
 	// 仪表盘 - 消息
 	addDashboardKeyValue('最大消息数量', dataContent.config.maxMessages + ' 条');
 	addDashboardKeyValue('（聊天室）消息数量', dataContent.msgs.length + ' 条');
-	addDashboardKeyValue('（聊天室）消息编号', dataContent.timestamp);
+	addDashboardKeyValue('（聊天室）消息编号', dataContent.timestamp + ' 号');
 	addDashboardKeyValue('（茉茉的家）消息数量', dataContent.msgs2.length + ' 条');
-	addDashboardKeyValue('（茉茉的家）消息编号', dataContent.timestamp2);
+	addDashboardKeyValue('（茉茉的家）消息编号', dataContent.timestamp2 + ' 号');
 
 	// 仪表盘 - Agent
 	addDashboardKeyValue('Agent数据大小', JSON.stringify(dataContent.agents).length + ' 字符');
@@ -151,6 +151,7 @@ function updateUI() {
 			agentInfoAvatarElement.src = agentConfig.avatar;
 
 			const agentInfoNameElement = document.createElement('p');
+			agentInfoNameElement.classList.add('bold');
 			agentInfoNameElement.style.margin = 'min(1vw, 1vh)';
 			agentInfoNameElement.innerText = agentConfig.name;
 
@@ -164,27 +165,28 @@ function updateUI() {
 
 			// 添加 Agent 的详细描述
 			const agentDescriptionContentElement = document.createElement('div');
+			agentDescriptionContentElement.style.userSelect = 'text';
 			const triggerHTML = agentConfig.trigger.join('；');
-			const personaHTML = agentConfig.persona.replace('\n', '<br>');
+			const personaHTML = agentConfig.persona.replaceAll('\n', '<br>');
+			const sleepBeijingTime = (agentConfig.sleepTime + 28800000) % 86400000;
 			agentDescriptionContentElement.innerHTML = `
 <p><b>ID：</b>${agentName}</p>
 <p><b>名称：</b>${agentConfig.name}</p>
-<p><b>QQ：</b>${agentConfig.qq}</p>
+<p><b>QQ号：</b>${agentConfig.qq}</p>
 <p><b>头像链接：</b>${agentConfig.avatar}</p>
 
 <p><b>触发词：</b>${triggerHTML}</p>
 <p><b>类型：</b>${agentConfig.type}</p>
-<p><b>深度思考：</b>${agentConfig.reasoner}</p>
-<p><b>显示思考：</b>${agentConfig.showCOT}</p>
+<p><b>深度思考：</b>${agentConfig.reasoner ? '是' : '否'}</p>
+<p><b>显示思考：</b>${agentConfig.showCOT ? '是' : '否'}</p>
 <p><b>API Key：</b>${agentConfig.apikey}</p>
-<p><b>最大消息：</b>${agentConfig.maxMessages}</p>
+<p><b>最大消息：</b>${agentConfig.maxMessages + ' 条'}</p>
 
-<p><b>睡眠时间：</b>${agentConfig.sleepTime}</p>
-<p><b>做梦概率：</b>${agentConfig.dreamProb}</p>
+<p><b>睡眠时间：</b>${Math.floor(sleepBeijingTime / 3600000).toString().padStart(2, '0')}:${Math.floor(sleepBeijingTime % 3600000 / 60000).toString().padStart(2, '0')}:${Math.floor(sleepBeijingTime % 60000 / 1000).toString().padStart(2, '0')}</p>
+<p><b>做梦概率：</b>${(agentConfig.dreamProb * 100).toFixed(2) + ' %'}</p>
 
 <p><b>人设：</b>${personaHTML}</p>
 `;
-			agentDescriptionContentElement.style.userSelect = 'text';
 
 			const agentDescriptionSummaryElement = document.createElement('summary');
 			agentDescriptionSummaryElement.innerHTML = '详细信息';
@@ -193,6 +195,24 @@ function updateUI() {
 			agentDescriptionElement.appendChild(agentDescriptionSummaryElement);
 			agentDescriptionElement.appendChild(agentDescriptionContentElement);
 			agentMemoryElement.appendChild(agentDescriptionElement);
+
+			// 添加 Agent 的消息列表
+			const agentMessagesContentElement = document.createElement('div');
+			agentMessagesContentElement.style.userSelect = 'text';
+			const messagesContentHTML = [];
+			for (const message of agentData.messages) {
+				const content = (message.role === 'assistant') ? (`<b>${agentConfig.name}：</b>` + message.content) : message.content;
+				messagesContentHTML.push(`<li>${content}</li>`);
+			}
+			agentMessagesContentElement.innerHTML = `<ul>${messagesContentHTML.join('')}</ul>`;
+
+			const agentMessagesSummaryElement = document.createElement('summary');
+			agentMessagesSummaryElement.innerHTML = '今日消息';
+
+			const agentMessagesElement = document.createElement('details');
+			agentMessagesElement.appendChild(agentMessagesSummaryElement);
+			agentMessagesElement.appendChild(agentMessagesContentElement);
+			agentMemoryElement.appendChild(agentMessagesElement);
 
 			// 添加记忆球
 			let currentMemoryBallElement = undefined;
@@ -221,7 +241,6 @@ function updateUI() {
 					memoryBallElement.style.justifyContent = 'center';
 					memoryBallElement.style.alignItems = 'center';
 					memoryBallElement.innerText = memoryBall.split(' ')[0];
-					console.log(memoryBall, memoryBall.split(' ')[0])
 					agentMemoryBallElements.push(memoryBallElement);
 					memoryBallsElement.appendChild(memoryBallElement);
 
