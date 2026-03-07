@@ -115,7 +115,8 @@ function updateUI() {
 	addDashboardKeyValue('Key数量', Object.keys(dataContent.config.keys).length + ' 个');
 	addDashboardKeyValue('有黑名单的用户数量', Object.keys(dataContent.config.agentBlacklist).length + ' 名');
 
-	// 设置记忆查看器
+	// 重置记忆查看器
+	memoryElement.innerHTML = '';
 	agentButtonElements = {};
 	agentMemoryElements = {};
 
@@ -292,7 +293,7 @@ function updateUI() {
 		}
 	} else {
 		// 没有 Agent
-		dashboardBodyElement.innerHTML = '暂无Agent';
+		memoryElement.innerHTML = '暂无Agent';
 	}
 }
 
