@@ -26,7 +26,7 @@ client.receive = function (data) {
 			chatStorageData.msgs2.push(data.msg);
 			chatStorageData.timestamp2 = data.msg.timestamp;
 			chatStorage.save();
-			if (createNotification2 && data.msg.type === 'usermsg' && (data.msg.user !== user || true)) {
+			if (document.hidden && createNotification2 && data.msg.type === 'usermsg' && data.msg.user !== user) {
 				notify('茉茉的家 - ' + data.msg.user, data.msg.content, 'chatroom2', data.msg.avatar);
 			}
 			break;
