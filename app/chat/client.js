@@ -3,6 +3,7 @@ chatStorageData = chatStorage.load();
 
 currentDisplayMessages = 0;
 user = '';
+createNotification = chatStorageData.createNotification ? true : false;
 client = createClient('ws');
 client.open = function () {
 	client.send({ type: 'state', timestamp: chatStorageData.timestamp });
@@ -25,6 +26,9 @@ client.receive = function (data) {
 			chatStorageData.msgs.push(data.msg);
 			chatStorageData.timestamp = data.msg.timestamp;
 			chatStorage.save();
+			if (createNotification && data.msg.type === 'usermsg' && (data.msg.user !== user || true)) {
+				notify('聊天室 - ' + data.msg.user, data.msg.content, 'chatroom', data.msg.avatar);
+			}
 			break;
 		case 'state':
 			user = data.user;
@@ -85,7 +89,9 @@ if (storageData.chatKey) {
 }
 document.getElementById('loginbutton').addEventListener('click', function () {
 	const key = document.getElementById('loginkey').value;
+	createNotification = document.getElementById('createnotification').checked;
 	storageData.chatKey = key;
+	storageData.createNotification = createNotification;
 	storage.save();
 	client.connect('YaGameChatroom250919', key);
 	chatboxElement.addEventListener('keydown', function (event) {
