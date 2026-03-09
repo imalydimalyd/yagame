@@ -26,7 +26,7 @@ client.receive = function (data) {
 			chatStorageData.msgs.push(data.msg);
 			chatStorageData.timestamp = data.msg.timestamp;
 			chatStorage.save();
-			if (createNotification && data.msg.type === 'usermsg' && (data.msg.user !== user || true)) {
+			if (document.hidden && createNotification && data.msg.type === 'usermsg' && data.msg.user !== user) {
 				notify('聊天室 - ' + data.msg.user, data.msg.content, 'chatroom', data.msg.avatar);
 			}
 			break;
