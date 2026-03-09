@@ -221,7 +221,6 @@ function updateUI() {
 				const memoryLines = memory.split('\n')
 
 				const agentMemoryContentElement = document.createElement('div');
-				agentMemoryContentElements.push(agentMemoryContentElement);
 
 				const memoryTitleElement = document.createElement('div');
 				memoryTitleElement.classList.add('bold');
@@ -230,8 +229,15 @@ function updateUI() {
 				const memoryBallsElement = document.createElement('div');
 				memoryBallsElement.style.display = 'flex';
 				memoryBallsElement.style.flexWrap = 'wrap';
+
+				let validMemoryBalls = 0;
 				for (let i = 1; i < memoryLines.length; ++i) {
 					const memoryBall = memoryLines[i];
+					if (memoryBall.length >= 1) {
+						++validMemoryBalls;
+					} else {
+						continue;
+					}
 					const memoryBallElement = document.createElement('span');
 					memoryBallElement.style.fontSize = 'min(6vw, 6vh)';
 					memoryBallElement.style.width = 'min(10vw, 10vh)';
@@ -240,7 +246,8 @@ function updateUI() {
 					memoryBallElement.style.display = 'flex';
 					memoryBallElement.style.justifyContent = 'center';
 					memoryBallElement.style.alignItems = 'center';
-					memoryBallElement.innerText = memoryBall.split(' ')[0];
+					// 0xfe0f is the Variation Selector-16 (emoji variation selector)
+					memoryBallElement.innerText = String.fromCodePoint(memoryBall.codePointAt(0), 0xfe0f);
 					agentMemoryBallElements.push(memoryBallElement);
 					memoryBallsElement.appendChild(memoryBallElement);
 
@@ -260,13 +267,17 @@ function updateUI() {
 						}
 					});
 				}
-				const paddingElement = document.createElement('div');
-				paddingElement.style.minHeight = 'min(5vw, 5vh)';
+				if (validMemoryBalls) {
+					const paddingElement = document.createElement('div');
+					paddingElement.style.minHeight = 'min(5vw, 5vh)';
 
-				agentMemoryElement.appendChild(paddingElement);
-				agentMemoryElement.appendChild(memoryTitleElement);
-				agentMemoryElement.appendChild(memoryBallsElement);
-				agentMemoryElement.appendChild(agentMemoryContentElement);
+					agentMemoryElement.appendChild(paddingElement);
+					agentMemoryElement.appendChild(memoryTitleElement);
+					agentMemoryElement.appendChild(memoryBallsElement);
+					agentMemoryElement.appendChild(agentMemoryContentElement);
+
+					agentMemoryContentElements.push(agentMemoryContentElement);
+				}
 			}
 
 			agentMemoryElements[agentName] = agentMemoryElement;
