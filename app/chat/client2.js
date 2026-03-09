@@ -3,6 +3,7 @@ chatStorageData = chatStorage.load();
 
 currentDisplayMessages = 0;
 user = '';
+createNotification2 = chatStorageData.createNotification2 ? true : false;
 client = createClient('ws');
 client.open = function () {
 	client.send({ type: 'state2', timestamp: chatStorageData.timestamp2 });
@@ -25,6 +26,9 @@ client.receive = function (data) {
 			chatStorageData.msgs2.push(data.msg);
 			chatStorageData.timestamp2 = data.msg.timestamp;
 			chatStorage.save();
+			if (createNotification2 && data.msg.type === 'usermsg' && (data.msg.user !== user || true)) {
+				notify('茉茉的家 - ' + data.msg.user, data.msg.content, 'chatroom2', data.msg.avatar);
+			}
 			break;
 		case 'state2':
 			user = data.user;
@@ -85,7 +89,9 @@ if (storageData.chatKey) {
 }
 document.getElementById('loginbutton').addEventListener('click', function () {
 	const key = document.getElementById('loginkey').value;
+	createNotification2 = document.getElementById('createnotification').checked;
 	storageData.chatKey = key;
+	storageData.createNotification2 = createNotification2;
 	storage.save();
 	client.connect('YaGameChatroom250919', key);
 	chatboxElement.addEventListener('keydown', function (event) {
