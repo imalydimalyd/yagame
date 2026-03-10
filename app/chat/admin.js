@@ -121,6 +121,8 @@ function updateUI() {
 	agentMemoryElements = {};
 
 	if (dataContent.config.agents) {
+		const agentBlacklist = dataContent.config.agentBlacklist;
+
 		// 为每个 Agent 添加自己的页面
 		for (const agentName in dataContent.config.agents) {
 			const agentConfig = dataContent.config.agents[agentName];
@@ -166,27 +168,6 @@ function updateUI() {
 			// 添加 Agent 的详细描述
 			const agentDescriptionContentElement = document.createElement('div');
 			agentDescriptionContentElement.style.userSelect = 'text';
-			const triggerHTML = agentConfig.trigger.join('；');
-			const personaHTML = agentConfig.persona.replaceAll('\n', '<br>');
-			const sleepBeijingTime = (agentConfig.sleepTime + 28800000) % 86400000;
-			agentDescriptionContentElement.innerHTML = `
-<p><b>ID：</b>${agentName}</p>
-<p><b>名称：</b>${agentConfig.name}</p>
-<p><b>QQ号：</b>${agentConfig.qq}</p>
-<p><b>头像链接：</b>${agentConfig.avatar}</p>
-
-<p><b>触发词：</b>${triggerHTML}</p>
-<p><b>类型：</b>${agentConfig.type}</p>
-<p><b>深度思考：</b>${agentConfig.reasoner ? '是' : '否'}</p>
-<p><b>显示思考：</b>${agentConfig.showCOT ? '是' : '否'}</p>
-<p><b>API Key：</b>${agentConfig.apikey}</p>
-<p><b>最大消息：</b>${agentConfig.maxMessages + ' 条'}</p>
-
-<p><b>睡眠时间：</b>${Math.floor(sleepBeijingTime / 3600000).toString().padStart(2, '0')}:${Math.floor(sleepBeijingTime % 3600000 / 60000).toString().padStart(2, '0')}:${Math.floor(sleepBeijingTime % 60000 / 1000).toString().padStart(2, '0')}</p>
-<p><b>做梦概率：</b>${(agentConfig.dreamProb * 100).toFixed(2) + ' %'}</p>
-
-<p><b>人设：</b>${personaHTML}</p>
-`;
 
 			const agentDescriptionSummaryElement = document.createElement('summary');
 			agentDescriptionSummaryElement.innerHTML = '详细信息';
@@ -216,8 +197,12 @@ function updateUI() {
 
 			// 添加记忆球
 			let currentMemoryBallElement = undefined;
+			let statMemoryLength = 0;
+			let statMemories = 0;
+			let statMemoryBalls = 0;
 			for (let i = agentData.memories.length - 1; i >= 0; --i) {
 				const memory = agentData.memories[i];
+				statMemoryLength += memory.length;
 				const memoryLines = memory.split('\n')
 
 				const agentMemoryContentElement = document.createElement('div');
@@ -268,6 +253,8 @@ function updateUI() {
 					});
 				}
 				if (validMemoryBalls) {
+					++statMemories;
+					statMemoryBalls += validMemoryBalls;
 					const paddingElement = document.createElement('div');
 					paddingElement.style.minHeight = 'min(5vw, 5vh)';
 
@@ -281,6 +268,44 @@ function updateUI() {
 			}
 
 			agentMemoryElements[agentName] = agentMemoryElement;
+
+			// 获取黑名单
+			const blacklist = [];
+			for (const user in agentBlacklist) {
+				if (agentBlacklist[user].includes(agentName)) {
+					blacklist.push(user);
+				}
+			}
+
+			const blacklistHTML = blacklist.length ? blacklist.join('；') : '（无）';
+			const triggerHTML = agentConfig.trigger.join('；');
+			const personaHTML = agentConfig.persona.replaceAll('\n', '<br>');
+			const sleepBeijingTime = (agentConfig.sleepTime + 28800000) % 86400000;
+
+			agentDescriptionContentElement.innerHTML = `
+<p><b>ID：</b>${agentName}</p>
+<p><b>名称：</b>${agentConfig.name}</p>
+<p><b>QQ号：</b>${agentConfig.qq}</p>
+<p><b>头像链接：</b>${agentConfig.avatar}</p>
+
+<p><b>触发词：</b>${triggerHTML}</p>
+<p><b>类型：</b>${agentConfig.type}</p>
+<p><b>温度：</b>${(agentConfig.temperature === undefined ? 1 : agentConfig.temperature).toFixed(1)}</p>
+<p><b>深度思考：</b>${agentConfig.reasoner ? '是' : '否'}</p>
+<p><b>显示思考：</b>${agentConfig.showCOT ? '是' : '否'}</p>
+<p><b>API Key：</b>${agentConfig.apikey}</p>
+<p><b>最大消息：</b>${agentConfig.maxMessages + ' 条'}</p>
+
+<p><b>拉黑用户：</b>${blacklistHTML}</p>
+<p><b>记忆长度：</b>${statMemoryLength + ' 字符'}</p>
+<p><b>记忆天数：</b>${statMemories + ' 天'}</p>
+<p><b>记忆条数：</b>${statMemoryBalls + ' 条'}</p>
+
+<p><b>睡眠时间：</b>${Math.floor(sleepBeijingTime / 3600000).toString().padStart(2, '0')}:${Math.floor(sleepBeijingTime % 3600000 / 60000).toString().padStart(2, '0')}:${Math.floor(sleepBeijingTime % 60000 / 1000).toString().padStart(2, '0')}</p>
+<p><b>做梦概率：</b>${(agentConfig.dreamProb * 100).toFixed(2) + ' %'}</p>
+
+<p><b>人设：</b>${personaHTML}</p>
+`;
 		}
 
 		function switchToAgent(name) {
