@@ -7,8 +7,10 @@ let currentTab = 'backup';
 function updateTabs() {
 	if (loading) {
 		document.getElementById('loading').classList.remove('nodisplay');
+		document.getElementById('refreshbutton').classList.add('disabled');
 	} else {
 		document.getElementById('loading').classList.add('nodisplay');
+		document.getElementById('refreshbutton').classList.remove('disabled');
 	}
 	if (!loading && currentTab === 'dashboard') {
 		document.getElementById('dashboard').classList.remove('nodisplay');
@@ -436,6 +438,9 @@ document.getElementById('loginbutton').addEventListener('click', function () {
 });
 
 document.getElementById('refreshbutton').addEventListener('click', function () {
+	if (loading) {
+		return;
+	}
 	loading = true;
 	updateLoadingHint('同步数据中...');
 	updateTabs();
