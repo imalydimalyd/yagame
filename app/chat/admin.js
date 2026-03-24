@@ -1,3 +1,6 @@
+adminStorage = createStorage('ls', 'YaGameChatroomAdmin', { backups: [] });
+adminStorageData = adminStorage.load();
+
 let loading = true;
 let currentTab = 'backup';
 
@@ -69,9 +72,39 @@ let agentButtonElements = {};
 let agentMemoryElements = {};
 
 const MAX_STORAGE = 5 * 1024 * 1024;
+const recordBodyElement = document.getElementById('recordbody');
 const dashboardBodyElement = document.getElementById('dashboardbody');
 const memoryElement = document.getElementById('memory');
 
+function updateBackupRecords() {
+	// 重置备份记录表
+	recordBodyElement.innerHTML = '';
+
+	// 添加备份
+	if (adminStorageData.backups && adminStorageData.backups.length) {
+		for (const backup of adminStorageData.backups) {
+			const fileNameElement = document.createElement('td');
+			fileNameElement.innerText = backup.fileName;
+
+			const fileSizeElement = document.createElement('td');
+			fileSizeElement.innerText = `${backup.fileSize} 字符`;
+			fileSizeElement.style.textAlign = 'right';
+
+			const rowElement = document.createElement('tr');
+			rowElement.appendChild(fileNameElement);
+			rowElement.appendChild(fileSizeElement);
+			recordBodyElement.appendChild(rowElement);
+		}
+	} else {
+		const noneElement = document.createElement('td');
+		noneElement.colSpan = 2;
+		noneElement.innerText = '本设备暂无备份记录';
+
+		const rowElement = document.createElement('tr');
+		rowElement.appendChild(noneElement);
+		recordBodyElement.appendChild(rowElement);
+	}
+}
 function addDashboardKeyValue(key, value) {
 	const keyElement = document.createElement('td');
 	keyElement.innerText = key;
@@ -417,4 +450,16 @@ document.getElementById('backupbutton').addEventListener('click', function () {
 	anchor.href = URL.createObjectURL(new Blob([textContent], { type: 'application/json' }));
 	anchor.download = fileName;
 	anchor.click();
+
+	adminStorageData.backups.unshift({
+		fileName: fileName,
+		fileSize: textContent.length,
+	});
+	while (adminStorageData.backups.length > 10) {
+		adminStorageData.backups.pop();
+	}
+	adminStorage.save();
+	updateBackupRecords();
 });
+
+updateBackupRecords();
