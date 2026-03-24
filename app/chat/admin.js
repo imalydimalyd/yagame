@@ -64,7 +64,7 @@ document.getElementById('tabbackup').addEventListener('click', function () {
 });
 
 function updateLoadingHint(hint) {
-	document.getElementById('loading').innerHTML = hint;
+	document.getElementById('loadinghint').innerHTML = hint;
 }
 
 let textContent = '';
@@ -389,7 +389,7 @@ function updateUI() {
 
 client = createClient('ws');
 client.open = function () {
-	updateLoadingHint('同步数据中...');
+	updateLoadingHint('同步数据中 (0%)');
 	updateTabs();
 	client.send({ type: 'bak' });
 };
@@ -401,11 +401,11 @@ client.receive = function (data) {
 		case 'state':
 			break;
 		case 'bak':
-			updateLoadingHint('解析数据中...');
+			updateLoadingHint('解析数据中 (80%)');
 			textContent = data.content;
 			dataContent = JSON.parse(textContent);
 
-			updateLoadingHint('渲染UI中...');
+			updateLoadingHint('渲染UI中 (90%)');
 			updateUI();
 			loading = false;
 			updateTabs();
@@ -442,7 +442,7 @@ document.getElementById('refreshbutton').addEventListener('click', function () {
 		return;
 	}
 	loading = true;
-	updateLoadingHint('同步数据中...');
+	updateLoadingHint('同步数据中 (0%)');
 	updateTabs();
 	client.send({ type: 'bak' });
 });

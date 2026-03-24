@@ -435,3 +435,42 @@ details[open] summary::before {
 	animation: 0.2s linear fadeIn;
 	-webkit-animation: 0.2s linear fadeIn;
 }
+
+@keyframes alwaysRotating {
+	0% {
+		transform: rotate(0);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@-webkit-keyframes alwaysRotating {
+	0% {
+		transform: rotate(0);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.alwaysRotating,
+.loadingIcon {
+	animation: 1s linear infinite alwaysRotating;
+	-webkit-animation: 1s linear infinite alwaysRotating;
+}
+
+.loadingIcon {
+	width: min(8vw, 8vh);
+	height: min(8vw, 8vh);
+	border: min(1vw, 1vh) solid #FFF2;
+	border-top-color: #FFF;
+	border-radius: 100%;
+}
+
+.lighttheme .loadingIcon {
+	border-color: #0002;
+	border-top-color: #000;
+}
