@@ -51,10 +51,11 @@ class DeepseekAgent extends Agent {
 			if (this.readyState === 4 && this.status === 200) {
 				const response = JSON.parse(this.responseText);
 				const message = response.choices[0].message;
-				if (response.choices[0].finish_reason == 'length') {
+				const finishReason = response.choices[0].finish_reason;
+				if (finishReason !== 'stop') {
 					self.log({
 						type: 'system',
-						content: `${self.config.name}正在做梦呢！`,
+						content: `${self.config.name}正在做梦呢！理由：${finishReason}`,
 					}, outputConfig);
 				} else {
 					self.state.messages.push({
@@ -99,10 +100,11 @@ class DeepseekAgent extends Agent {
 			if (this.readyState === 4 && this.status === 200) {
 				const response = JSON.parse(this.responseText);
 				const message = response.choices[0].message;
-				if (response.choices[0].finish_reason == 'length') {
+				const finishReason = response.choices[0].finish_reason;
+				if (finishReason !== 'stop') {
 					self.log({
 						type: 'system',
-						content: `${self.config.name}睡觉啦！`,
+						content: `${self.config.name}睡觉啦！理由：${finishReason}`,
 					}, outputConfig);
 				} else {
 					self.state.messages = [
@@ -165,10 +167,11 @@ class DeepseekAgent extends Agent {
 			if (this.readyState === 4 && this.status === 200) {
 				const response = JSON.parse(this.responseText);
 				const message = response.choices[0].message;
-				if (response.choices[0].finish_reason == 'length') {
+				const finishReason = response.choices[0].finish_reason;
+				if (finishReason !== 'stop') {
 					self.log({
 						type: 'system',
-						content: `${self.config.name}困困啦！`,
+						content: `${self.config.name}困困啦！理由：${finishReason}`,
 					}, outputConfig);
 				} else {
 					self.addMemory((new Date().toLocaleDateString()) + '\n' + message.content);
@@ -236,6 +239,7 @@ class DeepseekAgent extends Agent {
 			if (this.readyState === 4 && this.status === 200) {
 				const response = JSON.parse(this.responseText);
 				const message = response.choices[0].message;
+				const finishReason = response.choices[0].finish_reason;
 				if (message.reasoning_content && self.config.showCOT) {
 					self.log({
 						type: 'usermsg',
@@ -244,10 +248,10 @@ class DeepseekAgent extends Agent {
 						content: message.reasoning_content,
 					}, outputConfig);
 				}
-				if (response.choices[0].finish_reason == 'length') {
+				if (finishReason !== 'stop') {
 					self.log({
 						type: 'system',
-						content: `${self.config.name}睡着啦！`,
+						content: `${self.config.name}睡着啦！理由：${finishReason}`,
 					}, outputConfig);
 				} else {
 					let content = message.content;
