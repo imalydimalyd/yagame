@@ -7,7 +7,6 @@ createNotification = chatStorageData.createNotification ? true : false;
 client = createClient('ws');
 client.open = function () {
 	client.send({ type: 'state', timestamp: chatStorageData.timestamp });
-	document.getElementById('send').classList.remove('disabled');
 };
 function prependMoreMessages(messages = 10) {
 	if (currentDisplayMessages > 0) {
@@ -71,6 +70,7 @@ client.error = function (err) {
 	printError(err.toString());
 };
 const chatboxElement = document.getElementById('chatbox');
+const sendButtonElement = document.getElementById('send');
 function send() {
 	if (chatboxElement.value) {
 		client.send({
@@ -80,7 +80,14 @@ function send() {
 		chatboxElement.value = '';
 	}
 }
-document.getElementById('send').addEventListener('click', send);
+sendButtonElement.addEventListener('click', send);
+chatboxElement.addEventListener('input', function () {
+	if (chatboxElement.value) {
+		sendButtonElement.classList.remove('disabled');
+	} else {
+		sendButtonElement.classList.add('disabled');
+	}
+});
 
 storage = createStorage('ls', 'YaGamePreference', {});
 storageData = storage.load();
