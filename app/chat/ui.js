@@ -49,6 +49,14 @@ function textToLex(text) {
 						push('rightparenthesis', char);
 						break;
 
+					case '(':
+						push('leftenglishparenthesis', char);
+						break;
+
+					case ')':
+						push('rightenglishparenthesis', char);
+						break;
+
 					case '“':
 						push('leftquote', char);
 						break;
@@ -82,6 +90,9 @@ function lexToHTML(lex) {
 			case 'leftparenthesis':
 				html += '<span style="opacity:0.3">' + (content || '（');
 				break;
+			case 'leftenglishparenthesis':
+				html += '<span style="opacity:0.3">' + (content || '(');
+				break;
 			case 'leftquote':
 				html += '<b>' + (content || '“');
 				break;
@@ -106,6 +117,9 @@ function lexToHTML(lex) {
 		switch (type) {
 			case 'leftparenthesis':
 				html += (content || '）') + '</span>';
+				break;
+			case 'leftenglishparenthesis':
+				html += (content || ')') + '</span>';
 				break;
 			case 'leftquote':
 				html += (content || '”') + '</b>';
@@ -145,6 +159,12 @@ function lexToHTML(lex) {
 				break;
 			case 'rightparenthesis':
 				popUntil('leftparenthesis', content);
+				break;
+			case 'leftenglishparenthesis':
+				push('leftenglishparenthesis', content);
+				break;
+			case 'rightenglishparenthesis':
+				popUntil('leftenglishparenthesis', content);
 				break;
 			case 'leftquote':
 				push('leftquote', content);
