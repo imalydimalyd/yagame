@@ -69,11 +69,30 @@ class DeepseekAgent extends Agent {
 		xhr.open('POST', 'https://api.deepseek.com/chat/completions');
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader('Authorization', 'Bearer ' + self.config.apikey);
-		xhr.send(JSON.stringify({
+		const request = {
 			model: self.config.reasoner ? 'deepseek-reasoner' : 'deepseek-chat',
+			thinking: {
+				type: self.config.reasoner ? 'enabled' : 'disabled',
+			},
 			messages: messages,
 			stream: false,
-		}));
+		};
+		if (self.config.temperature !== undefined) {
+			request.temperature = self.config.temperature;
+		}
+		if (self.config.deepseekV4) {
+			request.model = 'deepseek-v4-flash';
+		}
+		if (self.config.maxReasoning) {
+			request.reasoning_effort = 'max';
+		}
+		if (self.config.frequencyPenalty) {
+			request.frequency_penalty = self.config.frequencyPenalty;
+		}
+		if (self.config.presencePenalty) {
+			request.presence_penalty = self.config.presencePenalty;
+		}
+		xhr.send(JSON.stringify(request));
 	}
 	sleep() {
 		const self = this;
@@ -128,11 +147,30 @@ class DeepseekAgent extends Agent {
 		xhr.open('POST', 'https://api.deepseek.com/chat/completions');
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader('Authorization', 'Bearer ' + self.config.apikey);
-		xhr.send(JSON.stringify({
+		const request = {
 			model: self.config.reasoner ? 'deepseek-reasoner' : 'deepseek-chat',
+			thinking: {
+				type: self.config.reasoner ? 'enabled' : 'disabled',
+			},
 			messages: messages,
 			stream: false,
-		}));
+		};
+		if (self.config.temperature !== undefined) {
+			request.temperature = self.config.temperature;
+		}
+		if (self.config.deepseekV4) {
+			request.model = 'deepseek-v4-flash';
+		}
+		if (self.config.maxReasoning) {
+			request.reasoning_effort = 'max';
+		}
+		if (self.config.frequencyPenalty) {
+			request.frequency_penalty = self.config.frequencyPenalty;
+		}
+		if (self.config.presencePenalty) {
+			request.presence_penalty = self.config.presencePenalty;
+		}
+		xhr.send(JSON.stringify(request));
 	}
 	memorizeBeforeSleep() {
 		const self = this;
@@ -182,12 +220,19 @@ class DeepseekAgent extends Agent {
 		xhr.open('POST', 'https://api.deepseek.com/chat/completions');
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader('Authorization', 'Bearer ' + self.config.apikey);
-		xhr.send(JSON.stringify({
+		const request = {
 			model: 'deepseek-reasoner',
 			messages: messages,
 			stream: false,
 			temperature: 0.0,
-		}));
+		};
+		if (self.config.deepseekV4) {
+			request.model = 'deepseek-v4-flash';
+		}
+		if (self.config.maxReasoning) {
+			request.reasoning_effort = 'max';
+		}
+		xhr.send(JSON.stringify(request));
 	}
 	setSleepTime() {
 		const self = this;
@@ -285,6 +330,9 @@ class DeepseekAgent extends Agent {
 		xhr.setRequestHeader('Authorization', 'Bearer ' + self.config.apikey);
 		const request = {
 			model: self.config.reasoner ? 'deepseek-reasoner' : 'deepseek-chat',
+			thinking: {
+				type: self.config.reasoner ? 'enabled' : 'disabled',
+			},
 			messages: messages,
 			stream: false,
 		};
@@ -294,6 +342,18 @@ class DeepseekAgent extends Agent {
 		}
 		if (self.config.temperature !== undefined) {
 			request.temperature = self.config.temperature;
+		}
+		if (self.config.deepseekV4) {
+			request.model = 'deepseek-v4-flash';
+		}
+		if (self.config.maxReasoning) {
+			request.reasoning_effort = 'max';
+		}
+		if (self.config.frequencyPenalty) {
+			request.frequency_penalty = self.config.frequencyPenalty;
+		}
+		if (self.config.presencePenalty) {
+			request.presence_penalty = self.config.presencePenalty;
 		}
 		xhr.send(JSON.stringify(request));
 	}

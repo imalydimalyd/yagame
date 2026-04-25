@@ -171,11 +171,15 @@ const config = {
 
 			trigger: ['小葵'],
 			type: 'deepseek',
+			deepseekV4: true,
+			maxReasoning: false,
 			reasoner: false,
 			showCOT: false,
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.SUNFLOWER_PERSONA,
+			frequencyPenalty: 0.0,
+			presencePenalty: 0.0,
 
 			sleepTime: 59000000,
 			dreamProb: 0.5,
@@ -187,11 +191,15 @@ const config = {
 
 			trigger: ['茉茉', '嘎', '豆豆龙'],
 			type: 'deepseek',
+			deepseekV4: false,
+			maxReasoning: false,
 			reasoner: true,
 			showCOT: false,
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.MOMO_PERSONA,
+			frequencyPenalty: 0.0,
+			presencePenalty: 0.0,
 
 			sleepTime: 57000000,
 			dreamProb: 0.5,
@@ -203,11 +211,15 @@ const config = {
 
 			trigger: ['星铃'],
 			type: 'deepseek',
+			deepseekV4: true,
+			maxReasoning: false,
 			reasoner: false,
 			showCOT: false,
 			apikey: SECRETS.DEEPSEEK_API_KEY,
 			maxMessages: 1000000000,
 			persona: SECRETS.STARRY_PERSONA,
+			frequencyPenalty: 0.0,
+			presencePenalty: 0.0,
 
 			sleepTime: 58000000,
 			dreamProb: 0.5,
@@ -219,6 +231,8 @@ const config = {
 
 			trigger: ['核桃树'],
 			type: 'deepseek',
+			deepseekV4: true,
+			maxReasoning: false,
 			reasoner: false,
 			showCOT: false,
 			apikey: SECRETS.DEEPSEEK_API_KEY,
@@ -226,6 +240,8 @@ const config = {
 			persona: SECRETS.HTS_PERSONA,
 			// kth: 2,
 			temperature: 2.0,
+			frequencyPenalty: 0.0,
+			presencePenalty: 0.0,
 
 			sleepTime: 60000000,
 			dreamProb: 1.0,
