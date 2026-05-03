@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="preconnect" href="https://rsms.me/">
+	<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+	<title>命运算法计算器</title>
+	<link rel="icon" sizes="400x400"
+		href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDsgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7IGNvbG9yLXNjaGVtZTogbGlnaHQgZGFyazsiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSI0MDBweCIgaGVpZ2h0PSI0MDBweCIgdmlld0JveD0iMCAwIDQwMCA0MDAiPjxkZWZzLz48Zz48ZyBkYXRhLWNlbGwtaWQ9IjAiPjxnIGRhdGEtY2VsbC1pZD0iMSI+PGcgZGF0YS1jZWxsLWlkPSJ4VVBfRzU1TmlQeXhXOE5TV3pRbi0xIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjUsMC41KSI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0ibm9uZSIgcG9pbnRlci1ldmVudHM9ImFsbCIgc3R5bGU9ImZpbGw6IHJnYigyNTUsIDI1NSwgMjU1KTsiLz48L2c+PC9nPjxnIGRhdGEtY2VsbC1pZD0ieFVQX0c1NU5pUHl4VzhOU1d6UW4tMyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41LDAuNSkiPjxyZWN0IHg9IjQwIiB5PSI5MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSJub25lIiBwb2ludGVyLWV2ZW50cz0iYWxsIiBzdHlsZT0iZmlsbDogcmdiKDAsIDAsIDApOyIvPjwvZz48L2c+PGcgZGF0YS1jZWxsLWlkPSJ4VVBfRzU1TmlQeXhXOE5TV3pRbi00Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjUsMC41KSI+PHJlY3QgeD0iOTAiIHk9IjQwIiB3aWR0aD0iMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjMDAwMDAwIiBzdHJva2U9Im5vbmUiIHBvaW50ZXItZXZlbnRzPSJhbGwiIHN0eWxlPSJmaWxsOiByZ2IoMCwgMCwgMCk7Ii8+PC9nPjwvZz48ZyBkYXRhLWNlbGwtaWQ9InhVUF9HNTVOaVB5eFc4TlNXelFuLTgiPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuNSwwLjUpIj48cmVjdCB4PSIyMDAiIHk9IjAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMDAwMDAwIiBzdHJva2U9Im5vbmUiIHBvaW50ZXItZXZlbnRzPSJhbGwiIHN0eWxlPSJmaWxsOiByZ2IoMCwgMCwgMCk7Ii8+PC9nPjwvZz48ZyBkYXRhLWNlbGwtaWQ9InhVUF9HNTVOaVB5eFc4TlNXelFuLTkiPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuNSwwLjUpIj48cmVjdCB4PSIyNDAiIHk9IjkwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9Im5vbmUiIHBvaW50ZXItZXZlbnRzPSJhbGwiIHN0eWxlPSJmaWxsOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ii8+PC9nPjwvZz48ZyBkYXRhLWNlbGwtaWQ9InhVUF9HNTVOaVB5eFc4TlNXelFuLTExIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjUsMC41KSI+PHJlY3QgeD0iMjAwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9Im5vbmUiIHBvaW50ZXItZXZlbnRzPSJhbGwiIHN0eWxlPSJmaWxsOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ii8+PC9nPjwvZz48ZyBkYXRhLWNlbGwtaWQ9InhVUF9HNTVOaVB5eFc4TlNXelFuLTEyIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjUsMC41KSI+PHJlY3QgeD0iMjQwIiB5PSIyOTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMjAiIGZpbGw9IiMwMDAwMDAiIHN0cm9rZT0ibm9uZSIgdHJhbnNmb3JtPSJyb3RhdGUoNDUsMzAwLDMwMCkiIHBvaW50ZXItZXZlbnRzPSJhbGwiIHN0eWxlPSJmaWxsOiByZ2IoMCwgMCwgMCk7Ii8+PC9nPjwvZz48ZyBkYXRhLWNlbGwtaWQ9InhVUF9HNTVOaVB5eFc4TlNXelFuLTEzIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjUsMC41KSI+PHJlY3QgeD0iMjkwIiB5PSIyNDAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiMwMDAwMDAiIHN0cm9rZT0ibm9uZSIgdHJhbnNmb3JtPSJyb3RhdGUoNDUsMzAwLDMwMCkiIHBvaW50ZXItZXZlbnRzPSJhbGwiIHN0eWxlPSJmaWxsOiByZ2IoMCwgMCwgMCk7Ii8+PC9nPjwvZz48ZyBkYXRhLWNlbGwtaWQ9InhVUF9HNTVOaVB5eFc4TlNXelFuLTE0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjUsMC41KSI+PHJlY3QgeD0iMCIgeT0iMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSJub25lIiBwb2ludGVyLWV2ZW50cz0iYWxsIiBzdHlsZT0iZmlsbDogcmdiKDAsIDAsIDApOyIvPjwvZz48L2c+PGcgZGF0YS1jZWxsLWlkPSJ4VVBfRzU1TmlQeXhXOE5TV3pRbi0xNSI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41LDAuNSkiPjxyZWN0IHg9IjQwIiB5PSIyOTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMjAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0ibm9uZSIgcG9pbnRlci1ldmVudHM9ImFsbCIgc3R5bGU9ImZpbGw6IHJnYigyNTUsIDI1NSwgMjU1KTsiLz48L2c+PC9nPjxnIGRhdGEtY2VsbC1pZD0ieFVQX0c1NU5pUHl4VzhOU1d6UW4tMTciPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuNSwwLjUpIj48ZWxsaXBzZSBjeD0iMTAwIiBjeT0iMjU1IiByeD0iMTUiIHJ5PSIxNSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSJub25lIiBwb2ludGVyLWV2ZW50cz0iYWxsIiBzdHlsZT0iZmlsbDogcmdiKDI1NSwgMjU1LCAyNTUpOyIvPjwvZz48L2c+PGcgZGF0YS1jZWxsLWlkPSJ4VVBfRzU1TmlQeXhXOE5TV3pRbi0xOCI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC41LDAuNSkiPjxlbGxpcHNlIGN4PSIxMDAiIGN5PSIzNDUiIHJ4PSIxNSIgcnk9IjE1IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9Im5vbmUiIHBvaW50ZXItZXZlbnRzPSJhbGwiIHN0eWxlPSJmaWxsOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ii8+PC9nPjwvZz48L2c+PC9nPjwvZz48L3N2Zz4=">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			transition: all 0.2s;
+		}
+
+		:root {
+			user-select: none;
+		}
+
+		:root,
+		textarea {
+			font-family: Inter, sans-serif;
+			font-feature-settings: 'liga' 1, 'calt' 1;
+			font-size: min(4.6vw, 2.3vh);
+			font-weight: 200;
+			background-color: #000;
+			color: #FFF;
+		}
+
+		.light,
+		.light textarea {
+			background-color: #FFF;
+			color: #000;
+		}
+
+		::selection {
+			background-color: #FFF;
+			color: #000;
+		}
+
+		.light ::selection {
+			background-color: #000;
+			color: #FFF;
+		}
+
+		textarea {
+			border-radius: min(2vw, 1vh);
+			border: 1px solid #FFF;
+			resize: none;
+			padding: min(2vw, 1vh);
+			box-sizing: border-box;
+			outline: none;
+		}
+
+		.light textarea {
+			border-color: #000;
+		}
+
+		.nodisplay {
+			display: none;
+		}
+
+		.icon {
+			width: 1em;
+			height: 1em;
+			transform: translateY(0.16em);
+		}
+
+		path {
+			fill: #FFF;
+		}
+
+		.light path {
+			fill: #000;
+		}
+
+		.red {
+			color: #F00;
+		}
+
+		.red path {
+			fill: #F00;
+		}
+
+		.tablewrapper {
+			border-radius: min(2vw, 1vh);
+			border: 1px solid #FFF;
+			overflow: hidden;
+		}
+
+		.light .tablewrapper {
+			border-color: #000;
+		}
+
+		table {
+			margin: 0;
+			border-collapse: separate;
+			border-spacing: 0;
+		}
+
+		table th,
+		table td {
+			padding: min(2vw, 1vh);
+			border-right: 1px solid #FFF;
+			text-align: center;
+		}
+
+		table td {
+			border-top: 1px solid #FFF;
+		}
+
+		.light table th,
+		.light table td {
+			border-color: #000;
+		}
+
+		table th:last-child,
+		table td:last-child {
+			border-right: 0;
+		}
+	</style>
+</head>
+
+<body style="margin: 0; padding: 0;">
+	<div id="theme" class="icon" style="position: absolute; right: 20px; top: 20px; cursor: pointer;"></div>
+	<div
+		style="display: flex; flex-direction: column; flex-wrap: wrap; align-content: center; justify-content: space-between; align-items: center; width: calc(100vw - min(12vw, 6vh)); height: calc(100vh - min(12vw, 6vh)); padding: min(6vw, 3vh); border: none;">
+		<div style="width: calc(100vw - min(12vw, 6vh)); height: calc(12vh - min(8vw, 4vh)); text-align: center;">
+			<span style="font-size: 2em; font-weight: 300;">命运算法计算器</span>
+			&nbsp;&nbsp;
+			<span>by Ya</span>
+		</div>
+		<textarea id="editor"
+			style="width: calc(100vw - min(12vw, 6vh)); height: calc(44vh - min(8vw, 4vh));"></textarea>
+		<div
+			style="display: flex; flex-direction: column; align-items: center; width: calc(100vw - min(12vw, 6vh)); height: calc(44vh - min(8vw, 4vh));">
+			<p id="samelevel" style="cursor: pointer;"><span id="samelevelicon"></span>&nbsp;同级运算</p>
+			<p id="log" style="overflow-wrap: anywhere; font-weight: 700;">&nbsp;</p>
+			<p>&nbsp;</p>
+			<div id="vartable" class="tablewrapper" style="margin-left: auto; margin-right: auto;">
+				<table>
+					<thead>
+						<tr>
+							<th>变量</th>
+							<th>数值</th>
+							<th>位数</th>
+							<th>数根</th>
+						</tr>
+					</thead>
+					<tbody id="vartablebody" style="user-select: text;"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	class Storage {
+		data;
+		constructor(key, init) { }
+		load() { }
+		save() { }
+	}
+	class LocalStorage extends Storage {
+		constructor(key, init) {
+			super(key, init);
+			if (typeof key !== 'string') {
+				throw Error('Key should be string');
+			}
+			this.key = key;
+			this.loaded = false;
+			this.init = init;
+		}
+		load() {
+			const self = this;
+			if (self.loaded) {
+				throw Error('Storage is already loaded');
+			}
+			try {
+				const get = localStorage.getItem(self.key);
+				if (!get) {
+					throw '';
+				}
+				self.data = JSON.parse(get);
+			} catch {
+				self.data = self.init;
+			}
+			self.loaded = true;
+			return self.data;
+		}
+		save() {
+			const self = this;
+			if (!self.loaded) {
+				throw Error('Storage has not been loaded');
+			}
+			localStorage.setItem(self.key, JSON.stringify(self.data));
+		}
+	}
+	const storage = new LocalStorage('fatealgocalc', {
+		lightTheme: false,
+		text: 'A = 17 % 13 √ 11 + 7 − 5 × 3 ÷ 2\nFINAL = A % A √ A + A − A × A ÷ A',
+		sameLevel: false,
+	});
+	const storageData = storage.load();
+
+	const OPS = {
+		'%': 1,
+		'％': 1,
+
+		'√': 2,
+
+		'+': 3,
+
+		'-': 4,
+		'−': 4,
+
+		'*': 5,
+		'×': 5,
+
+		'/': 6,
+		'÷': 6,
+	};
+	const PRIORITY = [0, 1, 1, 0, 0, 1, 1];
+	const THEME_ICON_MOON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M256 0C114.6 0 0 114.6 0 256S114.6 512 256 512c68.8 0 131.3-27.2 177.3-71.4 7.3-7 9.4-17.9 5.3-27.1s-13.7-14.9-23.8-14.1c-4.9 .4-9.8 .6-14.8 .6-101.6 0-184-82.4-184-184 0-72.1 41.5-134.6 102.1-164.8 9.1-4.5 14.3-14.3 13.1-24.4S322.6 8.5 312.7 6.3C294.4 2.2 275.4 0 256 0z"/></svg>`;
+	const THEME_ICON_SUN = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M288-32c8.4 0 16.3 4.4 20.6 11.7L364.1 72.3 468.9 46c8.2-2 16.9 .4 22.8 6.3S500 67 498 75.1l-26.3 104.7 92.7 55.5c7.2 4.3 11.7 12.2 11.7 20.6s-4.4 16.3-11.7 20.6L471.7 332.1 498 436.8c2 8.2-.4 16.9-6.3 22.8S477 468 468.9 466l-104.7-26.3-55.5 92.7c-4.3 7.2-12.2 11.7-20.6 11.7s-16.3-4.4-20.6-11.7L211.9 439.7 107.2 466c-8.2 2-16.8-.4-22.8-6.3S76 445 78 436.8l26.2-104.7-92.6-55.5C4.4 272.2 0 264.4 0 256s4.4-16.3 11.7-20.6L104.3 179.9 78 75.1c-2-8.2 .3-16.8 6.3-22.8S99 44 107.2 46l104.7 26.2 55.5-92.6 1.8-2.6c4.5-5.7 11.4-9.1 18.8-9.1zm0 144a144 144 0 1 0 0 288 144 144 0 1 0 0-288zm0 240a96 96 0 1 1 0-192 96 96 0 1 1 0 192z"/></svg>`;
+	const CHECKBOX_ICON_0 = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M384 80c8.8 0 16 7.2 16 16l0 320c0 8.8-7.2 16-16 16L64 432c-8.8 0-16-7.2-16-16L48 96c0-8.8 7.2-16 16-16l320 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z"/></svg>`;
+	const CHECKBOX_ICON_1 = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M384 32c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l320 0zM64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80zm230.7 89.9c7.8-10.7 22.8-13.1 33.5-5.3 10.7 7.8 13.1 22.8 5.3 33.5L211.4 366.1c-4.1 5.7-10.5 9.3-17.5 9.8-7 .5-13.9-2-18.8-6.9l-55.9-55.9c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l36 36 105.6-145.2z"/></svg>`;
+	const CALC_OK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M256 512a256 256 0 1 1 0-512 256 256 0 1 1 0 512zm0-464a208 208 0 1 0 0 416 208 208 0 1 0 0-416zm70.7 121.9c7.8-10.7 22.8-13.1 33.5-5.3 10.7 7.8 13.1 22.8 5.3 33.5L243.4 366.1c-4.1 5.7-10.5 9.3-17.5 9.8-7 .5-13.9-2-18.8-6.9l-55.9-55.9c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l36 36 105.6-145.2z"/></svg>`;
+	const CALC_ERROR = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM167 167c-9.4 9.4-9.4 24.6 0 33.9l55 55-55 55c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l55-55 55 55c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-55-55 55-55c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-55 55-55-55c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>`;
+	let sameLevel = false;
+	function calcOp(op, l, r) {
+		switch (op.value) {
+			case 1:
+				return l * r * 0.01;
+			case 2:
+				return (r < 0) ? (-l * Math.sqrt(-r)) : (l * Math.sqrt(r));
+			case 3:
+				return l + r;
+			case 4:
+				return l - r;
+			case 5:
+				return l * r;
+			case 6:
+				return r ? (l / r) : l;
+		}
+	}
+	function calcDigits(x) {
+		return (x <= -10 || x >= 10) ? (Math.floor(Math.log10((x < 0) ? (-x) : x)) + 1) : 1;
+	}
+	function calcDigitalRoot(x) {
+		if (!(x > Number.MIN_SAFE_INTEGER && x < Number.MAX_SAFE_INTEGER)) {
+			return NaN;
+		}
+		if (x > -1 && x < 1) {
+			return 0;
+		}
+		return (Math.floor((x < 0) ? (-x) : x) - 1) % 9 + 1;
+	}
+	function isVariableName(str) {
+		if (!str.length) {
+			return undefined;
+		}
+		const upper = str.toUpperCase();
+		for (const char of upper) {
+			const codePoint = char.codePointAt(0);
+			if (codePoint < 65 || codePoint > 90) {
+				return undefined;
+			}
+		}
+		return upper;
+	}
+	function parseToken(tokenStr, lineId, tokenId) {
+		const token = {};
+		if (tokenStr === '=') {
+			token.type = '=';
+		} else if (tokenStr in OPS) {
+			token.type = 'op';
+			token.value = OPS[tokenStr];
+			token.priority = sameLevel ? 0 : PRIORITY[token.value];
+		} else {
+			const variableName = isVariableName(tokenStr);
+			if (variableName) {
+				token.type = 'var';
+				token.value = variableName;
+			} else {
+				const intValue = parseInt(tokenStr);
+				if (!Number.isNaN(intValue)) {
+					token.type = 'num';
+					token.value = intValue;
+				} else {
+					throw new Error(`第 ${lineId} 行的第 ${tokenId} 个符号 ${tokenStr} 类型未知`);
+				}
+			}
+		}
+		return token;
+	}
+	function calc(code) {
+		const lines = code.split('\n'), vars = {}, varList = [];
+		for (let lineId = 1; lineId <= lines.length; ++lineId) {
+			const tokenStrs = lines[lineId - 1].split(' ').filter(x => x);
+			const tokens = [];
+			for (let tokenId = 1; tokenId <= tokenStrs.length; ++tokenId) {
+				tokens.push(parseToken(tokenStrs[tokenId - 1], lineId, tokenId));
+			}
+			if (!tokens.length) {
+				continue;
+			}
+			if (tokens.length < 3) {
+				throw new Error(`第 ${lineId} 行应至少有 3 个符号，但只有 ${tokens.length} 个符号`);
+			}
+			if (tokens[1].type !== '=') {
+				throw new Error(`第 ${lineId} 行的第 2 个符号必须是等号`);
+			}
+			if (tokens[0].type !== 'var') {
+				throw new Error(`第 ${lineId} 行的第 1 个符号必须是变量`);
+			}
+			if (tokens[0].value in vars) {
+				throw new Error(`第 ${lineId} 行定义的变量 ${tokens[0].value} 和第 ${vars[tokens[0].value].lineId} 行重复`);
+			}
+			const numStack = [];
+			const opStack = [];
+			for (let tokenId = 3; tokenId <= tokens.length; ++tokenId) {
+				const token = tokens[tokenId - 1];
+				if (token.type === 'num' || token.type === 'var') {
+					if (numStack.length !== opStack.length) {
+						throw new Error(`第 ${lineId} 行的第 ${tokenId} 个符号应是算符，但实际为数字或变量`);
+					}
+					let value;
+					if (token.type === 'var') {
+						if (!(token.value in vars)) {
+							throw new Error(`第 ${lineId} 行的第 ${tokenId} 个符号对应的变量未定义`);
+						}
+						value = vars[token.value].value;
+					} else {
+						value = token.value;
+					}
+					numStack.push(value);
+				} else if (token.type === 'op') {
+					if (numStack.length !== opStack.length + 1) {
+						throw new Error(`第 ${lineId} 行的第 ${tokenId} 个符号应是数字或变量，但实际为算符`);
+					}
+					while (opStack.length && opStack[opStack.length - 1].priority >= token.priority) {
+						const op = opStack.pop();
+						const r = numStack.pop();
+						const l = numStack.pop();
+						numStack.push(calcOp(op, l, r));
+					}
+					opStack.push(token);
+				} else {
+					throw new Error(`第 ${lineId} 行的第 ${tokenId} 个符号应是数字、变量或算符`);
+				}
+			}
+			while (opStack.length) {
+				const op = opStack.pop();
+				const r = numStack.pop();
+				const l = numStack.pop();
+				numStack.push(calcOp(op, l, r));
+			}
+			const result = numStack[0];
+			const thisVar = {
+				name: tokens[0].value,
+				lineId: lineId,
+				value: result,
+				digits: calcDigits(result),
+				digitalRoot: calcDigitalRoot(result),
+			};
+			vars[tokens[0].value] = thisVar;
+			varList.push(thisVar);
+		}
+		if (!varList.length) {
+			throw new Error(`应至少有 1 个变量，但实际有 0 个`);
+		}
+		return varList;
+	}
+
+	const editorElement = document.getElementById('editor');
+	const sameLevelElement = document.getElementById('samelevel');
+	const sameLevelIconElement = document.getElementById('samelevelicon');
+	const logElement = document.getElementById('log');
+	const varTableElement = document.getElementById('vartable');
+	const varTableBodyElement = document.getElementById('vartablebody');
+	function update() {
+		const text = editorElement.value;
+		storageData.text = text;
+		storageData.sameLevel = sameLevel;
+		storage.save();
+		if (sameLevel) {
+			sameLevelIconElement.innerHTML = CHECKBOX_ICON_1;
+		} else {
+			sameLevelIconElement.innerHTML = CHECKBOX_ICON_0;
+		}
+		try {
+			const varList = calc(text);
+			logElement.classList.add('nodisplay');
+			logElement.classList.remove('red');
+			varTableElement.classList.remove('nodisplay');
+			varTableBodyElement.innerHTML = '';
+			for (const thisVar of varList) {
+				const rowElement = document.createElement('tr');
+				for (const entry of [
+					thisVar.name,
+					thisVar.value.toString().replace('-', '−'),
+					thisVar.digits.toString(),
+					thisVar.digitalRoot.toString(),
+				]) {
+					const entryElement = document.createElement('td');
+					entryElement.innerText = entry;
+					rowElement.appendChild(entryElement);
+				}
+				if (thisVar.name === 'FINAL') {
+					rowElement.style.fontWeight = 700;
+				}
+				varTableBodyElement.appendChild(rowElement);
+			}
+		} catch (error) {
+			logElement.classList.remove('nodisplay');
+			logElement.classList.add('red');
+			varTableElement.classList.add('nodisplay');
+			logElement.innerHTML = `${CALC_ERROR} ${error}`;
+		}
+	}
+	editorElement.addEventListener('input', function () {
+		update();
+	});
+	sameLevelElement.addEventListener('click', function () {
+		if (sameLevel) {
+			sameLevel = false;
+		} else {
+			sameLevel = true;
+		}
+		update();
+	});
+
+	let lightTheme = false;
+	const themeElement = document.getElementById('theme');
+	function updateTheme() {
+		storageData.lightTheme = lightTheme;
+		storage.save();
+		if (lightTheme) {
+			document.body.classList.add('light');
+			themeElement.innerHTML = THEME_ICON_MOON;
+		} else {
+			document.body.classList.remove('light');
+			themeElement.innerHTML = THEME_ICON_SUN;
+		}
+	}
+	themeElement.addEventListener('click', function () {
+		lightTheme = !lightTheme;
+		updateTheme();
+	});
+
+	editorElement.value = storageData.text;
+	sameLevel = storageData.sameLevel;
+	update();
+	lightTheme = storageData.lightTheme;
+	updateTheme();
+
+	const TESTCASES = [
+		`A = 966 − 17 + 12 % 742 % 004
+B = 095 × 844 ÷ 095 + 233 % 12
+C = 3 − 653 − 868 × 759 √ 87
+
+FINAL = A ÷ B √ C`,
+		`A1 = 966 − 17 + 12 % 742 ％ 004
+B = 095 × 844 ÷ 095 + 233 % 12
+C = 3 − 653 − 868 × 759 √ 87
+
+FINAL = A ÷ B √ C`,
+	];
+	function test(id) {
+		editorElement.value = TESTCASES[id];
+		update();
+	}
+</script>
+
+</html>
