@@ -45,6 +45,50 @@
 			color: #FFF;
 		}
 
+		::-webkit-scrollbar {
+			width: min(4vw, 2vh);
+			border-radius: min(2vw, 1vh);
+			background-color: #0000;
+			border: 1px solid #FFF;
+		}
+
+		.light ::-webkit-scrollbar {
+			border-color: #000;
+		}
+
+		::-webkit-scrollbar-thumb {
+			border-radius: min(2vw, 1vh);
+			background-color: #000;
+			border: 1px solid #FFF;
+
+			background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIHY3LjIuMCBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIENvcHlyaWdodCAyMDI2IEZvbnRpY29ucywgSW5jLi0tPjxwYXRoIGQ9Ik0wIDk2QzAgNzguMyAxNC4zIDY0IDMyIDY0bDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMyTDMyIDEyOEMxNC4zIDEyOCAwIDExMy43IDAgOTZ6TTAgMjU2YzAtMTcuNyAxNC4zLTMyIDMyLTMybDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMyTDMyIDI4OGMtMTcuNyAwLTMyLTE0LjMtMzItMzJ6TTQ0OCA0MTZjMCAxNy43LTE0LjMgMzItMzIgMzJMMzIgNDQ4Yy0xNy43IDAtMzItMTQuMy0zMi0zMnMxNC4zLTMyIDMyLTMybDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMyeiIgZmlsbD0iI0ZGRiIvPjwvc3ZnPg==');
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: min(2vw, 1vh);
+
+		}
+
+		::-webkit-scrollbar-thumb:horizontal {
+			background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIHY3LjIuMCBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIENvcHlyaWdodCAyMDI2IEZvbnRpY29ucywgSW5jLi0tPjxwYXRoIGQ9Ik0wIDk2QzAgNzguMyAxNC4zIDY0IDMyIDY0bDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMyTDMyIDEyOEMxNC4zIDEyOCAwIDExMy43IDAgOTZ6TTAgMjU2YzAtMTcuNyAxNC4zLTMyIDMyLTMybDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMyTDMyIDI4OGMtMTcuNyAwLTMyLTE0LjMtMzItMzJ6TTQ0OCA0MTZjMCAxNy43LTE0LjMgMzItMzIgMzJMMzIgNDQ4Yy0xNy43IDAtMzItMTQuMy0zMi0zMnMxNC4zLTMyIDMyLTMybDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMyeiIgZmlsbD0iI0ZGRiIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMjI0IDI1NikiLz48L3N2Zz4=');
+		}
+
+		.light ::-webkit-scrollbar-thumb {
+			background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIHY3LjIuMCBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIENvcHlyaWdodCAyMDI2IEZvbnRpY29ucywgSW5jLi0tPjxwYXRoIGQ9Ik0wIDk2QzAgNzguMyAxNC4zIDY0IDMyIDY0bDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMyTDMyIDEyOEMxNC4zIDEyOCAwIDExMy43IDAgOTZ6TTAgMjU2YzAtMTcuNyAxNC4zLTMyIDMyLTMybDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMyTDMyIDI4OGMtMTcuNyAwLTMyLTE0LjMtMzItMzJ6TTQ0OCA0MTZjMCAxNy43LTE0LjMgMzItMzIgMzJMMzIgNDQ4Yy0xNy43IDAtMzItMTQuMy0zMi0zMnMxNC4zLTMyIDMyLTMybDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMyeiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==');
+		}
+
+		.light ::-webkit-scrollbar-thumb:horizontal {
+			background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIHY3LjIuMCBieSBAZm9udGF3ZXNvbWUgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbSBMaWNlbnNlIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20vbGljZW5zZS9mcmVlIENvcHlyaWdodCAyMDI2IEZvbnRpY29ucywgSW5jLi0tPjxwYXRoIGQ9Ik0wIDk2QzAgNzguMyAxNC4zIDY0IDMyIDY0bDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMyTDMyIDEyOEMxNC4zIDEyOCAwIDExMy43IDAgOTZ6TTAgMjU2YzAtMTcuNyAxNC4zLTMyIDMyLTMybDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMycy0xNC4zIDMyLTMyIDMyTDMyIDI4OGMtMTcuNyAwLTMyLTE0LjMtMzItMzJ6TTQ0OCA0MTZjMCAxNy43LTE0LjMgMzItMzIgMzJMMzIgNDQ4Yy0xNy43IDAtMzItMTQuMy0zMi0zMnMxNC4zLTMyIDMyLTMybDM4NCAwYzE3LjcgMCAzMiAxNC4zIDMyIDMyeiIgZmlsbD0iIzAwMCIgdHJhbnNmb3JtPSJyb3RhdGUoOTAgMjI0IDI1NikiLz48L3N2Zz4=');
+		}
+
+		.light ::-webkit-scrollbar-thumb {
+			background-color: #FFF;
+			border-color: #000;
+		}
+
+		::-webkit-scrollbar-corner {
+			background-color: #0000;
+		}
+
 		textarea {
 			border-radius: min(2vw, 1vh);
 			border: 1px solid #FFF;
@@ -120,11 +164,48 @@
 		table td:last-child {
 			border-right: 0;
 		}
+
+		dialog {
+			margin: auto;
+			background-color: #000;
+			color: #FFF;
+			font-size: min(4.6vw, 2.3vh);
+			border: 1px solid #FFF;
+			border-radius: min(2vw, 1vh);
+			padding: min(10vw, 5vh);
+		}
+
+		dialog::backdrop {
+			background-color: #FFF8;
+		}
+
+		.light dialog {
+			background-color: #FFF;
+			color: #000;
+			border-color: #000;
+		}
+
+		.light dialog::backdrop {
+			background-color: #0008;
+		}
 	</style>
 </head>
 
 <body style="margin: 0; padding: 0;">
-	<div id="theme" class="icon" style="position: absolute; right: 20px; top: 20px; cursor: pointer;"></div>
+	<div id="theme" class="icon" style="position: absolute; right: 0.5em; top: 0.5em; cursor: pointer;">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+			class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+			<path
+				d="M288-32c8.4 0 16.3 4.4 20.6 11.7L364.1 72.3 468.9 46c8.2-2 16.9 .4 22.8 6.3S500 67 498 75.1l-26.3 104.7 92.7 55.5c7.2 4.3 11.7 12.2 11.7 20.6s-4.4 16.3-11.7 20.6L471.7 332.1 498 436.8c2 8.2-.4 16.9-6.3 22.8S477 468 468.9 466l-104.7-26.3-55.5 92.7c-4.3 7.2-12.2 11.7-20.6 11.7s-16.3-4.4-20.6-11.7L211.9 439.7 107.2 466c-8.2 2-16.8-.4-22.8-6.3S76 445 78 436.8l26.2-104.7-92.6-55.5C4.4 272.2 0 264.4 0 256s4.4-16.3 11.7-20.6L104.3 179.9 78 75.1c-2-8.2 .3-16.8 6.3-22.8S99 44 107.2 46l104.7 26.2 55.5-92.6 1.8-2.6c4.5-5.7 11.4-9.1 18.8-9.1zm0 144a144 144 0 1 0 0 288 144 144 0 1 0 0-288zm0 240a96 96 0 1 1 0-192 96 96 0 1 1 0 192z" />
+		</svg>
+	</div>
+	<div id="openhelp" class="icon" style="position: absolute; right: 0.5em; top: 2em; cursor: pointer;">
+		<svg xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 512 512"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+			<path
+				d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm0-336c-17.7 0-32 14.3-32 32 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-44.2 35.8-80 80-80s80 35.8 80 80c0 47.2-36 67.2-56 74.5l0 3.8c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-8.1c0-20.5 14.8-35.2 30.1-40.2 6.4-2.1 13.2-5.5 18.2-10.3 4.3-4.2 7.7-10 7.7-19.6 0-17.7-14.3-32-32-32zM224 368a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+		</svg>
+	</div>
 	<div
 		style="display: flex; flex-direction: column; flex-wrap: wrap; align-content: center; justify-content: space-between; align-items: center; width: calc(100vw - min(12vw, 6vh)); height: calc(100vh - min(12vw, 6vh)); padding: min(6vw, 3vh); border: none;">
 		<div style="width: calc(100vw - min(12vw, 6vh)); height: calc(12vh - min(8vw, 4vh)); text-align: center;">
@@ -139,21 +220,55 @@
 			<p id="samelevel" style="cursor: pointer;"><span id="samelevelicon"></span>&nbsp;同级运算</p>
 			<p id="log" style="overflow-wrap: anywhere; font-weight: 700;">&nbsp;</p>
 			<p>&nbsp;</p>
-			<div id="vartable" class="tablewrapper" style="margin-left: auto; margin-right: auto;">
-				<table>
-					<thead>
-						<tr>
-							<th>变量</th>
-							<th>数值</th>
-							<th>位数</th>
-							<th>数根</th>
-						</tr>
-					</thead>
-					<tbody id="vartablebody" style="user-select: text;"></tbody>
-				</table>
+			<div id="vartable" style="margin-left: auto; margin-right: auto; overflow: auto;">
+				<div class="tablewrapper">
+					<table>
+						<thead>
+							<tr>
+								<th>变量</th>
+								<th>数值</th>
+								<th>位数</th>
+								<th>数根</th>
+							</tr>
+						</thead>
+						<tbody id="vartablebody" style="user-select: text;"></tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
+	<dialog id="helpdialog">
+		<div id="closehelp" class="icon" style="position: absolute; right: 0.5em; top: 0.5em; cursor: pointer;">
+			<svg xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 384 512"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+				<path
+					d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z" />
+			</svg>
+		</div>
+		<h1>命运算法计算器帮助</h1>
+		<p>版本：v1.1&nbsp;&nbsp;&nbsp;&nbsp;作者：Ya</p>
+		<h2>程序概述</h2>
+		<p>本程序用于辅助命运算法终局结算，可以节省人力并减少计算错误率。</p>
+		<p>在代码框内输入若干行，每行代表一个变量的定义（可以插入空行）。程序会自动计算所有变量的值。</p>
+		<p>每行格式：变量名 = N ⊕ N ⊕ ……，其中 N 为数字或变量名，⊕ 为算符。</p>
+		<p>每两个符号之间必须添加空格，否则程序将无法正确识别算式。</p>
+		<h2>变量名</h2>
+		<p>变量名只能由一个或多个英文字母构成，不区分大小写（程序会自动把变量名转化成大写）。</p>
+		<p>引用变量名时，只能引用上方的变量，不能引用下方变量、本行变量或未定义的变量。</p>
+		<p>一般最后一行的变量名是 FINAL。</p>
+		<h2>数字</h2>
+		<p>数字只能输入整数（可以是负数）。若在数字后添加^2或²，则数字会被平方。</p>
+		<h2>算符</h2>
+		<p>算符包括 %、√（sqrt）、+、−（-）、×（*）、÷（/），每个算符代表一种二元运算。</p>
+		<p>括号内的形式不是标准形式，但程序也能识别，并更容易在标准键盘上打出。</p>
+		<p>若在算符左右添加括号，则表示这个算符的优先级最高。</p>
+		<h2>算符优先级</h2>
+		<p>算符的默认优先级是：“%” = “√” = “×” = “÷” > “+” = “−”。相同级别的运算顺序为从左到右。</p>
+		<p>若打开“同级运算”开关，则改为 “%” = “√” = “×” = “÷” = “+” = “−”。</p>
+		<h2>计算结果</h2>
+		<p>若输入格式无误，程序会计算每个变量的数值、（向 0 取整后的）位数、（向 0 取整后的）数根。</p>
+		<p>名为 FINAL 的变量结果会用粗体显示。</p>
+	</dialog>
 </body>
 <script>
 	class Storage {
@@ -201,6 +316,7 @@
 		lightTheme: false,
 		text: 'A = 17 % 13 √ 11 + 7 − 5 × 3 ÷ 2\nFINAL = A % A √ A + A − A × A ÷ A',
 		sameLevel: false,
+		openHelp: false,
 	});
 	const storageData = storage.load();
 
@@ -209,6 +325,7 @@
 		'％': 1,
 
 		'√': 2,
+		'sqrt': 2,
 
 		'+': 3,
 
@@ -222,6 +339,9 @@
 		'÷': 6,
 	};
 	const PRIORITY = [0, 1, 1, 0, 0, 1, 1];
+	const BRACKETS = ['(', ')', '（', '）'];
+	const SQUARES = ['^2', '²'];
+	const NEGATIONS = ['-', '−'];
 	const THEME_ICON_MOON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M256 0C114.6 0 0 114.6 0 256S114.6 512 256 512c68.8 0 131.3-27.2 177.3-71.4 7.3-7 9.4-17.9 5.3-27.1s-13.7-14.9-23.8-14.1c-4.9 .4-9.8 .6-14.8 .6-101.6 0-184-82.4-184-184 0-72.1 41.5-134.6 102.1-164.8 9.1-4.5 14.3-14.3 13.1-24.4S322.6 8.5 312.7 6.3C294.4 2.2 275.4 0 256 0z"/></svg>`;
 	const THEME_ICON_SUN = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M288-32c8.4 0 16.3 4.4 20.6 11.7L364.1 72.3 468.9 46c8.2-2 16.9 .4 22.8 6.3S500 67 498 75.1l-26.3 104.7 92.7 55.5c7.2 4.3 11.7 12.2 11.7 20.6s-4.4 16.3-11.7 20.6L471.7 332.1 498 436.8c2 8.2-.4 16.9-6.3 22.8S477 468 468.9 466l-104.7-26.3-55.5 92.7c-4.3 7.2-12.2 11.7-20.6 11.7s-16.3-4.4-20.6-11.7L211.9 439.7 107.2 466c-8.2 2-16.8-.4-22.8-6.3S76 445 78 436.8l26.2-104.7-92.6-55.5C4.4 272.2 0 264.4 0 256s4.4-16.3 11.7-20.6L104.3 179.9 78 75.1c-2-8.2 .3-16.8 6.3-22.8S99 44 107.2 46l104.7 26.2 55.5-92.6 1.8-2.6c4.5-5.7 11.4-9.1 18.8-9.1zm0 144a144 144 0 1 0 0 288 144 144 0 1 0 0-288zm0 240a96 96 0 1 1 0-192 96 96 0 1 1 0 192z"/></svg>`;
 	const CHECKBOX_ICON_0 = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M384 80c8.8 0 16 7.2 16 16l0 320c0 8.8-7.2 16-16 16L64 432c-8.8 0-16-7.2-16-16L48 96c0-8.8 7.2-16 16-16l320 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z"/></svg>`;
@@ -246,6 +366,9 @@
 		}
 	}
 	function calcDigits(x) {
+		if (Number.isNaN(x)) {
+			return NaN;
+		}
 		return (x <= -10 || x >= 10) ? (Math.floor(Math.log10((x < 0) ? (-x) : x)) + 1) : 1;
 	}
 	function calcDigitalRoot(x) {
@@ -270,24 +393,76 @@
 		}
 		return upper;
 	}
+	function parseIntStrict(str) {
+		let neg = false;
+		for (const negation of NEGATIONS) {
+			if (str.startsWith(negation)) {
+				neg = true;
+				break;
+			}
+		}
+		if (neg) {
+			for (const negation of NEGATIONS) {
+				str = str.replaceAll(negation, '');
+			}
+		}
+		for (let i = 0; i < str.length; ++i) {
+			const c = str.codePointAt(i);
+			if (!(c >= 48 && c <= 57)) {
+				return NaN;
+			}
+		}
+		if (neg) {
+			str = '-' + str;
+		}
+		return parseInt(str, 10);
+	}
 	function parseToken(tokenStr, lineId, tokenId) {
 		const token = {};
+
+		for (const bracket of BRACKETS) {
+			if (tokenStr.indexOf(bracket) !== -1) {
+				token.bracket = true;
+				break;
+			}
+		}
+		if (token.bracket) {
+			for (const bracket of BRACKETS) {
+				tokenStr = tokenStr.replaceAll(bracket, '');
+			}
+		}
+
+		for (const square of SQUARES) {
+			if (tokenStr.endsWith(square)) {
+				token.square = true;
+				break;
+			}
+		}
+		if (token.square) {
+			for (const square of SQUARES) {
+				tokenStr = tokenStr.replaceAll(square, '');
+			}
+		}
+
 		if (tokenStr === '=') {
 			token.type = '=';
 		} else if (tokenStr in OPS) {
 			token.type = 'op';
 			token.value = OPS[tokenStr];
 			token.priority = sameLevel ? 0 : PRIORITY[token.value];
+			if (token.bracket) {
+				token.priority += 10;
+			}
 		} else {
 			const variableName = isVariableName(tokenStr);
 			if (variableName) {
 				token.type = 'var';
 				token.value = variableName;
 			} else {
-				const intValue = parseInt(tokenStr);
+				const intValue = parseIntStrict(tokenStr);
 				if (!Number.isNaN(intValue)) {
 					token.type = 'num';
-					token.value = intValue;
+					token.value = (token.square ? (intValue * intValue) : intValue);
 				} else {
 					throw new Error(`第 ${lineId} 行的第 ${tokenId} 个符号 ${tokenStr} 类型未知`);
 				}
@@ -298,7 +473,7 @@
 	function calc(code) {
 		const lines = code.split('\n'), vars = {}, varList = [];
 		for (let lineId = 1; lineId <= lines.length; ++lineId) {
-			const tokenStrs = lines[lineId - 1].split(' ').filter(x => x);
+			const tokenStrs = lines[lineId - 1].replaceAll('\t', ' ').split(' ').filter(x => x);
 			const tokens = [];
 			for (let tokenId = 1; tokenId <= tokenStrs.length; ++tokenId) {
 				tokens.push(parseToken(tokenStrs[tokenId - 1], lineId, tokenId));
@@ -450,23 +625,89 @@
 		updateTheme();
 	});
 
+	let showHelp = false;
+	const helpDialogElement = document.getElementById('helpdialog');
+	const openHelpElement = document.getElementById('openhelp');
+	const closeHelpElement = document.getElementById('closehelp');
+	function updateHelp() {
+		storageData.showHelp = showHelp;
+		storage.save();
+		if (showHelp) {
+			helpDialogElement.showModal();
+		} else {
+			helpDialogElement.close();
+		}
+	}
+	openHelpElement.addEventListener('click', function () {
+		showHelp = true;
+		updateHelp();
+	});
+	closeHelpElement.addEventListener('click', function () {
+		showHelp = false;
+		updateHelp();
+	});
+
 	editorElement.value = storageData.text;
 	sameLevel = storageData.sameLevel;
 	update();
 	lightTheme = storageData.lightTheme;
 	updateTheme();
+	showHelp = storageData.showHelp;
+	updateHelp();
 
 	const TESTCASES = [
+		// 0
 		`A = 966 − 17 + 12 % 742 % 004
-B = 095 × 844 ÷ 095 + 233 % 12
-C = 3 − 653 − 868 × 759 √ 87
+		B = 095 × 844 ÷ 095 + 233 % 12
+		C = 3 − 653 − 868 × 759 √ 87
 
-FINAL = A ÷ B √ C`,
+		FINAL = A ÷ B √ C`,
+		// 1
 		`A1 = 966 − 17 + 12 % 742 ％ 004
-B = 095 × 844 ÷ 095 + 233 % 12
-C = 3 − 653 − 868 × 759 √ 87
+		B = 095 × 844 ÷ 095 + 233 % 12
+		C = 3 − 653 − 868 × 759 √ 87
 
-FINAL = A ÷ B √ C`,
+		FINAL = A ÷ B √ C`,
+		// 2
+		`A = 966 - 17 + 12 % 742 % 004
+		B = 966 - 17 (+) 12 % 742 % 004
+		C = 966^2 - 17 (+) 12 % 742 % 004
+
+		D = 966 - 17 + 12 % 742 % 004
+		E = 966 - 17 （+） 12 % 742 % 004
+		F = 966² - 17 （+） 12 % 742 % 004`,
+		// 3
+		`A = -966 - 17 + 12 % 742 % 004
+		B = -966 - 17 (+) 12 % 742 % 004
+		C = -966^2 - 17 (+) 12 % 742 % 004
+
+		D = −966 - 17 + 12 % 742 % 004
+		E = −966 - 17 （+） 12 % 742 % 004
+		F = −966² - 17 （+） 12 % 742 % 004`,
+		// 4
+		`A = 1 / 10
+		B = 2 / 10
+		FINAL = A + B`,
+		// 5
+		`INF = 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+		NINF = 0 - INF
+		NAN = INF + NINF`,
+		// 6
+		(function () {
+			let s = '';
+			for (let i = 65; i <= 90; ++i) {
+				s += String.fromCodePoint(i) + ` = 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n`;
+			}
+			return s;
+		})(),
+		// 7
+		(function () {
+			let s = '';
+			for (let i = 65; i <= 90; ++i) {
+				s += String.fromCodePoint(i) + ` = 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999\n`;
+			}
+			return s;
+		})(),
 	];
 	function test(id) {
 		editorElement.value = TESTCASES[id];
