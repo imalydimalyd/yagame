@@ -70,7 +70,7 @@ class DeepseekAgent extends Agent {
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader('Authorization', 'Bearer ' + self.config.apikey);
 		const request = {
-			model: self.config.reasoner ? 'deepseek-reasoner' : 'deepseek-chat',
+			model: self.config.model,
 			thinking: {
 				type: self.config.reasoner ? 'enabled' : 'disabled',
 			},
@@ -79,9 +79,6 @@ class DeepseekAgent extends Agent {
 		};
 		if (self.config.temperature !== undefined) {
 			request.temperature = self.config.temperature;
-		}
-		if (self.config.deepseekV4) {
-			request.model = 'deepseek-v4-flash';
 		}
 		if (self.config.maxReasoning) {
 			request.reasoning_effort = 'max';
@@ -148,7 +145,7 @@ class DeepseekAgent extends Agent {
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader('Authorization', 'Bearer ' + self.config.apikey);
 		const request = {
-			model: self.config.reasoner ? 'deepseek-reasoner' : 'deepseek-chat',
+			model: self.config.model,
 			thinking: {
 				type: self.config.reasoner ? 'enabled' : 'disabled',
 			},
@@ -157,9 +154,6 @@ class DeepseekAgent extends Agent {
 		};
 		if (self.config.temperature !== undefined) {
 			request.temperature = self.config.temperature;
-		}
-		if (self.config.deepseekV4) {
-			request.model = 'deepseek-v4-flash';
 		}
 		if (self.config.maxReasoning) {
 			request.reasoning_effort = 'max';
@@ -221,14 +215,11 @@ class DeepseekAgent extends Agent {
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader('Authorization', 'Bearer ' + self.config.apikey);
 		const request = {
-			model: 'deepseek-reasoner',
+			model: self.config.model,
 			messages: messages,
 			stream: false,
 			temperature: 0.0,
 		};
-		if (self.config.deepseekV4) {
-			request.model = 'deepseek-v4-flash';
-		}
 		if (self.config.maxReasoning) {
 			request.reasoning_effort = 'max';
 		}
@@ -329,7 +320,7 @@ class DeepseekAgent extends Agent {
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.setRequestHeader('Authorization', 'Bearer ' + self.config.apikey);
 		const request = {
-			model: self.config.reasoner ? 'deepseek-reasoner' : 'deepseek-chat',
+			model: self.config.model,
 			thinking: {
 				type: self.config.reasoner ? 'enabled' : 'disabled',
 			},
@@ -342,9 +333,6 @@ class DeepseekAgent extends Agent {
 		}
 		if (self.config.temperature !== undefined) {
 			request.temperature = self.config.temperature;
-		}
-		if (self.config.deepseekV4) {
-			request.model = 'deepseek-v4-flash';
 		}
 		if (self.config.maxReasoning) {
 			request.reasoning_effort = 'max';
