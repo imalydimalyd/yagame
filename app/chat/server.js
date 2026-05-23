@@ -171,7 +171,7 @@ const config = {
 
 			trigger: ['小葵'],
 			type: 'deepseek',
-			deepseekV4: true,
+			model: 'deepseek-v4-flash',
 			maxReasoning: false,
 			reasoner: false,
 			showCOT: false,
@@ -191,7 +191,7 @@ const config = {
 
 			trigger: ['茉茉', '嘎', '豆豆龙'],
 			type: 'deepseek',
-			deepseekV4: false,
+			model: 'deepseek-v4-pro',
 			maxReasoning: false,
 			reasoner: true,
 			showCOT: false,
@@ -211,7 +211,7 @@ const config = {
 
 			trigger: ['星铃'],
 			type: 'deepseek',
-			deepseekV4: true,
+			model: 'deepseek-v4-flash',
 			maxReasoning: false,
 			reasoner: false,
 			showCOT: false,
@@ -231,7 +231,7 @@ const config = {
 
 			trigger: ['核桃树'],
 			type: 'deepseek',
-			deepseekV4: true,
+			model: 'deepseek-v4-flash',
 			maxReasoning: false,
 			reasoner: false,
 			showCOT: false,
@@ -239,7 +239,7 @@ const config = {
 			maxMessages: 1000000000,
 			persona: SECRETS.HTS_PERSONA,
 			// kth: 2,
-			temperature: 2.0,
+			// temperature: 2.0,
 			frequencyPenalty: 0.0,
 			presencePenalty: 0.0,
 
