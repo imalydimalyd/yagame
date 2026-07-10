@@ -150,6 +150,11 @@ function updateUI() {
 	addDashboardKeyValue('Key数量', Object.keys(dataContent.config.keys).length + ' 个');
 	addDashboardKeyValue('有黑名单的用户数量', Object.keys(dataContent.config.agentBlacklist).length + ' 名');
 
+	// 备份页面 - 存储信息
+	document.getElementById('displayStorageSize').innerText = textContent.length + ' 字符';
+	document.getElementById('displayMaxStorageSize').innerText = MAX_STORAGE + ' 字符';
+	document.getElementById('displayStoragePercent').innerText = ((textContent.length * 100) / MAX_STORAGE).toFixed(2) + ' %';
+
 	// 重置记忆查看器
 	memoryElement.innerHTML = '';
 	agentButtonElements = {};
