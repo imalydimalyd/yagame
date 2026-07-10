@@ -162,8 +162,9 @@ const config = {
 		},
 	},
 	secretUsers: SECRETS.SECRET_USERS,
-	maxMessages: 1000000000,
+	maxMessages: 1000,
 	agents: {
+		/*
 		小葵: {
 			name: '小葵',
 			qq: '2014627973',
@@ -184,6 +185,7 @@ const config = {
 			sleepTime: 59000000,
 			dreamProb: 0.5,
 		},
+		*/
 		茉茉: {
 			name: '茉茉',
 			qq: '3795740926',
@@ -204,6 +206,7 @@ const config = {
 			sleepTime: 57000000,
 			dreamProb: 0.5,
 		},
+		/*
 		星铃: {
 			name: '星铃',
 			qq: '3854445263',
@@ -224,6 +227,7 @@ const config = {
 			sleepTime: 58000000,
 			dreamProb: 0.5,
 		},
+		*/
 		核桃树: {
 			name: '核桃树',
 			qq: '615154007',
