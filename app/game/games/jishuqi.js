@@ -176,6 +176,7 @@
 					state.currentPlayer = state.currentPlayer === 0 ? 1 : 0;
 				}
 
+				// 【由Ya修改】将 syncState 改为 pushState
 				self.pushState();
 				self.send({
 					ok: true,
@@ -202,6 +203,7 @@
 			};
 		}
 
+		// 【由Ya修改】优化了规则文案
 		rule() {
 			return `
 				<h1>奇数棋</h1>
@@ -355,7 +357,8 @@
 			ruleBtn.style.marginBottom = '9px';
 			ruleBtn.style.cursor = 'pointer';
 			ruleBtn.addEventListener('click', function () {
-				const popup = document.getElementById('rulePopup');
+				// 【由Ya修改】使用 popup 元素的引用
+				const popup = self.popup;
 				if (popup) popup.style.display = 'flex';
 			});
 			infoPanel.appendChild(ruleBtn);
@@ -441,6 +444,8 @@
 			self.turnInd = turnInd;
 			self.hpRed = hpRed.querySelector('.hp-badge');
 			self.hpBlue = hpBlue.querySelector('.hp-badge');
+			// 【由Ya修改】保存 popup 元素的引用
+			self.popup = popup;
 
 			// 生成格子
 			self.cellElements = [];
