@@ -176,7 +176,7 @@
 					state.currentPlayer = state.currentPlayer === 0 ? 1 : 0;
 				}
 
-				self.syncState();
+				self.pushState();
 				self.send({
 					ok: true,
 					damaged,
