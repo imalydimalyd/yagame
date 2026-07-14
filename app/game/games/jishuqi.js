@@ -251,7 +251,7 @@
 			container.innerHTML = '';
 
 			// 【由Ya修改】设置和主题更搭配的背景颜色
-			document.body.style.background = '#443a2c';
+			container.style.background = '#443a2c';
 
 			// 标题
 			const title = document.createElement('h1');
