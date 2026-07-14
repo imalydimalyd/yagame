@@ -258,6 +258,8 @@
 			title.textContent = GAME_NAME;
 			title.style.textAlign = 'center';
 			title.style.margin = '0 0 12px 0';
+			// 【由Ya修改】设置和主题更搭配的标题颜色
+			title.style.color = '#eee3d4';
 			container.appendChild(title);
 
 			// 状态栏
