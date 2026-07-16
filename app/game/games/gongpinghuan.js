@@ -1023,7 +1023,8 @@
 				self._selectedIndices.splice(pos, 1);
 			} else {
 				if (self._selectedIndices.length >= 5) {
-					alert('一次最多选择5张');
+					// 【由Ya修改】将弹窗改成 YaGame 自带版
+					yaGameAlert('一次最多选择5张');
 					return;
 				}
 				self._selectedIndices.push(idx);
@@ -1106,7 +1107,8 @@
 					cursor: pointer;
 				`;
 				zeroBtn.addEventListener('click', () => {
-					if (confirm('确定本轮不换牌吗？')) {
+					// 【由Ya修改】将弹窗改成 YaGame 自带版
+					if (yaGameConfirm('确定本轮不换牌吗？')) {
 						this.send({
 							action: 'exchange',
 							body: { discardIndices: [] }
@@ -1147,7 +1149,8 @@
 					margin-left: auto;
 				`;
 				concedeBtn.addEventListener('click', () => {
-					if (confirm('确定认输吗？')) {
+					// 【由Ya修改】将弹窗改成 YaGame 自带版
+					if (yaGameConfirm('确定认输吗？')) {
 						this.send({ action: 'concede', body: {} });
 					}
 				});
