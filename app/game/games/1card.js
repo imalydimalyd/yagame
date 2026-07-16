@@ -1147,7 +1147,8 @@
 						foldBtn.className = 'btn btn-danger';
 						foldBtn.textContent = '弃牌';
 						foldBtn.addEventListener('click', () => {
-							if (confirm('确定弃牌吗？')) {
+							// 【由Ya修改】将弹窗改成 YaGame 自带版
+							if (yaGameConfirm('确定弃牌吗？')) {
 								this.send({ action: 'fold', body: {} });
 							}
 						});
@@ -1172,7 +1173,8 @@
 				concedeBtn.style.background = '#8a2a2a';
 				concedeBtn.style.marginLeft = 'auto';
 				concedeBtn.addEventListener('click', () => {
-					if (confirm('确定认输吗？')) {
+					// 【由Ya修改】将弹窗改成 YaGame 自带版
+					if (yaGameConfirm('确定认输吗？')) {
 						this.send({ action: 'concede', body: {} });
 					}
 				});

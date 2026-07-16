@@ -680,7 +680,8 @@
 						} else if (sel.length < 3) {
 							sel.push(idx);
 						} else {
-							alert('最多选择3个位置');
+							// 【由Ya修改】将弹窗改成 YaGame 自带版
+							yaGameAlert('最多选择3个位置');
 							return;
 						}
 						state.selectMessage = '';
@@ -704,7 +705,8 @@
 			submitBtn.addEventListener('click', function () {
 				const sel = state.players[myId].selected;
 				if (sel.length !== 3) {
-					alert('请选择3个点位');
+					// 【由Ya修改】将弹窗改成 YaGame 自带版
+					yaGameAlert('请选择3个点位');
 					return;
 				}
 				this.disabled = true;
